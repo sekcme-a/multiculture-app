@@ -1,0 +1,8 @@
+.user_container{
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+.user_container p{
+  margin-left: 10px;
+}

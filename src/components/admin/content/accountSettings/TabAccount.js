@@ -58,7 +58,7 @@ const TabAccount = () => {
     imgSrc: "",
     name: "",
     position: "없음",
-    phone: "010-xxxx-xxxx",
+    phoneNumber: "010-xxxx-xxxx",
   })
   const [alertControl, setAlertControl] = useState({
     isShow: false,
@@ -80,7 +80,7 @@ const TabAccount = () => {
           name: doc.data().name,
           imgSrc: doc.data().photo,
           position: doc.data().position ? doc.data().position : "없음",
-          phone: doc.data().phone ? doc.data().phone : "010-xxxx-xxxx"
+          phoneNumber: doc.data().phoneNumber ? doc.data().phoneNumber : "010-xxxx-xxxx"
         })
       })
     }
@@ -102,7 +102,7 @@ const TabAccount = () => {
         name: values.name,
         photo: values.imgSrc,
         position: values.position,
-        phone: values.phone
+        phoneNumber: values.phoneNumber
       })
       setAlertControl({ ...alertControl, isShow: true, mode: "success", text: "성공적으로 변경되었습니다!" })
       setTimeout(() => {
@@ -151,8 +151,8 @@ const TabAccount = () => {
                 fullWidth
                 type='email'
                 label='전화번호'
-                value={values.phone}
-                onChange={onValuesChange("phone")}
+                value={values.phoneNumber}
+                onChange={onValuesChange("phoneNumber")}
               />
             </Grid>
             <Grid item xs={12} sm={6} sx={{mt:-4}}>

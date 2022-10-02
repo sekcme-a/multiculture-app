@@ -5,42 +5,34 @@ import { useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import Table from '@mui/material/Table'
 import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
-import Dialog from '@mui/material/Dialog'
-import Tooltip from '@mui/material/Tooltip'
-import Checkbox from '@mui/material/Checkbox'
-import TableRow from '@mui/material/TableRow'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableHead from '@mui/material/TableHead'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import FormControl from '@mui/material/FormControl'
-import DialogTitle from '@mui/material/DialogTitle'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import CardContent from '@mui/material/CardContent'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import FormHelperText from '@mui/material/FormHelperText'
-import TableContainer from '@mui/material/TableContainer'
-import FormControlLabel from '@mui/material/FormControlLabel'
+import Dialog from '@mui/material/Dialog'
 
-// // ** Third Party Imports
-// import { useForm, Controller } from 'react-hook-form'
-
-// ** Icons Imports
-import ContentCopy from 'mdi-material-ui/ContentCopy'
-import InformationOutline from 'mdi-material-ui/InformationOutline'
+import DialogEditUser from "src/components/admin/content/teamManagement/DialogEditUser"
 
 const ControlTeamUser = (props) => {
   const [cardData, setCardData] = useState([])
+  const [open, setOpen] = useState(false)
+  const [mode, setMode] = useState("")
+  const handleOpen = () => {setOpen(true)}
+  const handleClose = () => {setOpen(false)}
 
   useEffect(() => {
     setCardData(props.cardData)
-  },[props.cardData])
+  }, [props.cardData])
+  
+  const onAddUserClick = () => {
+    handleOpen()
+    setMode("add")
+  }
+  const onDeleteUserClick = () => {
+    handleOpen()
+    setMode("delete")
+  }
 
   const renderCards = () =>
     cardData.map((item, index) => (
@@ -70,79 +62,80 @@ const ControlTeamUser = (props) => {
     ))
   
   return (
-    <Grid container spacing={3} className='match-height'>
-      {renderCards()}
-      <Grid item xs={12} sm={6} lg={4}>
-        <Card
-          sx={{ cursor: 'pointer', height: "125px" }}
-          onClick={() => {
-            handleClickOpen()
-            setDialogTitle('Add')
-          }}
-        >
-          <Grid container sx={{ height: '100%' }}>
-            <Grid item xs={5}>
-              <Box sx={{ height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-                <img width={65} height={120} alt='add-role' src='/john_standing.png' />
-              </Box>
-            </Grid>
-            <Grid item xs={7}>
-              <CardContent>
-                <Box sx={{ textAlign: 'right' }}>
-                  <Button
-                    variant='contained'
-                    sx={{ mb: 1, whiteSpace: 'nowrap' }}
-                    onClick={() => {
-                      handleClickOpen()
-                      setDialogTitle('Add')
-                    }}
-                  >
-                    구성원 추가
-                  </Button>
-                  <Typography style={{wordBreak: "keep-all"}}>코드를 통해 구성원을 추가하세요!</Typography>
+    <>
+      <Grid container spacing={3} className='match-height'>
+        {renderCards()}
+        <Grid item xs={12} sm={6} lg={4}>
+          <Card
+            sx={{ cursor: 'pointer', height: "125px" }}
+            onClick={() => {
+              onAddUserClick()
+            }}
+          >
+            <Grid container sx={{ height: '100%' }}>
+              <Grid item xs={5}>
+                <Box sx={{ height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+                  <img width={65} height={120} alt='add-role' src='/john_standing.png' />
                 </Box>
-              </CardContent>
+              </Grid>
+              <Grid item xs={7}>
+                <CardContent>
+                  <Box sx={{ textAlign: 'right' }}>
+                    <Button
+                      variant='contained'
+                      sx={{ mb: 1, whiteSpace: 'nowrap' }}
+                      onClick={() => {
+                        onAddUserClick()
+                      }}
+                    >
+                      구성원 추가
+                    </Button>
+                    <Typography style={{wordBreak: "keep-all"}}>코드를 통해 구성원을 추가하세요!</Typography>
+                  </Box>
+                </CardContent>
+              </Grid>
             </Grid>
-          </Grid>
-        </Card>
-      </Grid>
+          </Card>
+        </Grid>
 
 
-      <Grid item xs={12} sm={6} lg={4}>
-        <Card
-          sx={{ cursor: 'pointer', height: "125px" }}
-          onClick={() => {
-            handleClickOpen()
-            setDialogTitle('Add')
-          }}
-        >
-          <Grid container sx={{ height: '100%' }}>
-            <Grid item xs={5}>
-              <Box sx={{ height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-                <img width={65} height={120} alt='add-role' src='/david_standing.png' />
-              </Box>
-            </Grid>
-            <Grid item xs={7}>
-              <CardContent>
-                <Box sx={{ textAlign: 'right' }}>
-                  <Button
-                    variant='contained'
-                    sx={{ mb: 1, whiteSpace: 'nowrap', backgroundColor:'orangeRed' }}
-                    onClick={() => {
-                      handleClickOpen()
-                      setDialogTitle('Add')
-                    }}
-                  >
-                    구성원 삭제
-                  </Button>
-                  <Typography style={{wordBreak: "keep-all"}}>코드를 통해 구성원을 삭제하세요!</Typography>
+        <Grid item xs={12} sm={6} lg={4}>
+          <Card
+            sx={{ cursor: 'pointer', height: "125px" }}
+            onClick={() => {
+              onDeleteUserClick()
+            }}
+          >
+            <Grid container sx={{ height: '100%' }}>
+              <Grid item xs={5}>
+                <Box sx={{ height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+                  <img width={65} height={120} alt='add-role' src='/david_standing.png' />
                 </Box>
-              </CardContent>
+              </Grid>
+              <Grid item xs={7}>
+                <CardContent>
+                  <Box sx={{ textAlign: 'right' }}>
+                    <Button
+                      variant='contained'
+                      sx={{ mb: 1, whiteSpace: 'nowrap', backgroundColor:'orangeRed' }}
+                      onClick={() => {
+                        onDeleteUserClick()
+                      }}
+                    >
+                      구성원 삭제
+                    </Button>
+                    <Typography style={{wordBreak: "keep-all"}}>코드를 통해 구성원을 삭제하세요!</Typography>
+                  </Box>
+                </CardContent>
+              </Grid>
             </Grid>
-          </Grid>
-        </Card>
+          </Card>
+        </Grid>
       </Grid>
-    </Grid>
+      <Dialog open={open} onClose={handleClose} maxWidth={1000}>
+        <DialogEditUser mode={mode} />
+      </Dialog>
+    </>
   )
 }
 export default ControlTeamUser;

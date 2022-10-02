@@ -1,4 +1,5 @@
 import { firestore as db } from "firebase/firebase"
+import { resolve } from "styled-jsx/css"
 
 export const firebaseHooks = {
   is_team_admin: (uid, teamName) => {
@@ -59,7 +60,7 @@ export const firebaseHooks = {
         let result = []
         idList.forEach(async(value, index, array) => {
           const doc = await db.collection("users").doc(value).get()
-          result.push(doc.data())
+          result.push(doc)
           if(index === array.length -1)
             resolve(result)
         })
@@ -67,6 +68,46 @@ export const firebaseHooks = {
         reject(e)
       }
 
+    })
+  },
+  give_admin_role_with_user_uid: (uid, teamname) => {
+    return new Promise(async(resolve, reject) => {
+      try {
+        console.log(uid)
+        const user = await db.collection("users").doc(uid).get()
+        if (!user.exists)
+          reject("없는 코드입니다.")
+        else if(user.data().roles.includes(`admin_${teamname}`))
+          reject("이미 팀의 구성원입니다.")
+        else {
+          const batch = db.batch()
+          batch.update(db.collection("users").doc(uid), {roles: [`admin_${teamname}`]})
+          batch.set(db.collection("admin_group").doc(teamname).collection("members").doc(uid), { role: "admin" })
+          await batch.commit();
+          resolve("성공적으로 추가되었습니다.")
+        }
+      } catch (e) {
+        reject(e.message)
+      }
+
+    })
+  },
+  delete_admin_role_with_user_uid: (uid, teamname) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await db.collection("admin_group").doc(teamname).collection("members").doc(uid).get()
+        if (!user.exists)
+          reject("팀의 구성원이 아닙니다.")
+        else {
+          const batch = db.batch()
+          batch.update(db.collection("users").doc(uid), { roles: ["user"] })
+          batch.delete(db.collection("admin_group").doc(teamname).collection("members").doc(uid))
+          await batch.commit();
+          resolve("성공적으로 삭제되었습니다.")
+        }
+      } catch(e){
+        reject(e.message)
+      }
     })
   }
 }

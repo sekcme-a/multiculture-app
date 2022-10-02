@@ -53,7 +53,7 @@ const ControlTeamUser = (props) => {
                 max={4}
                 sx={{
                   '& .MuiAvatarGroup-avatar': { fontSize: '.875rem' },
-                  '& .MuiAvatar-root, & .MuiAvatarGroup-avatar': { width: 32, height: 32 }
+                  '& .MuiAvatar-root, & .MuiAvatarGroup-avatar': { width: 32, height: 32 },
                 }}
               >
                 {item.avatars.map((img, index) => (
@@ -70,8 +70,78 @@ const ControlTeamUser = (props) => {
     ))
   
   return (
-    <Grid container spacing={2} className='match-height'>
+    <Grid container spacing={3} className='match-height'>
       {renderCards()}
+      <Grid item xs={12} sm={6} lg={4}>
+        <Card
+          sx={{ cursor: 'pointer', height: "125px" }}
+          onClick={() => {
+            handleClickOpen()
+            setDialogTitle('Add')
+          }}
+        >
+          <Grid container sx={{ height: '100%' }}>
+            <Grid item xs={5}>
+              <Box sx={{ height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+                <img width={65} height={120} alt='add-role' src='/john_standing.png' />
+              </Box>
+            </Grid>
+            <Grid item xs={7}>
+              <CardContent>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Button
+                    variant='contained'
+                    sx={{ mb: 1, whiteSpace: 'nowrap' }}
+                    onClick={() => {
+                      handleClickOpen()
+                      setDialogTitle('Add')
+                    }}
+                  >
+                    구성원 추가
+                  </Button>
+                  <Typography style={{wordBreak: "keep-all"}}>코드를 통해 구성원을 추가하세요!</Typography>
+                </Box>
+              </CardContent>
+            </Grid>
+          </Grid>
+        </Card>
+      </Grid>
+
+
+      <Grid item xs={12} sm={6} lg={4}>
+        <Card
+          sx={{ cursor: 'pointer', height: "125px" }}
+          onClick={() => {
+            handleClickOpen()
+            setDialogTitle('Add')
+          }}
+        >
+          <Grid container sx={{ height: '100%' }}>
+            <Grid item xs={5}>
+              <Box sx={{ height: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+                <img width={65} height={120} alt='add-role' src='/david_standing.png' />
+              </Box>
+            </Grid>
+            <Grid item xs={7}>
+              <CardContent>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Button
+                    variant='contained'
+                    sx={{ mb: 1, whiteSpace: 'nowrap' }}
+                    onClick={() => {
+                      handleClickOpen()
+                      setDialogTitle('Add')
+                    }}
+                  >
+                    구성원 삭제
+                  </Button>
+                  <Typography style={{wordBreak: "keep-all"}}>코드를 통해 구성원을 삭제하세요!</Typography>
+                </Box>
+              </CardContent>
+            </Grid>
+          </Grid>
+        </Card>
+      </Grid>
     </Grid>
   )
 }

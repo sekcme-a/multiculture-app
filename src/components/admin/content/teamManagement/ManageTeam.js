@@ -24,14 +24,14 @@ const ManageTeam = () => {
   // ]
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(false)
-      console.log("here")
       const id_list = await firebaseHooks.fetch_admin_uid_list_from_teamname(teamName)
-      console.log(id_list)
-      const data = await firebaseHooks.fetch_user_data_list_from_user_uid_list(id_list)
-      console.log(data[0].photo)
+      const users = await firebaseHooks.fetch_user_data_list_from_user_uid_list(id_list)
+      let avatars = []
+      users.forEach((user) => {
+        avatars.push(user.photo)
+      })
       setCardData([
-        { totalUsers: data.length, title: '팀 구성원', avatars: [data[0].photo] },
+        { totalUsers: users.length, title: '팀 구성원', avatars: avatars },
         // { totalUsers: 7, title: 'Manager', avatars: ['5.png', '6.png', '7.png', '8.png', '1.png', '2.png', '3.png',] },
         // { totalUsers: 5, title: 'Users', avatars: ['4.png', '5.png', '6.png', '7.png', '8.png'] },
         // { totalUsers: 3, title: 'Support', avatars: ['1.png', '2.png', '3.png'] },
@@ -39,7 +39,6 @@ const ManageTeam = () => {
       ])
       setIsLoading(false)
     }
-    setIsLoading(true)
     fetchData()
   },[])
 

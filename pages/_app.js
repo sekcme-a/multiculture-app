@@ -16,13 +16,13 @@ import { AuthProvider } from "src/hooks/auth/auth"
 function MyApp({ Component, pageProps }) {
 
   return (
-    // <UserDataProvider>
+    <UserDataProvider>
       <AuthProvider>
         <AuthStateChanged>
           <Component {...pageProps} />
         </AuthStateChanged>
       </AuthProvider>
-    // </UserDataProvider>
+    </UserDataProvider>
   ) 
 }
 

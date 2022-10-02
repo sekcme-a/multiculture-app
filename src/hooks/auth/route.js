@@ -43,7 +43,7 @@ export function withPublic(Component) {
 
 //어드민로그인시 hallway로 이동
 export function withPublicAdmin(Component) {
-  return function withPublicAdmin(props){
+  return function WithPublicAdmin(props){
     const auth = useAuth();
     const router = useRouter();
     const pathname = router.pathname;

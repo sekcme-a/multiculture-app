@@ -127,7 +127,7 @@ const ControlTeamUser = (props) => {
                 <Box sx={{ textAlign: 'right' }}>
                   <Button
                     variant='contained'
-                    sx={{ mb: 1, whiteSpace: 'nowrap' }}
+                    sx={{ mb: 1, whiteSpace: 'nowrap', backgroundColor:'orangeRed' }}
                     onClick={() => {
                       handleClickOpen()
                       setDialogTitle('Add')

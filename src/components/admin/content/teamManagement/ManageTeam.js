@@ -6,6 +6,7 @@ import { firebaseHooks } from "firebase/hooks"
 
 import PageHeader from "src/components/admin/public/PageHeader"
 import ControlTeamUser from "src/components/admin/content/teamManagement/ControlTeamUser"
+import UserList from "src/components/admin/content/teamManagement/UserList"
 
 const ManageTeam = () => {
   const { teamName } = useAuth()
@@ -47,8 +48,10 @@ const ManageTeam = () => {
   
   return (
     <div>
-      <PageHeader title="팀 구성원 목록" subtitle="코드를 통해 팀 구성원을 쉽게 관리하세요." />
+      <PageHeader title="팀 구성원 현황" subtitle="코드를 통해 팀 구성원을 쉽게 관리하세요." mt="20px"/>
       <ControlTeamUser cardData={cardData} />
+      <PageHeader title="팀 구성원 목록" subtitle={`${teamName} 팀의 모든 구성원 목록입니다.`} mt="40px" />
+      <UserList />
     </div>
   )
 }

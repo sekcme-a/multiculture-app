@@ -1,5 +1,7 @@
 import "styles/reset.css"
 import { UserDataProvider } from "src/context/useUserData"
+import AuthStateChanged from "src/hooks/auth/AuthStateChanged"
+import { AuthProvider } from "src/hooks/auth/auth"
 // import { setConfig } from 'react-google-translate'
 
 //   setConfig({
@@ -14,9 +16,13 @@ import { UserDataProvider } from "src/context/useUserData"
 function MyApp({ Component, pageProps }) {
 
   return (
-    <UserDataProvider>
-      <Component {...pageProps} />
-    </UserDataProvider>
+    // <UserDataProvider>
+      <AuthProvider>
+        <AuthStateChanged>
+          <Component {...pageProps} />
+        </AuthStateChanged>
+      </AuthProvider>
+    // </UserDataProvider>
   ) 
 }
 

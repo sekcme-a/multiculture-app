@@ -1,0 +1,24 @@
+.main_container{
+  height: 58px; 
+  position: fixed;
+  padding-left: 285px; 
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 20px;
+  backdrop-filter: blur(6px);
+  background-color: rgba(244, 248, 250, 0.87);
+  box-shadow: none;
+  border-bottom: 1px solid rgba(216, 221, 250, 0.638);
+}
+/* .main_container h1{
+  width: 60%;
+} */
+.avatar{
+  position: fixed;
+  top: 3px;
+  right: 20px;
+  z-index: 1000;
+}

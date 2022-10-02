@@ -1,0 +1,13 @@
+.main_container{
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba(244, 248, 250, 0.87);
+}
+.content_container{
+  min-height: 600px;
+  width: 100%;
+  margin-top: 90px;
+  margin-left: 290px;
+  margin-bottom: 60px;
+  margin-right: 40px;
+}

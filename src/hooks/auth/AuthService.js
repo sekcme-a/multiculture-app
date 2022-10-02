@@ -66,6 +66,7 @@ export const AuthService = {
 				user: userCred.user,
 			};
 		} catch (e) {
+			console.log(e.message)
 			return {
 				error: e.message,
 			};
@@ -73,11 +74,12 @@ export const AuthService = {
 	},
 	resetPassword: async (email) => {
 		try {
-				await auth.sendPasswordResetEmail(email);
+			await auth.sendPasswordResetEmail(email);
 		} catch (e) {
 			return e.message;
 		}
 	},
+
 
 	deleteAccount: async () => {
 		try {
@@ -87,12 +89,28 @@ export const AuthService = {
 		}
 	},
 	updatePassword: async (newPassword) => {
+		// try {
+		// 	await auth.currentUser.updatePassword(newPassword);
+		// 	return "Update successfully";
+		// } catch (e) {
+		// 	console.log(e.message)
+		// 	return e.message;
+		// }
 		try {
 			await auth.currentUser.updatePassword(newPassword);
-			return "Update successfully";
 		} catch (e) {
-			return e.message;
+			return e.message
 		}
 	},
+	reauthenticateUser: async (email, password) => {
+		try {
+			const credential = await auth.signInWithEmailAndPassword(email, password);
+			await auth.currentUser.reauthenticateWithCredential(credential);
+			return "success"
+		} catch (e) {
+			console.log(e.code)
+			return e.code
+		}
+	}
 }
 

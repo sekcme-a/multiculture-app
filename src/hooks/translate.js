@@ -19,7 +19,6 @@ export const translate = async (text, fromLang, toLang) => {
           if(response.data)
             resolve(response.data.translations[0].translatedText)
           else {
-            console.log(response)
             reject(response.error.message)
           }
         })

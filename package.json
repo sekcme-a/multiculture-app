@@ -9,15 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^35.1.0",
+    "@ckeditor/ckeditor5-react": "^5.0.2",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.3",
+    "@mui/lab": "^5.0.0-alpha.101",
     "@mui/material": "^5.10.5",
+    "axios": "^0.27.2",
     "firebase": "^8.9.1",
     "framer-motion": "^7.3.5",
+    "mdi-material-ui": "^7.5.0",
     "next": "12.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-html-parser": "^2.0.2",
     "react-social-login-buttons": "^3.6.1",
     "swiper": "^8.4.2"
   },

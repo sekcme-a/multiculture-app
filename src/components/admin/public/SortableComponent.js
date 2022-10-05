@@ -5,7 +5,7 @@ import { arrayMoveImmutable } from 'array-move';
 
 import styles from "styles/components/admin/public/sortableComponents.module.css"
 
-const SortableItem = SortableElement(({value}) => <li>{value}</li>);
+const SortableItem = SortableElement(({index, value}) => <li key={index}>{value}</li>);
 
 const SortableList = SortableContainer(({items, ulStyle}) => {
   return (

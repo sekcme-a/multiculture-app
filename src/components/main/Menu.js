@@ -21,6 +21,10 @@ import AodOutlinedIcon from '@mui/icons-material/AodOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 import NotListedLocationOutlinedIcon from '@mui/icons-material/NotListedLocationOutlined';
 import DeviceUnknownOutlinedIcon from '@mui/icons-material/DeviceUnknownOutlined';
+import NewspaperOutlinedIcon from '@mui/icons-material/NewspaperOutlined';
+import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
+import ContactPageOutlinedIcon from '@mui/icons-material/ContactPageOutlined';
+import DocumentScannerOutlinedIcon from '@mui/icons-material/DocumentScannerOutlined';
 
 
 const Menu = (props) => {
@@ -35,20 +39,20 @@ const Menu = (props) => {
   }
 
   useEffect(() => {
-    const fontStyle={color: "#6F38C5"}
-    let programData = [{ icon: <PublicOutlinedIcon style={fontStyle}/>, text: "전체" },]
-    let surveyData = [{ icon: <PublicOutlinedIcon style={fontStyle}/>, text: "전체" },]
-    let noticeData = [{ icon: <PublicOutlinedIcon style={fontStyle}/>, text: "전체" }]
+    const iconStyle={color: "#814ad8"}
+    let programData = [{ icon: <PublicOutlinedIcon style={iconStyle}/>, text: "전체" },]
+    let surveyData = [{ icon: <PublicOutlinedIcon style={iconStyle}/>, text: "전체" },]
+    let noticeData = [{ icon: <PublicOutlinedIcon style={iconStyle}/>, text: "전체" }]
     console.log(groups)
     groups.forEach((group) => {
       programData.push({
-        icon: <Diversity2OutlinedIcon style={fontStyle} />, text: group.name
+        icon: <Diversity2OutlinedIcon style={iconStyle} />, text: group.name
       })
       surveyData.push({
-        icon: <AodOutlinedIcon style={fontStyle}/>, text: group.name
+        icon: <AodOutlinedIcon style={iconStyle}/>, text: group.name
       })
       noticeData.push({
-        icon: <CampaignOutlinedIcon style={fontStyle}/>, text: group.name
+        icon: <CampaignOutlinedIcon style={iconStyle}/>, text: group.name
       })
         
     })
@@ -69,15 +73,17 @@ const Menu = (props) => {
         {
           title: '문의',
           data: [
-            { icon: <NotListedLocationOutlinedIcon style={fontStyle} />, text: "센터 문의" },
-            { icon: <DeviceUnknownOutlinedIcon style={fontStyle} />, text: "어플 문의" },
+            { icon: <SupportAgentOutlinedIcon style={iconStyle} />, text: "센터 문의" },
+            { icon: <DeviceUnknownOutlinedIcon style={iconStyle} />, text: "어플 문의" },
           ]
         },
         {
           title: '어플 안내',
           data: [
-            { icon: <NotListedLocationOutlinedIcon style={fontStyle} />, text: "다문화 소식" },
-            { icon: <DeviceUnknownOutlinedIcon style={fontStyle} />, text: "어플 문의" },
+            { icon: <NewspaperOutlinedIcon style={iconStyle} />, text: "다문화 소식" },
+            { icon: <SupportAgentOutlinedIcon style={iconStyle} />, text: "FAQ" },
+            { icon: <DocumentScannerOutlinedIcon style={iconStyle} />, text: "서비스이용약관" },
+            { icon: <ContactPageOutlinedIcon style={iconStyle} />, text: "개인정보처리방침" },
           ]
         },
       ]
@@ -92,9 +98,7 @@ const Menu = (props) => {
     router.push("/login")
   }
 
-  const onLogoutClick = () => {
-    logout()
-  }
+
 
   const onProfileClick = () => {
     router.push("/myPage")
@@ -137,7 +141,6 @@ const Menu = (props) => {
               }
           </div>
           <MenuItemsContainer items={menuItems}  />
-
 
         </motion.div>
       }

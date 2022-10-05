@@ -27,5 +27,6 @@
   width: 300px;
   flex-wrap: wrap;
   align-items: center;
-  height: 350px;
+  height: 200px;
+  align-content: center;
 }

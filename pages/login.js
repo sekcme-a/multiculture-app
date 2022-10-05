@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { withPublic } from "src/hooks/auth/route";
 
 import Image from "next/image"
-import logo from "public/logo.jpg"
 
 import {
   GoogleLoginButton,
@@ -62,7 +61,7 @@ const Login = ({ auth }) => {
           <p onClick={onBackButtonClick}>{text.back}</p>
       </div>
       <div className={styles.logo_container}>
-        <Image src={logo} alt="한국다문화뉴스 로고" />
+        <Image src="/logo.jpg" width={300} height={300} alt="한국다문화뉴스 로고" />
       </div>
       <IdAndPassword text={text} />
       <SocialLogin text={text} />

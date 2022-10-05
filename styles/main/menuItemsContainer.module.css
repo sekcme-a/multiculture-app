@@ -13,7 +13,6 @@
 .item_container h1{
   margin: 10px 0 18px 0;
   font-size: 18px;
-  font-weight: bold;
   width: 100%;
 }
 
@@ -22,9 +21,9 @@
   flex-wrap: wrap;
   width: 45%;
   align-items: center;
-  padding: 10px 8px;
+  padding: 10px 8px 10px 0;
 }
 .content_container p{
   margin-left: 12px;
-  font-size: 18px;
+  font-size: 15px;
 }

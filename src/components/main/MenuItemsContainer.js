@@ -1,8 +1,15 @@
 import styles from "styles/main/menuItemsContainer.module.css"
 
+import useAuth from "src/hooks/auth/auth"
+
 
 //items = [{icon: <></>, text: ""},]
-const MenuItemsContainer = ({items}) => {
+const MenuItemsContainer = ({ items }) => {
+  const { user, logout } = useAuth()
+  
+  const onLogoutClick = () => {
+    logout()
+  }
   return (
     <div className={styles.main_container}>
       {items?.map((item, index) => {
@@ -20,7 +27,7 @@ const MenuItemsContainer = ({items}) => {
           </div>
         )
       })}
-      <div style={{height: "60px", width:"100%", backgroundColor: "rgb(235,235,235)"}}>로그아웃</div>
+      <div style={{height: "180px", width:"100%", backgroundColor: "rgb(235,235,235)"}} onClick={onLogoutClick}>로그아웃</div>
     </div>
   )
 }

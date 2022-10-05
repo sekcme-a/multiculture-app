@@ -1,6 +1,6 @@
 import react, { useState, useEffect } from "react"
 import Link from "next/link";
-import { withPublic } from "src/hooks/auth/route";
+import { withPublicAdmin } from "src/hooks/auth/route";
 import styles from "styles/login/signIn.module.css"
 import { useRouter } from "next/router"
 import useAuth from "src/hooks/auth/auth";
@@ -30,9 +30,9 @@ import Typography from '@mui/material/Typography'
 
 import ChevronLeft from 'mdi-material-ui/ChevronLeft'
 
+
 const SignIn = () => {
   const { user, loginWithGoogle, loginWithFacebook, error, loginWithApple, createUserWithEmailAndPassword, setError } = useAuth();
-  const router = useRouter()
 
   const [isDataInfo, setIsDataInfo] = useState(false)
   const [text, setText] = useState("")
@@ -146,8 +146,13 @@ const SignIn = () => {
 
   return (
     <>
-        <div className={styles.logo_container}>
-          <Image src={logo} alt={"한국다문화뉴스 로고"} layout="fill" objectFit="cover" objectPosition="center"/>
+        <div className={styles.title_container}>
+          <h1>Adventure Starts Here</h1>
+          <p>Make your app management easy and fun!</p>
+          <h3 className={styles.warning}>{`!소셜로그인을 사용하는 것을 추천합니다.(구글, 애플 등)`}</h3>
+          <h3 className={styles.warning}>{`!Highly recommend using social login`}</h3>
+          <h3 className={styles.warning}>{`!실제 사용하고 있는 이메일을 입력해주세요.`}</h3>
+          <h3 className={styles.warning}>{`(비밀번호 찾기 시 메일 발송)`}</h3>
         </div>
       <TextField
         fullWidth
@@ -231,7 +236,7 @@ const SignIn = () => {
         회원가입
       </div>
         <Typography variant='body2' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width:"100%", mt: 3 }}>
-        <Link passHref href='/login'>
+        <Link passHref href='/admin/login'>
             <LinkStyled>
               <ChevronLeft />
               <span>Back to login</span>
@@ -241,4 +246,4 @@ const SignIn = () => {
     </>
   )
 }
-export default withPublic(SignIn)
+export default withPublicAdmin(SignIn)

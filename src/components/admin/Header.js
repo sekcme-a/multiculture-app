@@ -19,6 +19,10 @@ const Header = (props) => {
       setTitle("프로필 설정")
     else if (props.location === "manageTeam")
       setTitle("팀 관리")
+    else if(props.location==="userList")
+      setTitle("사용자 관리")
+    else if (props.location === "userProfileSettings")
+      setTitle("사용자 프로필 설정")
     db.collection("users").doc(user.uid).get().then((doc) => {
       setPhoto(doc.data().photo)
     })

@@ -1,7 +1,7 @@
 .main_container{
   display: flex;
   flex-wrap: wrap;
-  background-color: rgba(244, 248, 250, 0.87);
+  background-color: rgb(245, 245, 245);
 }
 .content_container{
   min-height: 600px;

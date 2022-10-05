@@ -20,7 +20,7 @@ const SignIn = ({auth}) => {
         <ArrowBackIosNewIcon style={{fontSize: "15px"}} />
         <p>회원가입</p>
       </div>  
-      <SignInCompo />
+      <SignInCompo mode="user" />
     </div>
   )
 }

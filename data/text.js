@@ -13,11 +13,33 @@ export const text = [
         ko: "전체",
         en: "All",
         zh: "全部"
+      },
+
+      // index/menu------------------
+      {
+        text: "hello",
+        ko: "안녕하세요,",
+        en: "Hello, ",
+        zh: "你好, "
+      },
+      {
+        text: "Please_log_in_for_more_information_and_participation_in_the_program",
+        ko: "더 많은 정보와 프로그램 참여를 위해 로그인 해 주세요",
+        en:"Please log in for more information and participation in the program",
+        zh: "为了更多的信息和参与程序，请登录"
+      },
+      {
+        text: "Please_register_your_email",
+        ko: "이메일을 등록해주세요.",
+        en: "Please register your email.",
+        zh:"请登记电子邮件。"
       }
+      //--------------index/menu
     ]
   },
 
   {
+    //login-------------------------
     page: "login",
     data: [
       {
@@ -74,6 +96,29 @@ export const text = [
         en: "Continue with Facebook",
         zh: "Facebook 登录"
       }
+      //--------------login
     ]
-  }
+  },
+  // {
+  //   page: "login",
+  //   data: [
+  //     {
+  //       text: "back",
+  //       ko: "돌아가기",
+  //       en: "Back",
+  //       zh: "返回"
+  //     },
+  //   ]
+  // },
+  // {
+  //   page: "login",
+  //   data: [
+  //     {
+  //       text: "back",
+  //       ko: "돌아가기",
+  //       en: "Back",
+  //       zh: "返回"
+  //     },
+  //   ]
+  // },
 ]

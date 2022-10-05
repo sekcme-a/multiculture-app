@@ -5,8 +5,53 @@
   z-index: 999;
   position: fixed;
 }
-/* .main_container.hide{
-  background-color: blue;
-  bottom: -1300px;
-  /* display: none; */
-/* } */
+.header_container{
+  height: 140px;
+  background-color: #6F38C5;
+  color: #EEEEEE;
+  position: relative;
+  width: 100%;
+  margin-bottom: 50px;
+  z-index: 9999999999;
+}
+.button_container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px;
+}
+.login_container{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 10px;
+  height: 60px;
+  width: 100%;
+}
+.login_container p{
+  font-size: 14px;
+  color: #EEEEEE; 
+  margin-bottom: 8px;
+}
+.profile_container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px 20px;
+  align-items: center;
+}
+.profile{
+
+}
+.profile h1{
+  margin-bottom: 7px;
+  font-size: 22px;
+}
+.profile p{
+  color: #EEEEEE;
+  font-size: 14px;
+}

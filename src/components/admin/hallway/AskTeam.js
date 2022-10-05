@@ -42,6 +42,8 @@ const Img = styled('img')(({ theme }) => ({
   }
 }))
 
+
+
 const AskTeam = (props) => {
   const { user, userrole } = useAuth()
   const router = useRouter()
@@ -68,9 +70,16 @@ const AskTeam = (props) => {
   },[userrole])
 
 
-  const onJoinClick = async() => {
+  const onJoinClick = async () => {
+    if(team!=="")
       router.push(`/admin/${team}/home`)
   }
+
+  const handleOnKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onJoinClick()
+    }
+  } 
   return (
     <Card sx={{ position: 'relative', overflow: 'visible', mt: { xs: 0, sm: 7.5, md: 0 }, width:`${CARD_WIDTH}px` }}>
       <CardContent sx={{ p: theme => `${theme.spacing(8.25, 7.5, 1.25, 7.5)} !important` }}>
@@ -90,6 +99,7 @@ const AskTeam = (props) => {
                   id="component-helper"
                   value={team}
                   onChange={handleChange}
+                  onKeyDown={handleOnKeyPress}
                   aria-describedby="component-helper-text"
                 />
                 <FormHelperText id="component-helper-text">

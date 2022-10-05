@@ -1,7 +1,7 @@
 import Image from "next/image"
 import styles from "styles/admin/signin.module.css"
 
-import SignIn from "src/components/login/SignIn"
+import SignInAdmin from "src/components/login/SignInAdmin"
 
 
 import logo_img from "public/logo_2zsoft_no_text.png"
@@ -28,7 +28,7 @@ const Signin = () => {
         </div>
       </div>
       <div className={styles.right_container}>
-        <SignIn admin={true} />
+        <SignInAdmin />
       </div>
     </div>
   )

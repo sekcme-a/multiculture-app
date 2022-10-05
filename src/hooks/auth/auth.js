@@ -1,7 +1,7 @@
 import { AuthService } from "src/hooks/auth/AuthService";
 import { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
-import { firestore as db } from "firebase/firebase";
+import { auth, firestore as db } from "firebase/firebase";
 
 const authContext = createContext();
 
@@ -162,6 +162,16 @@ export function AuthProvider(props) {
 		})
 	}
 
+	const updateUserProfile = async (object) => {
+		return new Promise((resolve, reject) => {
+			AuthService.updateUserProfile(object).then((result) => {
+				console.log(auth.currentUser)
+				setUser(auth.currentUser)
+				resolve(result)
+			})
+		})
+	}
+
 	const value = {
 		user,
 		userrole,
@@ -182,7 +192,8 @@ export function AuthProvider(props) {
 		resetPassword,
 		deleteAccount,
 		updatePassword,
-		reauthenticateUser
+		reauthenticateUser,
+		updateUserProfile
 	};
 
 

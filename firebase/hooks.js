@@ -18,13 +18,18 @@ export const firebaseHooks = {
     })
   },
   overWrite: (collectionName, docName, overWriteData) => {
+    return new Promise(async (resolve, reject) => {
     try {
       db.collection(collectionName).doc(docName).get().then((doc) => {
         db.collection(collectionName).doc(docName).set({...doc.data(), ...overWriteData})
       })
+      resolve("success")
     } catch (e) {
       console.log(e)
+      resolve(e)
     }
+    })
+
   },
   fetch_admin_uid_list_from_teamname: (teamname) => {
     return new Promise(async(resolve, reject) => {
@@ -106,6 +111,40 @@ export const firebaseHooks = {
           resolve("성공적으로 삭제되었습니다.")
         }
       } catch(e){
+        reject(e.message)
+      }
+    })
+  },
+  set_object_to_firestore_collection: (data, collection, doc) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (doc)
+          await db.collection(collection).doc(doc).set(data)
+        else
+          await db.collection(collection).set(data)
+        resolve("success")
+      } catch (e) {
+        console.log(e)
+        reject(e.message)
+      }
+    })
+  },
+  get_data_from_collection: (collection, doc) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await db.collection(collection).doc(doc).get()
+        resolve(result.data())
+      } catch (e) {
+        reject(e.message)
+      }
+    })
+  },
+  fetch_language_with_user_uid: (uid) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await db.collection("users").doc(uid).get()
+        resolve(result.data().language)
+      } catch (e) {
         reject(e.message)
       }
     })

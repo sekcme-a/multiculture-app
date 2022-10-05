@@ -27,7 +27,7 @@ const SocialLogin = (props) => {
       <div className={styles.button_container2}>
         <GoogleLoginButton onClick={()=>loginWithGoogle()}><span>{text.continue_with_google}</span></GoogleLoginButton>
       </div>
-      <div className={styles.button_container2}>
+      <div className={styles.button_container3}>
         <FacebookLoginButton onClick={()=>loginWithFacebook()}><span>{text.continue_with_facebook}</span></FacebookLoginButton>
       </div>
     </div>

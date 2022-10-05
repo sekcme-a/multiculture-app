@@ -7,10 +7,13 @@ export default function useUserData(){
 }
 
 export const UserDataProvider = (props) => {
-  const [language, setLanguage] = useState("ko")
+  const [language, setLanguage] = useState("")
+  const [groups, setGroups] = useState([])
 
   const value = {
     language,
+    groups,
+    setGroups,
     setLanguage,
   }
 

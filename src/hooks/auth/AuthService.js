@@ -108,7 +108,16 @@ export const AuthService = {
 			await auth.currentUser.reauthenticateWithCredential(credential);
 			return "success"
 		} catch (e) {
-			console.log(e.code)
+			console.log(e)
+			return e.code
+		}
+	},
+
+	updateUserProfile: async (object) => {
+		try {
+			await auth.currentUser.updateProfile(object)
+		} catch (e) {
+			console.log(e)
 			return e.code
 		}
 	}

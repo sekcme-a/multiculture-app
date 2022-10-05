@@ -1,38 +1,68 @@
 import Head from 'next/head'
 import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 import styles from "styles/main/index.module.css"
 
 import { fetchText } from 'src/hooks/fetchText'
 import useUserData from 'src/context/useUserData'
+import { firebaseHooks } from 'firebase/hooks'
+import useAuth from 'src/hooks/auth/auth'
 
 import MainSwiper from "src/components/main/MainSwiper"
 import Menu from "src/components/main/Menu"
 import Program from "src/components/main/Program"
+import SelectLanguage from "src/components/main/SelectLanguage"
 
 
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import Skeleton from '@mui/material/Skeleton';
 
 const Home = () => {
   const [text, setText] = useState()
   const [scrollY, setScrollY] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const handleIsMenuOpen = (bool) => { setIsMenuOpen(bool);}
+  const [isHide, setIsHide] = useState(false)
+  const handleIsMenuOpen = (bool) => { setIsMenuOpen(bool); }
+  const [isLoading, setIsLoading] = useState(true)
   const { language, setLanguage } = useUserData()
+  const { user } = useAuth()
+  const router = useRouter()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-
-        const fetchedText = await fetchText("index", language)
-        setText(fetchedText)
+        if (!user) {
+          setLanguage("ko")
+          const fetchedText = await fetchText("index", "ko")
+          setText(fetchedText)
+          setIsLoading(false)
+        }
+          
+        else if (language === "") {
+          const result = await firebaseHooks.fetch_language_with_user_uid(user.uid)
+          setLanguage(result)
+          setIsLoading(false)
+        }
       } catch (e) {
         console.log(e)
       }
     }
     fetchData()
   }, [])
+
+  useEffect(() => {
+    console.log(language)
+    const fetchData = async () => {
+      setText("")
+      const fetchedText = await fetchText("index", language)
+      setText(fetchedText)
+      setIsLoading(false)
+    }
+    // setIsLoading(true)
+    fetchData()
+  },[language])
   
   //scroll Y 포지션
   useEffect(() => {
@@ -47,8 +77,14 @@ const Home = () => {
 
   const onMenuClick = () => {
     setIsMenuOpen(true)
+    setTimeout(() => {
+      setIsHide(true)
+    }, 400)
   }
 
+  if (isLoading)
+    return <div>  </div>
+  else
   return (
     <div>
       <Head>
@@ -62,10 +98,14 @@ const Home = () => {
           <MenuRoundedIcon className={styles.menu_icon} onClick={onMenuClick} />
         </div>
       }
-      <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen} /> 
-      <MainSwiper />
-
-      <Program />
+      <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen} text={text} setIsHide={setIsHide} /> 
+      {!isHide && 
+        <>
+          <MainSwiper />
+          <SelectLanguage />
+          <Program text={text} />
+        </>
+      }
       {/* <div>{text ? text.hi : ""}</div> */}
     </div>
   )

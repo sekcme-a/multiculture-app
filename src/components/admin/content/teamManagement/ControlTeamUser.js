@@ -132,7 +132,7 @@ const ControlTeamUser = (props) => {
           </Card>
         </Grid>
       </Grid>
-      <Dialog open={open} onClose={handleClose} maxWidth={1000}>
+      <Dialog open={open} onClose={handleClose} maxWidth="lg">
         <DialogEditUser mode={mode} />
       </Dialog>
     </>

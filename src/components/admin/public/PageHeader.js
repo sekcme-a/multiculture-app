@@ -1,6 +1,6 @@
 import styles from "styles/components/admin/public/pageHeader.module.css"
 
-const PageHeader = ({ title, subtitle, mt }) => {
+const PageHeader = ({ title, subtitle, mt}) => {
   return (
     <div className={styles.main_container} style={{marginTop: mt}}>
       <h1>{title}</h1>

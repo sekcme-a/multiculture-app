@@ -70,7 +70,7 @@ const TabAccount = () => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  const { user } = useAuth()
+  const { user, updateUserProfile } = useAuth()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,14 +96,15 @@ const TabAccount = () => {
     }
   }
 
-  const onSubmitClick = () => {
+  const onSubmitClick = async() => {
     try {
-      firebaseHooks.overWrite("users", user.uid, {
+      await firebaseHooks.overWrite("users", user.uid, {
         name: values.name,
         photo: values.imgSrc,
         position: values.position,
         phoneNumber: values.phoneNumber
       })
+      await updateUserProfile({displayName: values.name})
       setAlertControl({ ...alertControl, isShow: true, mode: "success", text: "성공적으로 변경되었습니다!" })
       setTimeout(() => {
         setAlertControl({...alertControl, isShow:false, text: "성공적으로 변경되었습니다!" })

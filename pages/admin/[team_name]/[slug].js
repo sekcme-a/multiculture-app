@@ -16,6 +16,8 @@ import Header from "src/components/admin/Header"
 import Home from "src/components/admin/Home"
 import AccountSettings from "src/components/admin/content/accountSettings/AccountSettings";
 import ManageTeam from "src/components/admin/content/teamManagement/ManageTeam"
+import UserList from "src/components/admin/content/userList/UserList";
+import UserProfileSettings from "src/components/admin/content/userProfileSettings/UserProfileSettings";
 
 
 
@@ -63,6 +65,8 @@ const Admin = () => {
           slug === "home" ? <Home /> :
             slug === "profile" ? <AccountSettings /> :
               slug === "manageTeam" ? <ManageTeam /> :
+                slug === "userList" ? <UserList /> :
+                  slug === "userProfileSettings" ? <UserProfileSettings /> :
           <></>
         }
       </div>

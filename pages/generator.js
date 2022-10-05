@@ -24,19 +24,19 @@ const Generator = () => {
       }
       res = res + `})\n`
       
-      res = res + `  else if (language==="en")\n`
-      res = res+`    resolve({`
-      for (let j = 0; j < text[i].data.length; j++){
-        res = res+`${text[i].data[j].text} : text[${i}].data[${j}].en, `
-      }
-      res = res + `})\n`
+      // res = res + `  else if (language==="en")\n`
+      // res = res+`    resolve({`
+      // for (let j = 0; j < text[i].data.length; j++){
+      //   res = res+`${text[i].data[j].text} : text[${i}].data[${j}].en, `
+      // }
+      // res = res + `})\n`
       
-      res = res + `  else if (language==="zh")\n`
-      res = res+`    resolve({`
-      for (let j = 0; j < text[i].data.length; j++){
-        res = res+`${text[i].data[j].text} : text[${i}].data[${j}].zh, `
-      }
-      res = res + `})\n`
+      // res = res + `  else if (language==="zh")\n`
+      // res = res+`    resolve({`
+      // for (let j = 0; j < text[i].data.length; j++){
+      //   res = res+`${text[i].data[j].text} : text[${i}].data[${j}].zh, `
+      // }
+      // res = res + `})\n`
 
 
       res = res + `  else if(language==="vi"){\n`
@@ -48,6 +48,67 @@ const Generator = () => {
         res = res+`${text[i].data[j].text}: ${text[i].data[j].text}, `
       }
       res = res + `})\n`
+res = res+`}\n`
+
+      
+
+
+      res = res + `  else if(language==="zh"){\n`
+      for (let j = 0; j < text[i].data.length; j++){
+        res = res + `    const ${text[i].data[j].text} = await translate(text[${i}].data[${j}].ko, "ko", "zh")\n`
+      }
+      res = res+`    resolve({`
+      for (let j = 0; j < text[i].data.length; j++){
+        res = res+`${text[i].data[j].text}: ${text[i].data[j].text}, `
+      }
+      res = res + `})\n`
+
+res = res+`}\n`
+
+
+      
+
+
+      res = res + `  else if(language==="ja"){\n`
+      for (let j = 0; j < text[i].data.length; j++){
+        res = res + `    const ${text[i].data[j].text} = await translate(text[${i}].data[${j}].ko, "ko", "ja")\n`
+      }
+      res = res+`    resolve({`
+      for (let j = 0; j < text[i].data.length; j++){
+        res = res+`${text[i].data[j].text}: ${text[i].data[j].text}, `
+      }
+      res = res + `})\n`
+
+res = res+`}\n`
+
+
+      
+
+
+      res = res + `  else if(language==="th"){\n`
+      for (let j = 0; j < text[i].data.length; j++){
+        res = res + `    const ${text[i].data[j].text} = await translate(text[${i}].data[${j}].ko, "ko", "th")\n`
+      }
+      res = res+`    resolve({`
+      for (let j = 0; j < text[i].data.length; j++){
+        res = res+`${text[i].data[j].text}: ${text[i].data[j].text}, `
+      }
+      res = res + `})\n`
+
+res = res+`}\n`
+
+
+      res = res + `  else if(language==="en"){\n`
+      for (let j = 0; j < text[i].data.length; j++){
+        res = res + `    const ${text[i].data[j].text} = await translate(text[${i}].data[${j}].ko, "ko", "en")\n`
+      }
+      res = res+`    resolve({`
+      for (let j = 0; j < text[i].data.length; j++){
+        res = res+`${text[i].data[j].text}: ${text[i].data[j].text}, `
+      }
+      res = res + `})\n`
+
+
       res = res+`}\n`
 
       res = res + `}\n`

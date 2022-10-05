@@ -11,8 +11,9 @@
   color: #EEEEEE;
   position: relative;
   width: 100%;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   z-index: 9999999999;
+  box-shadow: 0 0 9px 0 rgb(16, 16, 16)
 }
 .button_container{
   display: flex;

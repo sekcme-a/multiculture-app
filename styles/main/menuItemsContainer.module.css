@@ -1,15 +1,17 @@
 .main_container{
+  overflow-y: scroll;
+  height: 100%;
 }
 .item_container{
   background-color: #fff;
   color: black;
-  padding: 10px 18px;
+  padding: 18px 18px;
   display: flex;
   flex-wrap: wrap;
   border-bottom: 4px solid rgb(235, 235, 235);
 }
 .item_container h1{
-  margin: 10px 0 22px 0;
+  margin: 10px 0 18px 0;
   font-size: 18px;
   font-weight: bold;
   width: 100%;

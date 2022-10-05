@@ -20,6 +20,7 @@ const MenuItemsContainer = ({items}) => {
           </div>
         )
       })}
+      <div style={{height: "60px", width:"100%", backgroundColor: "rgb(235,235,235)"}}>로그아웃</div>
     </div>
   )
 }

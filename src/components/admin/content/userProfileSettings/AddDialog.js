@@ -107,7 +107,7 @@ const AddDialog = ({addFormData, handleCloseDialog, formData}) => {
     }
     else {
       setItems([...items, textInput])
-      setComponents([...components, <h2 style={{marginLeft: "10px", cursor: "pointer"}}>{ textInput }</h2> ])
+      setComponents([...components, <h2 key={textInput} style={{marginLeft: "10px", cursor: "pointer"}}>{ textInput }</h2> ])
       // setComponents([...components, {value: textInput, component:<p>{ textInput }</p> }])
       setTextInput("")
     }

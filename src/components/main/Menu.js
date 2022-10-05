@@ -19,6 +19,8 @@ import Diversity2OutlinedIcon from '@mui/icons-material/Diversity2Outlined';
 import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 import AodOutlinedIcon from '@mui/icons-material/AodOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
+import NotListedLocationOutlinedIcon from '@mui/icons-material/NotListedLocationOutlined';
+import DeviceUnknownOutlinedIcon from '@mui/icons-material/DeviceUnknownOutlined';
 
 
 const Menu = (props) => {
@@ -33,19 +35,20 @@ const Menu = (props) => {
   }
 
   useEffect(() => {
-    let programData = [{ icon: <PublicOutlinedIcon style={{ color: "#6F38C5" }}/>, text: "전체" },]
-    let surveyData = [{ icon: <PublicOutlinedIcon style={{ color: "#6F38C5" }}/>, text: "전체" },]
-    let noticeData = [{ icon: <PublicOutlinedIcon style={{ color: "#6F38C5" }}/>, text: "전체" }]
+    const fontStyle={color: "#6F38C5"}
+    let programData = [{ icon: <PublicOutlinedIcon style={fontStyle}/>, text: "전체" },]
+    let surveyData = [{ icon: <PublicOutlinedIcon style={fontStyle}/>, text: "전체" },]
+    let noticeData = [{ icon: <PublicOutlinedIcon style={fontStyle}/>, text: "전체" }]
     console.log(groups)
     groups.forEach((group) => {
       programData.push({
-        icon: <Diversity2OutlinedIcon style={{ color: "#6F38C5" }} />, text: group.name
+        icon: <Diversity2OutlinedIcon style={fontStyle} />, text: group.name
       })
       surveyData.push({
-        icon: <AodOutlinedIcon style={{ color: "#6F38C5" }}/>, text: group.name
+        icon: <AodOutlinedIcon style={fontStyle}/>, text: group.name
       })
       noticeData.push({
-        icon: <CampaignOutlinedIcon style={{ color: "#6F38C5" }}/>, text: group.name
+        icon: <CampaignOutlinedIcon style={fontStyle}/>, text: group.name
       })
         
     })
@@ -64,8 +67,19 @@ const Menu = (props) => {
           data: noticeData
         },
         {
-          title: ''
-        }
+          title: '문의',
+          data: [
+            { icon: <NotListedLocationOutlinedIcon style={fontStyle} />, text: "센터 문의" },
+            { icon: <DeviceUnknownOutlinedIcon style={fontStyle} />, text: "어플 문의" },
+          ]
+        },
+        {
+          title: '어플 안내',
+          data: [
+            { icon: <NotListedLocationOutlinedIcon style={fontStyle} />, text: "다문화 소식" },
+            { icon: <DeviceUnknownOutlinedIcon style={fontStyle} />, text: "어플 문의" },
+          ]
+        },
       ]
     )
   },[groups])
@@ -121,9 +135,8 @@ const Menu = (props) => {
                   <Button variant="outlined" style={{width:"90%", color:"white", border: "1px solid white"}} onClick={onLoginClick}>로그인</Button>
                 </div>
               }
-            <MenuItemsContainer items={menuItems} title="프로그램"  />
           </div>
-          <div onClick={onLogoutClick}>로그아웃</div>
+          <MenuItemsContainer items={menuItems}  />
 
 
         </motion.div>

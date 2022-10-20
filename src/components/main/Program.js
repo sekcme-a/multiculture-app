@@ -22,6 +22,7 @@ import { firebaseHooks } from "firebase/hooks"
 import Thumbnail from "src/components/public/Thumbnail"
 import CircleLoader from "src/components/loader/CircleLoader"
 
+import useAuth from "src/hooks/auth/auth"
 
 
 const Program = (props) => {
@@ -32,6 +33,7 @@ const Program = (props) => {
   const [isProgramLoading, setIsProgramLoading] = useState(true)
   const router = useRouter()
   const [selectedItem, setSelectedItem] = useState(0)
+  const { user } = useAuth()
 
   // const intl = useIntl()
 
@@ -98,7 +100,10 @@ const Program = (props) => {
     </>)
   
   const onClick = (id, teamName) => {
-    router.push(`/article/${teamName}/${id}`)
+    if(user)
+      router.push(`/article/${teamName}/${id}`)
+    else
+      router.push('/login')
   }
 
   const onMoreClick = () => {

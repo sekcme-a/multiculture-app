@@ -1,7 +1,7 @@
 .main_container{
-  height: 75px;
+  height: 68px;
   display: flex;  
-  padding: 14px 0;
+  padding: 10px 0;
 }
 .icon_container{
   width: 120px;

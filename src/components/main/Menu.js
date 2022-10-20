@@ -142,7 +142,7 @@ const Menu = (props) => {
     router.push("/myPage")
   }
 
-
+  if(text)
   return (
     <AnimatePresence>
       {props.isMenuOpen &&
@@ -174,7 +174,8 @@ const Menu = (props) => {
                 </div>
                 :
                 <div className={styles.login_container}>
-                  <p>{text.please_log_in_for_more_information_and_participation_in_the_program}</p>
+                  <p>더 많은 정보와 프로그램 참여를 위해 로그인 해 주세요.</p>
+                  {/* <p>{text.please_log_in_for_more_information_and_participation_in_the_program}</p> */}
                   <Button variant="outlined" style={{width:"90%", color:"white", border: "1px solid white"}} onClick={onLoginClick}>로그인</Button>
                 </div>
               }

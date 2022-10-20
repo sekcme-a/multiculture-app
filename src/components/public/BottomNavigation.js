@@ -14,12 +14,14 @@ import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspace
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { useRouter } from 'next/router';
 import useUserData from 'src/context/useUserData';
+import useAuth from 'src/hooks/auth/auth';
 
 const BottomNavigationComponent = () => {
   const { groups, setGroups, language, fetchText } = useUserData()
   const [value, setValue] = useState(0)
   const [text, setText] = useState()
   const router = useRouter()
+  const { user } = useAuth()
 
   useEffect(() => {
     const fetchData = async (lang) => {
@@ -42,7 +44,12 @@ const BottomNavigationComponent = () => {
   }
   const onAlarmClick = () => {router.push("/alarm")}
 
-  const onMyPageClick = () => { router.push("/myPage") }
+  const onMyPageClick = () => {
+    if (user)
+      router.push("/myPage")
+    else
+      router.push("/login")
+  }
   
   const onMenuClick = () => { router.push('/menu') }
   

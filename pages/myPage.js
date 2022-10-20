@@ -81,6 +81,7 @@ const MyPage = () => {
       onClick: onLogoutClick
     },
 
+
   ]
   return (
     <>
@@ -98,6 +99,7 @@ const MyPage = () => {
           )
         })
       }
+      <div style={{width:"100%", height:"60px"}} />
     </>
   )
 }

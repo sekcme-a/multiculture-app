@@ -379,7 +379,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                   
 
                     <div className={styles.container}>
-                    <p>컨텐츠가 모든 사용자들에게 표시되며, 마감일 이후 "마감"으로 표시됩니다.</p>
+                    <p>{`컨텐츠가 모든 사용자들에게 표시되며, 마감일 이후 "마감"으로 표시됩니다.`}</p>
                     <p>게재 후엔 내용 변경이 불가능합니다.</p>
                     {isPublished && <Button disabled={true} style={{ fontSize: "16px" }}>게재됨</Button>}
                     <Button variant="text" onClick={onPublishClick} style={{ fontSize: "16px" }}

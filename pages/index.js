@@ -81,6 +81,7 @@ const Home = () => {
           <div className={styles.border} />
           <Anouncement />
           <div className={styles.border} />
+          <div style={{width:"100%", height:"65px"}}> </div>
         </>
       }
       {/* <div>{text ? text.hi : ""}</div> */}

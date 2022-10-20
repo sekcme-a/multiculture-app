@@ -123,10 +123,13 @@ const MyPageProfile = () => {
   }, [selectedGroup, slug])
   
   const onClick = (id, teamName) => {
-    if(slug==="anouncement")
-      router.push(`/${slug}/${teamName}/${id}`)
-    else
-    router.push(`/article/${teamName}/${id}`)
+    if (user) {
+      if (slug === "anouncement")
+        router.push(`/${slug}/${teamName}/${id}`)
+      else
+        router.push(`/article/${teamName}/${id}`)
+    } else
+      router.push('/login')
   }
 
   if(isLoading || text===undefined)

@@ -103,6 +103,7 @@ const UserList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const id_list = await firebaseHooks.fetch_all_not_admin_users_uid_list(teamName)
+      console.log(id_list)
       const users = await firebaseHooks.fetch_user_data_list_from_user_uid_list(id_list)
       let avatars = []
       let userList = []

@@ -21,20 +21,25 @@ import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
+import EditNotificationsIcon from '@mui/icons-material/EditNotifications';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 
 const Navbar = (props) => {
   const router = useRouter()
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false)
+  const [open3, setOpen3] = useState(false)
   const { teamName } = useAuth()
 
   const handleClick = () => {
     setOpen(!open);
   };
   const handleClick2 = () => {setOpen2(!open2)}
+  const handleClick3 = () => {setOpen3(!open3)}
 
   const uppercase = (text) => {
-    return text.charAt(0).toUpperCase() + text.slice(1)
+    return text?.charAt(0).toUpperCase() + text.slice(1)
   }
 
   const onClick = (loc) => {
@@ -80,15 +85,16 @@ const Navbar = (props) => {
             <ListItemText primary="사용자 프로필 설정" />
           </ListItemButton>
         </List>
-        </Collapse>
+        {/* <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }} onClick={()=>onClick("alarmSettings")}>
+            <ListItemIcon>
+              <EditNotificationsIcon />
+            </ListItemIcon>
+            <ListItemText primary="알림 타입 설정" />
+          </ListItemButton>
+        </List> */}
+      </Collapse>
         
-
-      <ListItemButton>
-        <ListItemIcon>
-          <DraftsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Drafts" />
-      </ListItemButton>
       <ListItemButton onClick={handleClick}>
         <ListItemIcon>
           <GroupIcon />
@@ -105,7 +111,51 @@ const Navbar = (props) => {
             <ListItemText primary="구성원 관리" />
           </ListItemButton>
         </List>
-      </Collapse>
+        </Collapse>
+        
+
+
+      <ListItemButton onClick={()=>onClick("program")}>
+        <ListItemIcon>
+          <EditRoundedIcon />
+        </ListItemIcon>
+        <ListItemText primary="프로그램 관리" />
+        </ListItemButton>
+        
+      <ListItemButton onClick={()=>onClick("survey")}>
+        <ListItemIcon>
+          <EditRoundedIcon />
+        </ListItemIcon>
+        <ListItemText primary="설문조사 관리" />
+        </ListItemButton>
+        
+      <ListItemButton onClick={()=>onClick("anouncement")}>
+        <ListItemIcon>
+          <CampaignOutlinedIcon />
+        </ListItemIcon>
+        <ListItemText primary="공지사항 관리" />
+      </ListItemButton>
+        
+
+
+{/* 
+      <ListItemButton onClick={handleClick3}>
+        <ListItemIcon>
+          <GroupIcon />
+        </ListItemIcon>
+        <ListItemText primary="프로그램 관리" />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }} onClick={()=>onClick("manageTeam")}>
+            <ListItemIcon>
+              <Diversity3Icon />
+            </ListItemIcon>
+            <ListItemText primary="구성원 관리" />
+          </ListItemButton>
+        </List>
+      </Collapse> */}
     </List>
     </div>
   )

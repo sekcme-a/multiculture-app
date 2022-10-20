@@ -7,9 +7,6 @@ export const fetchText = (address, language) => {
 
   return new Promise(async function (resolve, reject) {
     try {
-
-
-      
 if ( address === "index") {  if (language==="ko")
     resolve({program : text[0].data[0].ko, all : text[0].data[1].ko, hello : text[0].data[2].ko, Please_log_in_for_more_information_and_participation_in_the_program : text[0].data[3].ko, Please_register_your_email : text[0].data[4].ko, })
   else if(language==="vi"){
@@ -115,6 +112,35 @@ else if ( address === "login") {
     const continue_with_google = await translate(text[1].data[7].ko, "ko", "en")
     const continue_with_facebook = await translate(text[1].data[8].ko, "ko", "en")
     resolve({back: back, email: email, password: password, login: login, find_password: find_password, sign_in: sign_in, continue_with_apple: continue_with_apple, continue_with_google: continue_with_google, continue_with_facebook: continue_with_facebook, })
+}
+}
+else if ( address === "public") {
+  if (language==="ko")
+    resolve({back : text[2].data[0].ko, edit_profile : text[2].data[1].ko, })
+  else if(language==="vi"){
+    const back = await translate(text[2].data[0].ko, "ko", "vi")
+    const edit_profile = await translate(text[2].data[1].ko, "ko", "vi")
+    resolve({back: back, edit_profile: edit_profile, })
+}
+  else if(language==="zh"){
+    const back = await translate(text[2].data[0].ko, "ko", "zh")
+    const edit_profile = await translate(text[2].data[1].ko, "ko", "zh")
+    resolve({back: back, edit_profile: edit_profile, })
+}
+  else if(language==="ja"){
+    const back = await translate(text[2].data[0].ko, "ko", "ja")
+    const edit_profile = await translate(text[2].data[1].ko, "ko", "ja")
+    resolve({back: back, edit_profile: edit_profile, })
+}
+  else if(language==="th"){
+    const back = await translate(text[2].data[0].ko, "ko", "th")
+    const edit_profile = await translate(text[2].data[1].ko, "ko", "th")
+    resolve({back: back, edit_profile: edit_profile, })
+}
+  else if(language==="en"){
+    const back = await translate(text[2].data[0].ko, "ko", "en")
+    const edit_profile = await translate(text[2].data[1].ko, "ko", "en")
+    resolve({back: back, edit_profile: edit_profile, })
 }
 }
 

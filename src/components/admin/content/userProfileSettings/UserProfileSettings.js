@@ -3,7 +3,7 @@ import styles from "styles/components/admin/content/userProfileSettings.module.c
 
 import { firebaseHooks } from "firebase/hooks";
 
-import PageHeader from "../../public/PageHeader";
+import PageHeader from "src/components/admin/public/PageHeader";
 import CustomForm from "src/components/public/CustomForm.js"
 import AlertComponent from "src/components/public/Alert";
 import LoaderGif from "src/components/loader/LoaderGif";
@@ -12,7 +12,7 @@ import LoaderGif from "src/components/loader/LoaderGif";
 import Button from '@mui/material/Button'
 
 
-const UserProfileSettings = () => {
+const UserProfileSettings = ({teamName}) => {
   const [mainFormData, setMainFormData] = useState([])
   const [subFormData, setSubFormData] = useState([])
   const [controlAlert, setControlAlert] = useState({
@@ -25,13 +25,11 @@ const UserProfileSettings = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resultMain = await firebaseHooks.get_data_from_collection("profileSettings", "main")
-        const resultSub = await firebaseHooks.get_data_from_collection("profileSettings", "sub")
-        if(resultMain)
-          setMainFormData(resultMain.data)
-        if (resultSub)
-          setSubFormData(resultSub.data)
-        console.log(resultMain.data)
+        const result = await firebaseHooks.get_data_from_collection("profileSettings", teamName)
+        if (result) {
+          setMainFormData(result.main)
+          setSubFormData(result.sub)
+        }
         setIsLoading(false)
       } catch (e) {
         console.log(e)
@@ -42,9 +40,7 @@ const UserProfileSettings = () => {
   },[])
 
   const onSubmitClick = async() => {
-    const result = await firebaseHooks.set_object_to_firestore_collection({data: mainFormData}, "profileSettings", "main")
-    const result2 = await firebaseHooks.set_object_to_firestore_collection({data: subFormData}, "profileSettings", "sub")
-    console.log(result2)
+    const result = await firebaseHooks.set_object_to_firestore_collection({main: mainFormData, sub: subFormData}, "profileSettings", teamName)
     if (result === "success") {
       setControlAlert({...controlAlert, isShow: true, mode: "success", text:"성공적으로 적용되었습니다."})
       setTimeout(() => {
@@ -65,17 +61,14 @@ const UserProfileSettings = () => {
     <div className={styles.main_container}>
       <div style={{display: "flex", flexWrap:"wrap",width:"100%", alignItems:"center", justifyContent:"space-between"}}>
         <div style={{width:"50%"}}>
-          <PageHeader title="메인정보" subtitle="사용자가 입력가능한 프로필 정보를 설정하세요. 프로필에 바로 위치하게 됩니다." mt="10px" height="30px" />
+          <PageHeader title="사용자 프로필 설정" subtitle="사용자가 입력가능한 프로필 정보를 설정하세요. " mt="10px" height="30px" />
           <PageHeader subtitle="마우스를 아이템에 누르고 있으면 위치를 이동시킬 수 있습니다." mt="-10px" height="30px" />
         </div>
         <div>
           <Button variant="contained" style={{backgroundColor: "purple", fontWeight: "bold"}} onClick={onSubmitClick}>적 용</Button>
         </div>
       </div>
-      <CustomForm formData={mainFormData} setFormData={setMainFormData} />
-
-      <PageHeader title="부가정보" subtitle="사용자가 입력가능한 프로필 부가정보를 설정하세요. 프로필의 추가정보란에 위치하게 됩니다." mt="30px" height="30px" />
-      <CustomForm formData={subFormData} setFormData={setSubFormData} />
+      <CustomForm formData={mainFormData} setFormData={setMainFormData} teamName={teamName} />
        <AlertComponent control={controlAlert} />
     </div>
   )

@@ -18,6 +18,10 @@ import AccountSettings from "src/components/admin/content/accountSettings/Accoun
 import ManageTeam from "src/components/admin/content/teamManagement/ManageTeam"
 import UserList from "src/components/admin/content/userList/UserList";
 import UserProfileSettings from "src/components/admin/content/userProfileSettings/UserProfileSettings";
+import Program from "src/components/admin/content/program/Program";
+import Survey from "src/components/admin/content/survey/Survey";
+import AlarmSettings from "src/components/admin/content/alarmSettings/AlarmSettings"
+import Anouncement from "src/components/admin/content/anouncement/Anouncement"
 
 
 
@@ -62,11 +66,15 @@ const Admin = () => {
       <Header location={slug} />
       <div className={styles.content_container}>
         {
-          slug === "home" ? <Home /> :
+          slug === "home" ? <ManageTeam /> :
             slug === "profile" ? <AccountSettings /> :
               slug === "manageTeam" ? <ManageTeam /> :
                 slug === "userList" ? <UserList /> :
-                  slug === "userProfileSettings" ? <UserProfileSettings /> :
+                  slug === "userProfileSettings" ? <UserProfileSettings teamName={team_name} /> :
+                  slug === "program" ? <Program teamName={team_name} /> :
+                      slug === "alarmSettings" ? <AlarmSettings teamName={team_name} /> :
+                        slug==="survey" ? <Survey teamName={team_name} /> :
+                          slug==="anouncement" ? <Anouncement teamName={team_name} /> :
           <></>
         }
       </div>

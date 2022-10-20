@@ -66,14 +66,19 @@
   margin-top: 5px;
 }
 .submit_button_container{
-  width: 100%;
+  /* width: 100%;
   display: flex;
   justify-content: center;
   position: absolute;
   height: fit-content;
   right:0;
   bottom: 0;
+  margin-bottom: 15px; */
+  width:100%;
+  display: flex;
+  justify-content: center;
   margin-bottom: 15px;
+  margin-top: 20px; 
 }
 .image_container{
   height: 300px;

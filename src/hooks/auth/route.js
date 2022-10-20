@@ -27,14 +27,15 @@ export function withPublic(Component) {
           db.collection("users").doc(auth.user.uid).set({
             roles: ["user"], name: displayName, photo: photoURL, language: "ko",
             phoneNumber: auth.user.phoneNumber, email: auth.user.email, emailVerified: auth.user.emailVerified,
-            importance: 5, bookmark: [], like: [], isSoundOn:true, isBreakingNewsOn: true, providerId : auth.user.providerData[0].providerId
+            providerId : auth.user.providerData[0].providerId, data: ""
           })
-          router.push("/")
+          auth.updateUserProfile({photoURL: "/default_avatar.png"})
+          router.replace("/")
           return <div></div>
         } else if (auth.user) {
           db.collection("users").doc(auth.user.uid).get().then((doc) => {
             auth.setUserrole(doc.data().roles)
-            router.push("/")
+            router.replace("/")
           })
           return <div></div>
         }
@@ -67,14 +68,15 @@ export function withPublicAdmin(Component) {
           db.collection("users").doc(auth.user.uid).set({
             roles: ["user"], name: displayName, photo: photoURL, language: "ko",
             phoneNumber: auth.user.phoneNumber, email: auth.user.email, emailVerified: auth.user.emailVerified,
-            importance: 5, bookmark: [], like: [], isSoundOn:true, isBreakingNewsOn: true, providerId : auth.user.providerData[0].providerId
+            providerId: auth.user.providerData[0].providerId, data: ""
           })
-          router.push("/admin/hallway")
+          auth.updateUserProfile({photoURL: "/default_avatar.png"})
+          router.replace("/admin/hallway")
           return <div></div>
         } else if (auth.user) {
           db.collection("users").doc(auth.user.uid).get().then((doc) => {
             auth.setUserrole(doc.data().roles)
-            router.push("/admin/hallway")
+            router.replace("/admin/hallway")
           })
           return <div></div>
         }
@@ -94,9 +96,9 @@ export function withProtected(Component) {
 
     if (!auth.user) {
       if(router.pathname.includes("/admin"))
-        router.push("/admin/login")
+        router.replace("/admin/login")
       else
-        router.push("/login")
+        router.replace("/login")
       return <div></div>
     }
     return <Component auth={auth} pathname={pathname} {...props} />

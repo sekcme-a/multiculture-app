@@ -13,7 +13,7 @@ const SelectLanguage = () => {
     { code: "ko", text: "한국어" },
     { code: "en", text: "English" },
     { code: "zh", text: "汉语" },
-    { code: "vi", text: "iếng Việt" },
+    { code: "vi", text: "Tiếng Việt" },
     { code: "ja", text: "日本语" },
     {code:"th", text:"ภาษาไทย"},
   ]);

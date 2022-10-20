@@ -1,0 +1,18 @@
+.main_container{
+  width: 100%
+}
+.content_container{
+  padding: 15px 20px;
+}
+.button_container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.button{
+  margin: 30px 0!important;
+  width: 90% !important;
+  background-color: #8659d0 !important;
+  font-size: 17px !important;
+  font-weight: bold !important;
+}

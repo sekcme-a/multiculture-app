@@ -6,60 +6,43 @@ import { withPublic } from "src/hooks/auth/route";
 
 import Image from "next/image"
 
-import {
-  GoogleLoginButton,
-  FacebookLoginButton,
-  AppleLoginButton
-} from "react-social-login-buttons"
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-
 import IdAndPassword from "src/components/login/IdAndPassword"
 import SocialLogin from "src/components/login/SocialLogin"
+import PageHeader from "src/components/public/PageHeader";
 
 import { fetchText } from 'src/hooks/fetchText'
 import useUserData from 'src/context/useUserData'
   
 
-const Login = ({ auth }) => {
-  const { language } = useUserData()
+const Login = () => {
+  const { language, setLanguage } = useUserData()
   const [text, setText] = useState()
   const [isLoading, setIsLoading] = useState(true)
 
-  const router = useRouter()
-  const [email, setEmail] = useState("")
-  const onEmailChange = (e) => { setEmail(e.target.value) }
-  const [password, setPassword] = useState("")
-  const onPasswordChange = (e) => {setPassword(e.target.value)}
-  const [values, setValues] = useState({
-    password: '',
-    showPassword: false,
-    error: ""
-  });
-
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedText = await fetchText("login", language)
+      let fetchedText = ""
+      if (language === "") {
+        setLanguage("ko")
+        fetchedText = await fetchText("login", "ko")
+      }
+      else
+        fetchedText = await fetchText("login", language)
+      console.log("asdf")
       setText(fetchedText)
       setIsLoading(false)
     }
     fetchData()
   },[])
 
-  const onBackButtonClick = () => {
-    router.back()
-  }
-
   if (isLoading)
     return (
-      <></>
+      <div></div>
     )
 
   return (
     <div className={styles.main_container} >
-      <div className={styles.header_container}>
-        <div className={styles.icon_container} onClick={onBackButtonClick}><ArrowBackIosIcon style={{fontSize: "15px"}}/></div>
-          <p onClick={onBackButtonClick}>{text.back}</p>
-      </div>
+      <PageHeader text="돌아가기" />
       <div className={styles.logo_container}>
         <Image src="/logo.jpg" width={300} height={300} alt="한국다문화뉴스 로고" />
       </div>

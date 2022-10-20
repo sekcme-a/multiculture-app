@@ -11,12 +11,27 @@
   font-weight: normal;
   font-style: normal;
 }
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Cute+Font&family=Dongle&family=East+Sea+Dokdo&family=Gamja+Flower&family=Gothic+A1&family=Jua&family=Nanum+Gothic&family=Nanum+Pen+Script&family=Noto+Sans+KR&display=swap');
 
+
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ghanachoco';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ghanachoco.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
+del, dfn, em, img, ins, kbd, q, s, samp, 
 small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
 dl, dt, dd, ol, ul, li,
@@ -63,4 +78,177 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+a {
+	text-decoration: none;
+}
+
+
+
+  .ql-hidden{
+    display:none;
+  }
+.ql-editor strong{
+     font-weight:bold;
+ }
+.ql-editor{
+  font-family:'Pretendard-Regular','Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+.ql-editor em{
+  font-style:italic;
+}
+.ql-editor blockquote{
+  border-left: 4px solid #ccc;
+  margin-bottom: 5px !important;
+  margin-top: 5px !important;
+  padding-left: 16px !important;
+}
+.ql-editor a{
+  text-decoration: underline;
+  color: #06c;
+}
+
+.ql-editor img{
+	height: auto;
+}
+
+.ql-.ql-blank{
+  min-height: 100px !important;
+}
+
+.test{
+  width: 500px;
+}
+
+.ql-clipboard{
+  display: none;
+}
+
+.quill{
+  width: 100%;
+}
+/* .quill img{
+  width: 100%;
+} */
+.quill iframe{
+  width: 95%;
+  max-width: 300px;
+}
+
+/*커스텀 폰트*/
+
+.ql-picker.ql-font .ql-picker-item::before {
+  content: attr(data-value) !important;
+  font-size: 14px;
+}
+
+.ql-picker.ql-font .ql-picker-label::before {
+  content: attr(data-value) !important;
+  font-size: 14px;
+}
+
+.ql-font-맑은고딕{
+  font-family: 'Gothic A1', sans-serif !important;
+}
+
+.ql-font-본고딕{
+  font-family: 'Noto Sans KR', sans-serif !important;
+}
+
+.ql-font-나눔고딕{
+  font-family: 'Nanum Gothic', sans-serif !important;
+}
+.ql-font-주아체{
+  font-family: 'Jua', sans-serif !important;
+}
+.ql-font-나눔글씨체{
+  font-family: 'Nanum Pen Script', cursive !important;
+}
+.ql-font-검은고딕{
+  font-family: 'Black Han Sans', sans-serif !important;
+}
+.ql-font-여기어때잘난체{
+  font-family: 'yg-jalnan', sans-serif !important;
+}
+.ql-font-가나초콜릿체{
+  font-family: 'ghanachoco', sans-serif !important;
+}
+.ql-font-동해독도체{
+  font-family: 'East Sea Dokdo', cursive !important;
+}
+.ql-font-동글체{
+  font-family: 'Dongle', sans-serif !important;
+}
+.ql-font-귀욤체{
+  font-family: 'Cute Font', cursive !important;
+}
+.ql-font-감자꽃마을{
+  font-family: 'Gamja Flower', cursive !important;
+}
+
+
+
+
+
+
+
+
+
+/* speedDial color/ */
+.css-118zhtq-MuiButtonBase-root-MuiFab-root-MuiSpeedDial-fab{
+  background-color: #956cd6 !important;
+}
+.css-1fgwdvu-MuiSpeedDialAction-staticTooltip .MuiSpeedDialAction-staticTooltipLabel{
+  color: #814ad8;
+  width: max-content !important;
+}
+
+/* bottom navi */
+.css-1bjk3jo-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected{
+  color: #814ad8 !important;
+}
+.css-imwso6-MuiBottomNavigationAction-label.Mui-selected{
+  font-size: 13px !important;
+}
+
+
+.quill_custom_editor{
+  /* margin: 20px 3px; */
+  line-height: initial;
+}
+.quill_custom_editor img{
+  max-width: 100%;
+}
+.quill_custom_editor .ql-align-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.quill_custom_editor .ql-align-right{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: end;
+}
+.quill_custom_editor .ql-align-justify{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: justify;
+}
+.quill_custom_editor .ql-toolbar{
+  display: none;
+}
+.quill_custom_editor .ql-container{
+
+  border: none !important
+
+}
+.quill_custom_editor strong{
+  font-weight: bold;
+}
+.quill_custom_editor p{
+  min-height: 10px;
+  
 }

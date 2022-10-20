@@ -12,12 +12,15 @@ import useAuth from 'src/hooks/auth/auth'
 import MainSwiper from "src/components/main/MainSwiper"
 import Menu from "src/components/main/Menu"
 import Program from "src/components/main/Program"
-import SelectLanguage from "src/components/main/SelectLanguage"
+import Survey from "src/components/main/Survey"
+import Anouncement from "src/components/main/Anouncement"
 
 
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Skeleton from '@mui/material/Skeleton';
+
+import { useIntl } from "react-intl";
 
 const Home = () => {
   const [text, setText] = useState()
@@ -29,46 +32,15 @@ const Home = () => {
   const { language, setLanguage } = useUserData()
   const { user } = useAuth()
   const router = useRouter()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!user) {
-          setLanguage("ko")
-          const fetchedText = await fetchText("index", "ko")
-          setText(fetchedText)
-          setIsLoading(false)
-        }
-          
-        else if (language === "") {
-          const result = await firebaseHooks.fetch_language_with_user_uid(user.uid)
-          setLanguage(result)
-          setIsLoading(false)
-        }
-      } catch (e) {
-        console.log(e)
-      }
-    }
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    console.log(language)
-    const fetchData = async () => {
-      setText("")
-      const fetchedText = await fetchText("index", language)
-      setText(fetchedText)
-      setIsLoading(false)
-    }
-    // setIsLoading(true)
-    fetchData()
-  },[language])
+  const intl = useIntl()
   
   //scroll Y 포지션
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
+    const locale = localStorage.getItem('language') || 'ko';
+    setLanguage(locale)
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -82,9 +54,9 @@ const Home = () => {
     }, 400)
   }
 
-  if (isLoading)
-    return <div>  </div>
-  else
+  // if (isLoading)
+  //   return <div>  </div>
+  // else
   return (
     <div>
       <Head>
@@ -98,12 +70,17 @@ const Home = () => {
           <MenuRoundedIcon className={styles.menu_icon} onClick={onMenuClick} />
         </div>
       }
-      <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen} text={text} setIsHide={setIsHide} /> 
+      <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen}  setIsHide={setIsHide} /> 
       {!isHide && 
         <>
           <MainSwiper />
-          <SelectLanguage />
-          <Program text={text} />
+          {/* <SelectLanguage /> */}
+          <Program />
+          <div className={styles.border} />
+          <Survey />
+          <div className={styles.border} />
+          <Anouncement />
+          <div className={styles.border} />
         </>
       }
       {/* <div>{text ? text.hi : ""}</div> */}

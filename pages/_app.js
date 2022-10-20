@@ -1,28 +1,64 @@
 import "styles/reset.css"
+import { useEffect, useState } from "react"
+import Head from "next/head"
+import { useRouter } from "next/router"
 import { UserDataProvider } from "src/context/useUserData"
 import AuthStateChanged from "src/hooks/auth/AuthStateChanged"
 import { AuthProvider } from "src/hooks/auth/auth"
-// import { setConfig } from 'react-google-translate'
+import LanguageSpeedDial from "src/components/public/LanguageSpeedDial"
+import BottomNavigation from "src/components/public/BottomNavigation"
+import { IntlProvider, addLocaleData } from 'react-intl';
+// 이 서브 라이브러리들이 내 locale 파일을 사용할 수 있게 해준다
+// import en from 'react-intl/locale-data/en';
+// import ko from 'react-intl/locale-data/ko';
+// import zh from 'react-intl/locale-data/zh';
+import locale_en from 'locales/en.json';
+import locale_kr from 'locales/kr.json';
+import locale_zh from 'locales/zh.json';
 
-//   setConfig({
-//     clientEmail: "multicultural-app@multicultural-app.iam.gserviceaccount.com",
-//     privateKey:`MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC1WgWu0FVcdaOy\ncgcn0HKK5UnTvflI4VUcwNxJwZBsvo7CeLE6agKHsLTlS+xH9XC9DiQa/isqaBYM\nreqi+0YghrW23WSxuC78B8yiQpmMMn6vY2hhExqzLR3+GOmOneHHvJtegzLc29Iw\nLQ9QbOaiLqODfTPC/Jj7UzI+O5sIrkzq+2v2kTDxmwRhCAnCH1aRy0E8glMTNIM7\nbqupd3DoQycebo1RyUG7yJGgNEH+Cs7wHVMGtOl/M7p+hDqur9a7nBhIWp1vLfdz\noNs6OM1EUSzJQN+QAX00bworuemN/OxCsnGmIwC9g5A1cgrhK+ZlVVXnUusLgA7U\nw2ticvVpAgMBAAECggEAFTnp793pG9cWF6kSjtWuTnULaNnzv1TGgETPk99wztWY\nAombXtWxIZ4scikqiPqgnTQ2RCWLOl2v9QB3NefYu65gvvxXUJjZAP1NtZE7hSYU\n32Twfuo8RgwKFmdmkN+IYXdBLTUIg0LEbYicogJ5FTMFxvpk0FX99u60MwYJfaCs\nQvdlGxOp4ZN5wi27YOoD79/UbSEq1far47Yee600JZxk8Zrt71SJOMPVtgnU8GcE\nU+0i3WcW5gDJYhBNjTAAFsx/EsFRtsopRADLq5XkINJ3HE47VGImxEYHwfgtb6sb\nK/sBLttTW5eEmN0ayl4aH5OG7Al7iva0UrptvkPVoQKBgQDz4JvCc/3mfP6H0HPd\n4LWQplkuGmQxBz1bc1NbvcOxPoUDXwiOEG0GdzyJSl+Ms8K+bYhwULxwlekpF75h\nRuSZ8+kyGEqmtSl7Zx8qd8ARFORutUdoppusEVdvvzSqy7rRm/8Y8iRXFTuIqwIk\n3nJRijeDQH8qF3UvFsa0X7dt0QKBgQC+XcK0O3Sp53Z0YhK2rRhp1mUKanGAUHKb\n5oJ63vSf1th+m2rrGO3hVS6LtuNVucAkot8mDqutmL8WTMKkO79Y4yVMr6cnvYjE\nXSKP0MuPogBW0/YBfc9493rSWX/u/i3RflZ2Zt5GX7TYi+P1R6t9Y2z33o5It/Y9\nVQTeCNh8GQKBgEePGmUeX9vnxU/YrIboTp5ZEUXj3I4+T5Sr7EO5FNjHPYRVuE7n\nJvaEujCWsB67CGOUBDrglcp7UmUKYIRuptk9pqlaU11DPx7EjXKKnMLmXHjXnFJq\nwLbmh790XWHYUcL7gQiy1FLxGfzqIMDsvKKMaemLXUTeiTX9+uQmSc5hAoGASf6j\n6e6aYFhqAL8GSx9pN+pwB+ZsC9Y5VkP5P81eBKs8J6o9mvhrroSvvPrvzqiO+S6d\n0mstbCLNU9uuZKwcqm5QV0iHjrjranhRMNmV5lSwEQ/+tYGznW+EvDKxubHvGVkk\nPo2ppG0bHHjzuKmNDQYSmx5U7AslmZ1scOm7TDECgYBojrb9ltvJa8u2jNh2LwXR\nraqTreVik6Qhg3yv/lkhTihcaRtPqXBM3KWrLIg88MqAbzXEv909ToY95ON5kyMP\n4FAHXK+QkMnM87khuH8VVLqslha+kPdzqgy4SSgRt0e/jIPQBvqSW8169tH+vN50\nsMzCQGdZqm7QBpcquucepg==`,
-//     projectId: "multicultural-app"
-    // clientEmail: process.env.NEXT_PUBLIC_GCP_CLIENT_EMAIL,
-    // privateKey: process.env.NEXT_PUBLIC_GCP_PRIVATE_KEY,
-    // projectId: process.env.NEXT_PUBLIC_GCP_PROJECT_ID
-  // })
+// addLocaleData([...en, ...ko, ...zh]);
+
+// 저장되어 있는 언어 데이터를 가져온다
+
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter()
+  const [language, setLanguage] = useState("ko")
+  const [messages, setMessages] = useState()
+  // const { language, setLanguage,  fetchText, groups, setGroups } = useUserData()
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const locale = localStorage.getItem('language') || 'ko';
+      setLanguage(locale)
+      setMessages({ en: locale_en, ko: locale_kr, zh: locale_zh, vi: locale_kr, ja: locale_kr, th:locale_kr }[locale])
+      console.log(locale)
+    }
+    // if (typeof window !== 'undefined'){
+    //   const locale = localStorage.getItem('language') || 'ko'
+    //   setLanguage(locale)
+    //   setMessages({ en: locale_en, ko: locale_kr, zh: locale_zh, vi: locale_kr, ja: locale_kr, th:locale_kr }[locale])
+    // }
+  },[])
   return (
-    <UserDataProvider>
+    <>
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Cute+Font&family=Dongle&family=East+Sea+Dokdo&family=Gamja+Flower&family=Gothic+A1&family=Jua&family=Nanum+Gothic&family=Nanum+Pen+Script&family=Noto+Sans+KR&display=swap" rel="stylesheet"></link>
+      </Head>
       <AuthProvider>
         <AuthStateChanged>
-          <Component {...pageProps} />
+          <IntlProvider locale={language} messages={{ en: locale_en, ko: locale_kr, zh: locale_zh, vi: locale_kr, ja: locale_kr, th:locale_kr }[language]}>
+            <UserDataProvider>
+              <Component {...pageProps} />
+              {!router.pathname.includes("admin") && <BottomNavigation />}
+              {!router.pathname.includes("admin") && <LanguageSpeedDial setLang={setLanguage} />}
+            </UserDataProvider>
+          </IntlProvider>
         </AuthStateChanged>
       </AuthProvider>
-    </UserDataProvider>
+    </>
   ) 
 }
 

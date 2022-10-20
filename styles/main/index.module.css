@@ -16,5 +16,11 @@
 .menu_icon{
   margin-left: 8px;
   margin-right: 18px;
-  font-size: 24px;
+  font-size: 26px;
+}
+
+.border{
+  height: 10px;
+  width: 100%;
+  background-color: rgb(240, 240, 240);
 }

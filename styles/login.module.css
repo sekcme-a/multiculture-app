@@ -16,6 +16,7 @@
   font-weight: bold;
   color: rgb(68, 68, 68);
   padding-left: 10px;
+  z-index: 9999999;
 }
 .header_container p{
   font-size: 20px;

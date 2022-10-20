@@ -3,7 +3,11 @@ import styles from "styles/components/admin/content/userProfileSettings.module.c
 const AddSetting = (props) => {
   return (
     <div className={styles.add_container} onClick={props.onAddClick}>
-      <p>+</p>
+      {props.text ? 
+        <h2>프로필에서 추가</h2>
+      :
+        <p>+</p>
+      }
     </div>
   )
 }

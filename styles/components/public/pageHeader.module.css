@@ -1,0 +1,16 @@
+.header_container{
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  height: 40px;
+  margin-top: 10px;
+  align-items: center;
+  font-weight: bold;
+  color: rgb(68, 68, 68);
+  padding-left: 10px;
+  z-index: 9999999;
+}
+.header_container p{
+  font-size: 20px;
+  margin-top: -2px;
+}

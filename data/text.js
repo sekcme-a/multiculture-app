@@ -99,17 +99,23 @@ export const text = [
       //--------------login
     ]
   },
-  // {
-  //   page: "login",
-  //   data: [
-  //     {
-  //       text: "back",
-  //       ko: "돌아가기",
-  //       en: "Back",
-  //       zh: "返回"
-  //     },
-  //   ]
-  // },
+  {
+    page: "public",
+    data: [
+      {
+        text: "back",
+        ko: "돌아가기",
+        en: "Back",
+        zh: "返回"
+      },
+      {
+        text: "edit_profile",
+        ko: "프로필 편집",
+        en: "Edit profile",
+        zh: "编辑简介"
+      },
+    ]
+  },
   // {
   //   page: "login",
   //   data: [

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 
 import styles from "styles/components/admin/content/userProfileSettings.module.css"
@@ -10,11 +10,18 @@ import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import SortableComponent from "src/components/admin/public/SortableComponent"
+import { firebaseHooks } from "firebase/hooks"
+import Editor from "src/components/public/Editor"
 
 
-const AddDialog = ({addFormData, handleCloseDialog, formData}) => {
+const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentMode, id}) => {
   const [type, setType] = useState('')
   const [typeText, setTypeText] = useState('')
   const [titleValue, setTitleValue] = useState({
@@ -30,6 +37,7 @@ const AddDialog = ({addFormData, handleCloseDialog, formData}) => {
 
   const [textInput, setTextInput] = useState("")
   const [helperText, setHelperText] = useState('')
+  const [isRequired, setIsRequired] = useState(false)
 
   const [textFieldHelperText, setTextFieldHelperText] = useState("드래그를 통해 옵션들의 순서를 변경할 수 있습니다.")
   const [isTextFieldHelperTextError, setIsTextFieldHelperTextError] = useState(false)
@@ -37,6 +45,9 @@ const AddDialog = ({addFormData, handleCloseDialog, formData}) => {
   //for SortableComponents.js
   const [items, setItems] = useState([])
   const [components, setComponents] = useState([])
+
+  const [textData, setTextData] = useState("")
+  const onTextChange = (html) =>{ setTextData(html)}
 
   
   const onTextInputChange = (e) => {
@@ -54,7 +65,11 @@ const AddDialog = ({addFormData, handleCloseDialog, formData}) => {
 
   const handleChange = event => {
     setType(event.target.value)
-    if (event.target.value === "single_checkbox") {
+    if (event.target.value === "text_area") {
+      setHelperText("원하는 문구를 추가할 수 있습니다.")
+      setTypeText("문구 추가")
+    }
+    else if (event.target.value === "single_checkbox") {
       setHelperText("체크박스 형태로, 보기들 중 한개의 보기만 선택할 수 있습니다.")
       setTypeText("단일 선택형")
     }
@@ -100,6 +115,7 @@ const AddDialog = ({addFormData, handleCloseDialog, formData}) => {
     }
   }
 
+
   const onAddClick = () => {
     if (items.includes(textInput)) {
       setTextFieldHelperText("이미 있는 옵션입니다.")
@@ -119,15 +135,25 @@ const AddDialog = ({addFormData, handleCloseDialog, formData}) => {
     }
   }
 
-  const onSubmitClick = () => {
+  const onItemChange = (e)=>{setItems(e.target.value)}
+
+  const onSubmitClick = async() => {
     if (isCanSubmit()) {
-      addFormData({ type: type,typeText: typeText, title: titleValue.value, items: items})
-      handleCloseDialog()
+      try {
+        const id = await firebaseHooks.get_random_id_from_collection("users")
+        addFormData({id:id, type: type, typeText: typeText, title: titleValue.value, items: items, isRequired: isRequired, text: textData })
+        handleCloseDialog()
+      } catch (e) {
+        alert(e)
+      }
+
     }
   }
   const isCanSubmit = () => {
     if (type === "")
       alert("입력 타입이 지정되지 않았습니다.")
+    else if(type==="text_area")
+      return true;
     else if(titleValue.value==="")
       setTitleValue({ ...titleValue, helperText: "제목은 빈칸일 수 없습니다.", isError: true })
     else if (isTitleAlreadyExist())
@@ -148,11 +174,12 @@ const AddDialog = ({addFormData, handleCloseDialog, formData}) => {
   return (
     <div className={styles.add_dialog_container}>
       <div className={styles.content_container}>
-        <h3>프로필에 추가할 데이터를 만드세요.</h3>
+        <h3>추가할 데이터를 만드세요.</h3>
         <div className={styles.form_control_container}>
           <FormControl variant='standard' className={styles.form_control}>
             <InputLabel id='demo-simple-select-label'>입력 타입</InputLabel>
             <Select label='Age' labelId='demo-simple-select-label' id='demo-simple-select' onChange={handleChange} defaultValue='' value={type}>
+              {contentMode && <MenuItem value="text_area">문구 추가</MenuItem>}
               <MenuItem value="single_checkbox">단일 선택형</MenuItem>
               <MenuItem value="multiple_checkbox">복수 선택형</MenuItem>
               <MenuItem value="list_select">목록 선택형</MenuItem>
@@ -181,7 +208,13 @@ const AddDialog = ({addFormData, handleCloseDialog, formData}) => {
         </div> */}
         
 
-        <TextField id="standard-basic" label="제목" variant='standard' value={titleValue.value} onChange={onTitleChange} helperText={titleValue.helperText} error={titleValue.isError} />
+        {type !== "text_area" &&
+          <TextField id="standard-basic" label="제목" variant='standard'
+            value={titleValue.value} onChange={onTitleChange} helperText={titleValue.helperText}
+            error={titleValue.isError} />}
+        <div style={{width:"100%", marginTop:"10px"}}> </div>
+        <Editor path={`content/${id}`} handleChange={onTextChange} textData={textData} />
+
         {(type.includes("single") || type.includes("multiple") || type==="list_select") &&
           <>
             <div className={styles.input_container}>
@@ -198,11 +231,37 @@ const AddDialog = ({addFormData, handleCloseDialog, formData}) => {
             
           </>
         }
+        {type.includes("date_time") && 
+          <>
+          <FormControl style={{width:"100%", marginTop:"20px"}}>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              value={items}
+              onChange={onItemChange}
+            >
+              <FormControlLabel value="date" control={<Radio />} label="날짜" />
+              <FormControlLabel value="time" control={<Radio />} label="시간" />
+              <FormControlLabel value="date_time" control={<Radio />} label="날짜 및 시간" />
 
+            </RadioGroup>
+          </FormControl>
+          </>
+        }
+        {(contentMode && type!=="text_area") &&
+          <div style={{width:"100%"}}>
+            <FormControlLabel control={<Checkbox />} label="필수 항목" checked={isRequired} onChange={(e) => setIsRequired(e.target.checked)} />
+          </div>
+        }
 
         <div className={styles.submit_button_container}>
           <Button variant="outlined" onClick={onSubmitClick} style={{ padding: "3px 10px" }}
-            disabled={(type === "single_checkbox" || type === "multiple_checkbox" || type === "list_select") ? items.length === 0 : titleValue.value === ""} >데이터 삽입</Button>
+            disabled={(type === "single_checkbox" || type === "multiple_checkbox" || type === "list_select") ?
+              items.length === 0 :
+              (type === "text_area") ?
+                textData === "" :
+                titleValue.value === ""} >데이터 삽입</Button>
         </div>
       </div>
       <div className={styles.image_container}>

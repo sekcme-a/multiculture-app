@@ -1,0 +1,27 @@
+.published{
+  padding: 5px 10px;
+  color: white;
+  background-color: rgb(100, 183, 27);
+  border-radius: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 14px 0 0 18px;
+}
+.unpublished{
+  padding: 5px 10px;
+  color: white;
+  background-color: rgb(146, 146, 146);
+  border-radius: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 14px 0 0 18px;
+}
+.delete{
+  position: absolute;
+  top:0;
+  right:0;
+  color: rgb(187, 43, 43);
+  margin: 12px 10px 0 0;
+}

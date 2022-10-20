@@ -8,6 +8,17 @@ import useUserData from "src/context/useUserData"
 import { firebaseHooks } from "firebase/hooks"
 
 import Avatar from '@mui/material/Avatar'
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+import CameraEnhanceOutlinedIcon from '@mui/icons-material/CameraEnhanceOutlined';
+
+const SmallAvatar = styled(Avatar)(({ theme }) => ({
+  width: 22,
+  height: 22,
+  border: `2px solid ${theme.palette.background.paper}`,
+  color: "#814ad8",
+  background
+}));
 
 const MyPageProfile = () => {
   const router = useRouter()
@@ -22,9 +33,23 @@ const MyPageProfile = () => {
   }, [])
   return (
     <div className={styles.main_container}>
-      <Avatar alt={user.displayName} src={user.photoURL} />
-      <h2>Welcome</h2>
-      <h3>{user.displayName}님</h3>
+      <div className={styles.avatar_container}>
+      <Badge
+        overlap="circular"
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        badgeContent={
+          <CameraEnhanceOutlinedIcon style={{color: "white", backgroundColor:"#814ad8", borderRadius:"50%", padding: "2px", fontSize: "18px"}} />
+        }
+      >
+        <Avatar alt={user?.displayName} src={user?.photoURL} style={{width: "70px", height: "70px"}} />
+      </Badge>
+      </div>
+      <div className={styles.text_container}>
+        <h2>Welcome</h2>
+        <h3>{user?.displayName}님</h3>
+        <h4>회원정보를 등록하면 맞춤 서비스를 받을 수 있습니다.</h4>
+        <p>{`회원정보 보러가기 >`}</p>
+      </div>
     </div>
   )
 }

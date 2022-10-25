@@ -88,17 +88,20 @@ const Program = ({teamName}) => {
             <Grid item xs={3} key={index}>
               <Card style={{minHeight:"370px", display: "flex", alignItems:"center"}}>
                 <CardContent sx={{ padding:"14px 10px 0px 10px", display: 'flex', alignItems: 'center', width:"100%", justifyContent:"center", position:"relative", flexDirection: 'column', cursor: "pointer" }}
-                  onClick={() => onProgramClick(program.id)}>
+                  >
                   {program.published ? <div className={styles.published}>게재중</div> : <div className={styles.unpublished}>미게재</div>}
                   <div className={styles.delete} onClick={()=>onDeleteClick(program.id, program.hasSurvey, program.surveyId)}><DeleteOutlineOutlinedIcon /></div>
-                  <img width={200} height={200} src={program.thumbnailImg} />
-                  <Typography variant='h6' sx={{ mt: 1 , color: "#222",textAlign:"center", wordBreak:"keep-all", fontSize:"18px",fontWeight:"bold", lineHeight:"18px"}} textTransform="capitalize">
+                  <img width={200} height={200} src={program.thumbnailImg} onClick={() => onProgramClick(program.id)} />
+                  <Typography onClick={() => onProgramClick(program.id)}
+                    variant='h6' sx={{ mt: 1, color: "#222", textAlign: "center", wordBreak: "keep-all", fontSize: "18px", fontWeight: "bold", lineHeight: "18px" }} textTransform="capitalize">
                     {program.title}
                   </Typography>
-                  <Typography sx={{ mt: 1 , color: "#444", textAlign:"center", fontSize:"13px", lineHeight:"16px", wordBreak:"keep-all"}}>
+                  <Typography onClick={() => onProgramClick(program.id)}
+                    sx={{ mt: 1, color: "#444", textAlign: "center", fontSize: "13px", lineHeight: "16px", wordBreak: "keep-all" }}>
                     {program.subtitle}
                   </Typography>
-                  <Typography sx={{ mt: "5px" , color: "#444", fontSize:"11px", textAlign:"center"}} textTransform="capitalize">
+                  <Typography onClick={() => onProgramClick(program.id)}
+                    sx={{ mt: "5px", color: "#444", fontSize: "11px", textAlign: "center" }} textTransform="capitalize">
                     마지막 수정: {savedDate}
                   </Typography>
                   {program.published && <p style={{fontSize:"11px"}}>게재일: {publishedDate}</p>}

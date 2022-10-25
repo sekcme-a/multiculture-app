@@ -91,7 +91,7 @@ const TimelineLeft = () => {
             사용자가 프로필을 변경하였습니다.
           </Typography>
           <Typography variant='body2' sx={{ mb: 2, color: 'text.primary' }}>
-            "프로필 사진" 변경됨.
+            {`"프로필 사진" 변경됨.`}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Avatar src='/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png' sx={{ width: '2rem', height: '2rem', mr: 2 }} />

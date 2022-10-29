@@ -19,7 +19,7 @@ const HomeHeader = ({ selectedItem, handleChange, text }) => {
   },[language])
   if(lang==="ko" || lang==="zh" || lang==="ja")
   return (
-    <div style={{width:"100%", position: "fixed", top:0, left: 0, zIndex:"99999999", backgroundColor:"white"}}>
+    // <div style={{width:"100%", position: "fixed", top:0, left: 0, zIndex:"99999999", backgroundColor:"white"}}>
       <Tabs
         value={selectedItem}
         onChange={handleChange}
@@ -34,11 +34,11 @@ const HomeHeader = ({ selectedItem, handleChange, text }) => {
         <Tab label={text.anouncement}  />
         <Tab label={text.multicultural_news} />
       </Tabs>
-    </div>
+    // </div>
     )
   if(lang==="en")
   return (
-    <div style={{width:"100%"}}>
+    // <div style={{width:"100%", position: "fixed", top:0, left: 0, zIndex:"99999999", backgroundColor:"white"}}>
       <Tabs
         value={selectedItem}
         onChange={handleChange}
@@ -53,11 +53,11 @@ const HomeHeader = ({ selectedItem, handleChange, text }) => {
         <Tab label={text.anouncement} style={{ fontSize: "11px" }}  />
         <Tab label={text.multicultural_news} style={{ fontSize: "10px" }} />
       </Tabs>
-    </div>
+    // </div>
     )
   if( lang==="th")
   return (
-    <div style={{width:"100%"}}>
+    // <div style={{width:"100%", position: "fixed", top:0, left: 0, zIndex:"99999999", backgroundColor:"white"}}>
       <Tabs
         value={selectedItem}
         onChange={handleChange}
@@ -72,11 +72,11 @@ const HomeHeader = ({ selectedItem, handleChange, text }) => {
         <Tab label={text.anouncement} style={{ fontSize: "14px" }}  />
         <Tab label={text.multicultural_news} style={{ fontSize: "10px" }} />
       </Tabs>
-    </div>
+    // </div>
     )
   if (lang === "vi")
   return (
-    <div style={{width:"100%"}}>
+    // <div style={{width:"100%", position: "fixed", top:0, left: 0, zIndex:"99999999", backgroundColor:"white"}}>
       <Tabs
         value={selectedItem}
         onChange={handleChange}
@@ -91,7 +91,7 @@ const HomeHeader = ({ selectedItem, handleChange, text }) => {
         <Tab label={text.anouncement} style={{ fontSize: "14px" }}  />
         <Tab label={text.multicultural_news} style={{ fontSize: "10px" }} />
       </Tabs>
-    </div>
+    // </div>
     )
 }
 

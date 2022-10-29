@@ -16,7 +16,6 @@ const GroupsHeader = ({ selectedItem, handleChange, groups }) => {
   const [lang, setLang] = useState("")
   
   return (
-    <div style={{ width: "100%", backgroundColor: "rgb(242,242,242)", position: "fixed", top: "47px" }}>
       <Tabs
         value={selectedItem}
         onChange={handleChange}
@@ -33,7 +32,6 @@ const GroupsHeader = ({ selectedItem, handleChange, groups }) => {
         })}
 
       </Tabs>
-    </div>
     )
 }
 

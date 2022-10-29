@@ -96,12 +96,11 @@ const MyPageProfile = () => {
 
   const fetchProgramData = async (teamName) => {
     try {
-      setIsLoading(true)
       setProgramList([])
       const data = await firebaseHooks.fetch_contents_list(teamName, `${slug}s`, 9)
       setProgramList([...data])
-      console.log(data)
       setIsLoading(false)
+      console.log(data)
     } catch (e) {
       console.log(e)
     }
@@ -112,15 +111,17 @@ const MyPageProfile = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
-        console.log(groups[selectedGroup]?.id)
-        fetchProgramData(groups[selectedGroup]?.id)
-        setIsLoading(false)
+        if (groups.length !== 0) {
+          console.log(groups[selectedGroup]?.id)
+          fetchProgramData(groups[selectedGroup]?.id)
+          
+        }
       } catch (e) {
         console.log(e)
       }
     }
     fetchData()
-  }, [selectedGroup, slug])
+  }, [groups,selectedGroup, slug])
   
   const onClick = (id, teamName) => {
     if (user) {
@@ -146,9 +147,11 @@ const MyPageProfile = () => {
   if(slug!=="multiculturalNews")
   return (
     <>
-      <HomeHeader selectedItem={selectedItem} handleChange={handleChange} text={text} />
-      <GroupsHeader selectedItem={selectedGroup} handleChange={handleGroupChange} groups={groups} />
-      <div style={{ display: "flex", flexWrap: "wrap", marginTop:"105px" }}>
+      <div style={{width:"100%", position: "fixed", top:0, left: 0, zIndex:"99999999", backgroundColor:"white"}}>
+        <HomeHeader selectedItem={selectedItem} handleChange={handleChange} text={text} />
+        <GroupsHeader selectedItem={selectedGroup} handleChange={handleGroupChange} groups={groups} />
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", marginTop:"115px" }}>
         {programList.length === 0 &&
           <div style={{width:"100%", height: "350px", display: "flex", justifyContent:"center", alignItems:"center"}}>
             {text.no_contents_yet}

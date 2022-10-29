@@ -25,7 +25,7 @@ import CircleLoader from "src/components/loader/CircleLoader"
 
 
 const Program = (props) => {
-  const { groups, setGroups, language, fetchText } = useUserData()
+  const { groups, language, fetchText } = useUserData()
   const [isLoading, setIsLoading] = useState(true)
   const [text, setText] = useState()
   const [programList, setProgramList] = useState([])
@@ -58,26 +58,13 @@ const Program = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        let fetchedData = []
-        db.collection("admin_group").get().then((snap) => {
-          snap.forEach(async(doc) => {
-            if (doc.data().name) {
-              fetchedData.push({ name: doc.data().name, id: doc.id })
-              
-            }
-            setGroups([...fetchedData])
-          })
-          fetchProgramData(fetchedData[0].id)
-          setIsLoading(false)
-        })
-        
-      } catch (e) {
-        console.log(e)
-      }
+
+      if(groups.length!==0)
+        fetchProgramData(groups[0].id)
+      setIsLoading(false)
     }
     fetchData()
-  }, [])
+  }, [groups])
 
   useEffect(() => {
     const fetchData = async (lang) => {

@@ -20,6 +20,8 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Skeleton from '@mui/material/Skeleton';
 
+import { firestore as db } from "firebase/firebase"
+
 import { useIntl } from "react-intl";
 
 const Home = () => {
@@ -29,7 +31,7 @@ const Home = () => {
   const [isHide, setIsHide] = useState(false)
   const handleIsMenuOpen = (bool) => { setIsMenuOpen(bool); }
   const [isLoading, setIsLoading] = useState(true)
-  const { language, setLanguage } = useUserData()
+  const { language, setLanguage,groups, setGroups } = useUserData()
   const { user } = useAuth()
   const router = useRouter()
   const intl = useIntl()
@@ -42,6 +44,17 @@ const Home = () => {
     const locale = localStorage.getItem('language') || 'ko';
     setLanguage(locale)
     window.addEventListener("scroll", handleScroll);
+   const fetchData = async () => {
+      if (groups.length===0) {
+        const result = await firebaseHooks.fetch_team_list()
+        setGroups(result)
+      }
+    }
+    fetchData()
+
+
+
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };

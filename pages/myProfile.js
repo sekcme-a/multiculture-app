@@ -130,7 +130,8 @@ const MyProfile = () => {
   const onSubmitClick = () => {
     try {
       firebaseHooks.overWrite("users", user.uid,
-      {city: city, name: values.name, realName: values.realName, phoneNumber: values.phoneNumber})
+        { city: city, name: values.name, realName: values.realName, phoneNumber: values.phoneNumber })
+      localStorage.setItem("city", city)
       firebaseHooks.set_array_to_form_data(user.uid, "additional_profile", profileData, true)
       console.log('asdf')
     } catch (e) {
@@ -171,30 +172,31 @@ const MyProfile = () => {
         </div> 
 
 
-      <div className={styles.team_select}>
-        <TextField
-          id="standard-select-currency"
-          select
-          label="지역 선택"
-          value={city}
-          onChange={handleChange}
-          helperText="살고있는 지역을 선택해 그에 맞는 프로필을 작성하세요!"
-          variant="standard"
-          style={{width: "100%"}}
-        >
-          {teamList.map((option) => (
-            <MenuItem key={option.id} value={option.id}>
-              {option.name}
-            </MenuItem>
-          ))}
-        </TextField>
-      </div>
-      {isProfileFormLoading && <CircularProgress sx={{ mt: 3 }} />}
-        {mainData && <Form formDatas={mainData} data={profileData} handleData={handleProfileDataChange}/>}
+        <div className={styles.team_select}>
+          <TextField
+            id="standard-select-currency"
+            select
+            label="지역 선택"
+            value={city}
+            onChange={handleChange}
+            helperText="살고있는 지역을 선택해 그에 맞는 프로필을 작성하세요!"
+            variant="standard"
+            style={{width: "100%"}}
+          >
+            {teamList.map((option) => (
+              <MenuItem key={option.id} value={option.id}>
+                {option.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </div>
+        {isProfileFormLoading && <CircularProgress sx={{ mt: 3 }} />}
+          {mainData && <Form formDatas={mainData} data={profileData} handleData={handleProfileDataChange}/>}
       </div>
       {/* <Form formDatas={mainData} data={profileData} setData={setProfileData} /> */}
       {/* <Form datas={subForm} /> */}
-      <Button variant="text" sx={{fontSize: "17px"}} onClick={onSubmitClick}>저 장</Button>
+      <Button variant="text" sx={{ fontSize: "17px", height:"fit-content" }} onClick={onSubmitClick}>저 장</Button>
+      <div style={{marginBottom:"130px"}} />
     </div>
   )
 }

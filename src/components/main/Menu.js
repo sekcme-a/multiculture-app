@@ -33,7 +33,7 @@ const Menu = (props) => {
   const [menuItems, setMenuItems] = useState([])
   const { user, logout } = useAuth()
   const { language, fetchText } = useUserData()
-  const {groups, setGroups} = useUserData()
+  const {groups} = useUserData()
   const router = useRouter()
   const onCloseMenuClick = () => {
     props.setIsHide(false)
@@ -77,8 +77,7 @@ const Menu = (props) => {
       // let noticeData = [{ icon: <PublicOutlinedIcon style={iconStyle}/>, text: "전체" }]
       console.log(groups)
       if (groups.length === 0) {
-        const result = await firebaseHooks.fetch_team_list()
-        setGroups(result)
+        return
       }
       groups.forEach((group) => {
         programData.push({

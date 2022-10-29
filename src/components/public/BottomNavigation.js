@@ -17,7 +17,7 @@ import useUserData from 'src/context/useUserData';
 import useAuth from 'src/hooks/auth/auth';
 
 const BottomNavigationComponent = () => {
-  const { groups, setGroups, language, fetchText } = useUserData()
+  const { groups, language, fetchText } = useUserData()
   const [value, setValue] = useState(0)
   const [text, setText] = useState()
   const router = useRouter()
@@ -42,7 +42,7 @@ const BottomNavigationComponent = () => {
   const onBackClick = () => {
     router.back()
   }
-  const onAlarmClick = () => {router.push("/alarm")}
+  const onAlarmClick = () => {router.push("/message")}
 
   const onMyPageClick = () => {
     if (user)
@@ -56,7 +56,7 @@ const BottomNavigationComponent = () => {
   const onHomeClick = () => { router.push("/") }
   
   useEffect(() => {
-    if(router.pathname==="/alarm")
+    if(router.pathname==="/message")
       setValue(0)
     else if (router.pathname==="/myPage")
       setValue(1)

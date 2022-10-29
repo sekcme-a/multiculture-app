@@ -120,7 +120,9 @@ const Home = () => {
 
   return (
     <>
-      <HomeHeader selectedItem={3} handleChange={handleChange} text={text} />
+      <div style={{width:"100%", position: "fixed", top:0, left: 0, zIndex:"99999999", backgroundColor:"white"}}>
+        <HomeHeader selectedItem={3} handleChange={handleChange} text={text} />
+      </div>
       {/* <NewsHeader /> */}
       <MainNews />
       <h2 style={{ fontWeight: "bold", margin: "40px 0 -13px 25px", fontSize: "20px" }}>실시간 뉴스</h2>

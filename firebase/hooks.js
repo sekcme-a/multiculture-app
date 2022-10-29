@@ -234,9 +234,15 @@ export const firebaseHooks = {
     return new Promise(async function (resolve, reject) {
       try {
         let list = []
+        const city = localStorage.getItem("city")
         db.collection("admin_group").get().then((query) => {
           query.docs.forEach((doc) => {
-            list.push({ id: doc.id, name: doc.data().name })
+            if (doc.data().name) {
+              if(doc.id===city)
+                list = ([{name: doc.data().name, id: doc.id}, ...list])
+              else
+                list.push({ name: doc.data().name, id: doc.id })
+            }
           })
           resolve(list)
         })

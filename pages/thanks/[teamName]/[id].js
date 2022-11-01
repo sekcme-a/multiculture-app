@@ -60,7 +60,7 @@ const Contents = () => {
     <div>
       {/* <ShowThanks createMarkup={createMarkup} data={data} teamName={teamName} id={id} type="programs" /> */}
       <HeaderLeftClose title={text.submit_complete} />
-      <h1 style={{width:"100%", textAlign:"center", marginTop:"100px"}}>참여해주셔서 감사합니다.</h1>
+      <h1 style={{width:"100%", textAlign:"center", marginTop:"50px"}}>참여해주셔서 감사합니다.</h1>
       <div className={styles.button_container}>
         <Button variant="contained" className={styles.button} onClick={onGoHomeClick}>
           {text.go_back_to_home}

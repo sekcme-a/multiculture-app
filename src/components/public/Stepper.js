@@ -193,6 +193,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
         form: surveyFormData,
       })
       setSurveyId(sid)
+      console.log(values.title)
       const result = await firebaseHooks.save_content(teamName, type, id,
         {
           title: values.title,

@@ -55,6 +55,7 @@ const Contents = () => {
   return (
     <div>
       <ShowArticle createMarkup={createMarkup} data={data} teamName={teamName} id={id} type={type} />
+      <div style={{width:"100%", height:"100px"}}></div>
     </div>
   )
 }

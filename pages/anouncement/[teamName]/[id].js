@@ -50,6 +50,7 @@ const Anouncement = () => {
   return (
     <div>
       <ShowArticle createMarkup={createMarkup} data={data} teamName={teamName} id={id} type="anouncement" />
+      <div style={{width:"100%", height:"100px"}} />
     </div>
   )
 }

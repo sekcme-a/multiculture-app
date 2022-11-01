@@ -39,6 +39,7 @@ const Survey = () => {
   return (
     <>
       <ShowSurvey data={data} teamName={teamName} id={id} type="programs" />
+      <div style={{width:"100%", height:"200px"}}></div>
     </>
   )
 }

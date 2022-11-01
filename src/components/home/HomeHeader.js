@@ -29,10 +29,10 @@ const HomeHeader = ({ selectedItem, handleChange, text }) => {
         indicatorColor='secondary'
         centered
       >
-        <Tab label={text.program} />
-        <Tab label={text.survey} />
-        <Tab label={text.anouncement}  />
-        <Tab label={text.multicultural_news} />
+        <Tab label={text.program} style={{fontSize:"15px"}} />
+        <Tab label={text.survey} style={{fontSize:"15px"}}/>
+        <Tab label={text.anouncement} style={{fontSize:"15px"}} />
+        <Tab label={text.multicultural_news} style={{fontSize:"15px"}}/>
       </Tabs>
     // </div>
     )

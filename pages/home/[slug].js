@@ -151,25 +151,26 @@ const MyPageProfile = () => {
         <HomeHeader selectedItem={selectedItem} handleChange={handleChange} text={text} />
         <GroupsHeader selectedItem={selectedGroup} handleChange={handleGroupChange} groups={groups} />
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", marginTop:"115px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", marginTop:"115px", width:"100%" }}>
         {programList.length === 0 &&
           <div style={{width:"100%", height: "350px", display: "flex", justifyContent:"center", alignItems:"center"}}>
             {text.no_contents_yet}
           </div>
         }
-      {
-        programList.map((item, index) => {
-          return(
-            <div key={index} onClick={() => onClick(item.id, item.teamName)} >
-              {slug === "anouncement" ?
-                <MiniThumbnail data={item} />
-                :
-                <Thumbnail data={item} />
-              }
-            </div>
-          )
-        })
-      }
+        {
+          programList.map((item, index) => {
+            return(
+              <div key={index} style={{width:"100%"}} onClick={() => onClick(item.id, item.teamName)} >
+                {slug === "anouncement" ?
+                  <MiniThumbnail data={item} />
+                  :
+                  <Thumbnail data={item} />
+                }
+              </div>
+            )
+          })
+        }
+        <div style={{width:"100%", height:"85px"}} />
       </div>
     </>
   )

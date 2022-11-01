@@ -104,6 +104,7 @@ const Program = (props) => {
         scrollButtons="auto"
         textColor='secondary'
         indicatorColor='secondary'
+        style={{borderBottom:"2px solid rgb(248,248,248)"}}
       >
         {/* <Tab label={text?.all} style={{ margin: "0 10px" }} /> */}
         
@@ -116,7 +117,7 @@ const Program = (props) => {
         }
 
       </Tabs>
-      <div className={styles.swiper_container}>
+      <div className={styles.swiper_container} >
         <Swiper
           grabCursor={true}
           modules={[Pagination]}

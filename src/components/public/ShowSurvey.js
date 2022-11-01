@@ -30,7 +30,6 @@ const ShowSurvey = ({data, teamName, id, type}) => {
     const fetchData = async (lang) => {
       setIsLoading(true)
       let subtitle = ""
-      console.log(formData)
       const txt1 = await translate(data.title, "ko", lang)
       const txt2 = await fetchText("submit", lang)
       const txt3 = await fetchText("submitting", lang)
@@ -48,14 +47,14 @@ const ShowSurvey = ({data, teamName, id, type}) => {
       }
       setFormData(list)
       setIsLoading(false)
+      if (list.length === 0) {
+        router.push(`/thanks/${teamName}/${id}`)
+        return
+      }
     }
     if(data)
       fetchData(language)
   }, [language])
-
-  useEffect(() => {
-    console.log(inputData)
-  }, [inputData])
   
   const onApplyClick = async () => {
     setIsSubmitting(true)
@@ -78,7 +77,7 @@ const ShowSurvey = ({data, teamName, id, type}) => {
     <div className={styles.main_container}>
       <HeaderLeftClose title={text.title} />
       <div className={styles.content_container}>
-        <Form formDatas={formData} data={inputData} handleData={handleInputData} addMargin={true} />
+          <Form formDatas={formData} data={inputData} handleData={handleInputData} addMargin={true} />
       </div>
       <div className={styles.button_container}>
         <Button variant="contained" className={styles.button} disabled={isSubmitting} onClick={onApplyClick}>

@@ -22,12 +22,13 @@ const GroupsHeader = ({ selectedItem, handleChange, groups }) => {
         variant={groups.length < 5 ? "fullWidth" : "scrollable"}
         scrollButtons="auto"
         textColor='primary'
-        indicatorColor='primary'
+      indicatorColor='primary'
+      style={{backgroundColor:"rgb(248,248,248)"}}
         centered
       >
         {groups.map((group, index) => {
           return (
-            <Tab label={group.name} key={index} />
+            <Tab label={group.name} key={index} style={{ fontSize: "15px", letterSpacing:"1px" }} />
           )
         })}
 

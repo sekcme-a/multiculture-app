@@ -90,7 +90,7 @@ const Program = (props) => {
   }
 
   const onMoreClick = () => {
-    router.push('/home/program')
+    router.push(`/home/program/${groups[selectedItem].id}`)
   }
 
   if(text && !isLoading)

@@ -44,11 +44,16 @@ const Home = () => {
     const locale = localStorage.getItem('language') || 'ko';
     setLanguage(locale)
     window.addEventListener("scroll", handleScroll);
+
+    const city = localStorage.getItem("city")
+    if(city===null)
+      localStorage.setItem("city", "suwon")
+
    const fetchData = async () => {
-      if (groups.length===0) {
+      // if (groups.length===0) {
         const result = await firebaseHooks.fetch_team_list()
         setGroups(result)
-      }
+      // }
     }
     fetchData()
 

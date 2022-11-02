@@ -79,6 +79,7 @@ const PostList = (props) => {
     console.log(id)
     if (window) {
       window.sessionStorage.setItem("page", page)
+      console.log(props.id)
       window.sessionStorage.setItem("id",props.id)
       window.sessionStorage.setItem("scrollPosition", scrollY)
       window.sessionStorage.setItem("data", JSON.stringify(list))
@@ -130,12 +131,11 @@ const PostList = (props) => {
     const fetchData = async () => {
       setIsFetching(true)
       setIsLoading(true)
-      const doc = await db.collection("crawl").doc(props.id).get()
-      if (doc.exists) {
-        setAddress(doc.data().address)
-        window.sessionStorage.setItem("address", doc.data().address)
-        window.sessionStorage.setItem("data", doc.data().address)
-        let idList = await sendRequest.fetchPostIdList(doc.data().address, 1)
+      // if (doc.exists) {
+        setAddress(props.id)
+        window.sessionStorage.setItem("address", props.id)
+        window.sessionStorage.setItem("data", props.id)
+        let idList = await sendRequest.fetchPostIdList(props.id, 1)
         let resultList = []
         setList(idList)
         // sendRequest.fetchPostDataFromId(2380, false)
@@ -145,11 +145,13 @@ const PostList = (props) => {
         setPage(2)
         setIsFetching(false)
         setIsLoading(false)
-      } else {
-        setList([])
-        setIsLoading(false)
-      }
+      // } else {
+      //   setList([])
+      //   setIsLoading(false)
+      // }
     }
+    console.log(window.sessionStorage.getItem("id"))
+    console.log(props.id)
     if (props.id !== window.sessionStorage.getItem("id")) {
       window.sessionStorage.setItem("page", 1)
       window.sessionStorage.setItem("data", null)

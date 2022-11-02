@@ -34,7 +34,7 @@ const ThumbnailPost = (props) => {
     <div className={styles.main_container}>
       <Card sx={{ width: "100%", maxWidth: 500, marginTop: "20px", marginLeft:'10px', marginRight:"10px" }}>
         <CardHeader
-          title={props.isLoading ? <Skeleton animation="wave" height={25} width="80%" />: props.data?.title}
+          title={props.isLoading ? <Skeleton animation="wave" height={25} width="80%" /> : <h1 style={{fontSize:"23px"}}>{props.data?.title}</h1>}
           subheader={props.isLoading ? <Skeleton animation="wave" height={15} width="100%" /> : `${props.data?.info}`}
           onClick={()=>props.onPostClick(id)}
         />

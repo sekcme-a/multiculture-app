@@ -19,16 +19,17 @@ const GroupsHeader = ({ selectedItem, handleChange, groups }) => {
       <Tabs
         value={selectedItem}
         onChange={handleChange}
-        variant={groups.length < 5 ? "fullWidth" : "scrollable"}
+        variant={groups.length < 4 ? "fullWidth" : "scrollable"}
+        // variant="scrollable"
         scrollButtons="auto"
-        textColor='primary'
-      indicatorColor='primary'
+        textColor='secondary'
+      indicatorColor='secondary'
       style={{backgroundColor:"rgb(248,248,248)"}}
-        centered
+        centered={groups.length<4}
       >
-        {groups.map((group, index) => {
+      {groups.map((group, index) => {
           return (
-            <Tab label={group.name} key={index} style={{ fontSize: "15px", letterSpacing:"1px" }} />
+            <Tab label={group.name} id={group.id} key={group.id} style={{ fontSize: "15px", letterSpacing:"1px" }} />
           )
         })}
 

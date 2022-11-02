@@ -86,7 +86,7 @@ const Program = (props) => {
   }
 
   const onMoreClick = () => {
-    router.push('/home/anouncement')
+    router.push(`/home/anouncement/${groups[selectedItem].id}`)
   }
 
   if(text)

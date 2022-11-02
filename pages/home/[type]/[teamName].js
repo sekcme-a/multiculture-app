@@ -22,7 +22,7 @@ import MiniThumbnail from "src/components/public/MiniThumbnail"
 
 const MyPageProfile = () => {
   const router = useRouter()
-  const { slug } = router.query
+  const { type, teamName } = router.query
   const { user } = useAuth()
   const { language, setLanguage, fetchText, groups, setGroups } = useUserData()
   const [text, setText] = useState([])
@@ -33,33 +33,36 @@ const MyPageProfile = () => {
 
   const handleChange = (event, newValue) => {
     setSelectedItem(newValue); 
+    const city = localStorage.getItem("city")
     // router.push(`/home`)
     if(newValue===0)
-      router.push("/home/program")
+      router.push(`/home/program/${city}`)
     else if(newValue===1)
-      router.push("/home/survey")
+      router.push(`/home/survey/${city}`)
     else if(newValue===2)
-      router.push("/home/anouncement")
+      router.push(`/home/anouncement/${city}`)
     else if(newValue===3)
-      router.push("/home/multiculturalNews/main")
+      router.push(`/home/multiculturalNews/main`)
   };
-  const handleGroupChange = (event, newValue)=>{
+  const handleGroupChange = (event, newValue) => {
+    console.log(newValue)
     setSelectedGroup(newValue)
+    router.push(`/home/${type}/${event.target.id}`)
   }
 
   useEffect(() => {
-    if(slug==="program")
+    if(type==="program")
       setSelectedItem(0)
-    else if(slug==="survey")
+    else if(type==="survey")
       setSelectedItem(1)
-    else if (slug==="anouncement")
+    else if (type==="anouncement")
       setSelectedItem(2)
     else
       setSelectedItem(3)
 
     const fetchData = async () => {
+      const result = await firebaseHooks.fetch_team_list()
       if (groups.length===0) {
-        const result = await firebaseHooks.fetch_team_list()
         setGroups(result)
       }
       if (typeof window !== 'undefined' && language==="") {
@@ -67,6 +70,23 @@ const MyPageProfile = () => {
         setLanguage(locale)
         console.log(locale)
       }
+
+      try {
+        setIsLoading(true)
+        if (result.length !== 0) {
+          console.log(teamName)
+          fetchProgramData(teamName)
+          for (let i = 0; i < result.length; i++){
+            if(result[i].id===teamName)
+              setSelectedGroup(i)
+          }
+          
+        } else
+          setIsLoading(false)
+      } catch (e) {
+        console.log(e)
+      }
+
     }
     fetchData()
   },[])
@@ -97,7 +117,7 @@ const MyPageProfile = () => {
   const fetchProgramData = async (teamName) => {
     try {
       setProgramList([])
-      const data = await firebaseHooks.fetch_contents_list(teamName, `${slug}s`, 9)
+      const data = await firebaseHooks.fetch_contents_list(teamName, `${type}s`, 9)
       setProgramList([...data])
       setIsLoading(false)
       console.log(data)
@@ -112,39 +132,37 @@ const MyPageProfile = () => {
       try {
         setIsLoading(true)
         if (groups.length !== 0) {
-          console.log(groups[selectedGroup]?.id)
-          fetchProgramData(groups[selectedGroup]?.id)
+          console.log(teamName)
+          fetchProgramData(teamName)
+          for (let i = 0; i < groups.length; i++){
+            if(groups[i].id===teamName)
+              setSelectedGroup(i)
+          }
           
-        }
+        } else
+          setIsLoading(false)
       } catch (e) {
         console.log(e)
       }
     }
     fetchData()
-  }, [groups,selectedGroup, slug])
+  }, [type, teamName])
   
   const onClick = (id, teamName) => {
     if (user) {
-      if (slug === "anouncement")
-        router.push(`/${slug}/${teamName}/${id}`)
+      if (type === "anouncement")
+        router.push(`/${type}/${teamName}/${id}`)
       else
         router.push(`/article/${teamName}/${id}`)
     } else
       router.push('/login')
   }
 
-  if(isLoading || text===undefined)
-    return (<>
-    </>)
+  // if(isLoading || text===undefined)
+  //   return (<>
+  //   </>)
 
-  // if (slug === "multiculturalNews")
-  //   return (
-  //     <>
-  //       <HomeHeader selectedItem={selectedItem} handleChange={handleChange} text={text} />
-  //       <NewsHeader />
-  //     </>
-  //   )
-  if(slug!=="multiculturalNews")
+  if(type!=="multiculturalNews")
   return (
     <>
       <div style={{width:"100%", position: "fixed", top:0, left: 0, zIndex:"99999999", backgroundColor:"white"}}>
@@ -152,16 +170,16 @@ const MyPageProfile = () => {
         <GroupsHeader selectedItem={selectedGroup} handleChange={handleGroupChange} groups={groups} />
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", marginTop:"115px", width:"100%" }}>
-        {programList.length === 0 &&
+        {!isLoading && text !==undefined && programList.length === 0 &&
           <div style={{width:"100%", height: "350px", display: "flex", justifyContent:"center", alignItems:"center"}}>
             {text.no_contents_yet}
           </div>
         }
         {
-          programList.map((item, index) => {
+          !isLoading && text !==undefined && programList.map((item, index) => {
             return(
               <div key={index} style={{width:"100%"}} onClick={() => onClick(item.id, item.teamName)} >
-                {slug === "anouncement" ?
+                {type === "anouncement" ?
                   <MiniThumbnail data={item} />
                   :
                   <Thumbnail data={item} />

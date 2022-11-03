@@ -3,7 +3,7 @@ import useUserData from "src/context/useUserData"
 import { useEffect, useState } from "react"
 import { translate } from "src/hooks/translate"
 
-const Thumbnail = ({ data }) => {
+const Thumbnail = ({ data, smallMargin }) => {
   const [text, setText] = useState({})
   const { language, fetchText } = useUserData()
 
@@ -22,7 +22,7 @@ const Thumbnail = ({ data }) => {
   }, [language])
   
   return (
-    <div className={styles.main_container}>
+    <div className={smallMargin ? `${styles.main_container} ${styles.small_margin}` : styles.main_container}>
       <img src={data.thumbnailImg} />
       <div className={styles.content_container}>
         <h3>{text.title}</h3>

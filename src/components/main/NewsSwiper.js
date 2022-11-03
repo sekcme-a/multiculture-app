@@ -1,35 +1,52 @@
-import styles from "styles/components/news/mainNews.module.css"
-import React, { useEffect, useState } from "react"
+import React, { useRef, useState , useEffect} from "react";
+// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
 import "swiper/css";
-import "swiper/css/effect-cards";
-import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 import "swiper/css/navigation";
-import SwiperCore, { EffectCards, Pagination, Navigation, Autoplay } from "swiper";
+import "swiper/css/pagination";
+
+// import "./styles.css";
+
+// import required modules
+import  SwiperCore, { EffectFade, Navigation, Pagination, Autoplay } from "swiper";
+import styles from "styles/main/newsSwiper.module.css"
 import { firestore as db } from "firebase/firebase"
 import Link from "next/link";
 import Image from "next/image";
 import { sendRequest } from "pages/api/sendRequest"
 import Skeleton from '@mui/material/Skeleton';
 
-const MainNews = () => {
+import { translate } from "src/hooks/translate"
+import useUserData from "src/context/useUserData"
+
+export default function App() {
   const [list, setList] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const { language } = useUserData()
   SwiperCore.use([Autoplay])
   useEffect(() => {
     const fetchData = async () => {
       const idList = await sendRequest.fetchMainPostIdList("https://www.kmcn.kr/")
       console.log(idList)
-      // for (const id of idList) {
-      //   await sendRequest.fetchPostDataFromId(id.toString(), false).then((data) => {
-      //     resultList.push(data)
-      //   })
-      // }
-      setList(idList)
+
+
+      const translatedList = []
+      for (const list of idList) {
+        const category = await translate(list.category, "ko", language)
+        const title = await translate(list.title, "ko", language)
+        const subtitle = await translate(list.subtitle, "ko", language)
+        translatedList.push({...list, category: category, title: title, subtitle: subtitle})
+      }
+      console.log(translatedList)
+
+      setList(translatedList)
       setIsLoading(false)
     }
     fetchData()
-  },[])
+  },[language])
   
   const onPostClick = () => {
     window.sessionStorage.setItem("page", 1)
@@ -52,14 +69,15 @@ const MainNews = () => {
       </div>
     )
   return (
-    <div className={styles.main_container} style={{zIndex:"-1"}}>
-      <h1>주요 뉴스</h1>
+    <div className={styles.main_container}>
       <Swiper
-        effect={"cards"}
-        grabCursor={true}
-        modules={[EffectCards, Pagination, Navigation]}
-        className={styles.swiper}
-        pagination={true}
+        spaceBetween={30}
+        effect={"fade"}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[EffectFade, Navigation, Pagination]}
+        className="mySwiper"
         autoplay={{ delay: 2800, disableOnInteraction: false }}
         loop={true}
       >
@@ -82,6 +100,5 @@ const MainNews = () => {
         })}
       </Swiper>
     </div>
-  )
+  );
 }
-export default MainNews

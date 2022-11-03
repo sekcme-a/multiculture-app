@@ -32,7 +32,7 @@ const HomeHeader = ({ selectedItem, handleChange, text }) => {
         <Tab label={text.program} style={{fontSize:"15px"}} />
         <Tab label={text.survey} style={{fontSize:"15px"}}/>
         <Tab label={text.anouncement} style={{fontSize:"15px"}} />
-        <Tab label={text.multicultural_news} style={{fontSize:"15px"}}/>
+        <Tab label={text.multicultural_news} style={{fontSize:"14px"}}/>
       </Tabs>
     // </div>
     )

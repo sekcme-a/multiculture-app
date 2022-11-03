@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import useUserData from 'src/context/useUserData'
 import { translate } from 'src/hooks/translate'
 
-import styles from "styles/main/program.module.css"
+import styles from "styles/main/anouncement.module.css"
 
 import { firestore as db } from "firebase/firebase"
 
@@ -47,7 +47,7 @@ const Program = (props) => {
     try {
       setIsProgramLoading(true)
       setProgramList([])
-      const data = await firebaseHooks.fetch_contents_list(teamName, "anouncements", 9)
+      const data = await firebaseHooks.fetch_contents_list(teamName, "anouncements", 6)
       console.log(data)
       setProgramList([...data])
       setIsProgramLoading(false)
@@ -107,7 +107,7 @@ const Program = (props) => {
         {
           groups.map((item, index) => {
             return (
-              <Tab key={index} label={item.name} style={{ margin: "0 10px", fontSize:"17px" }} />
+              <Tab key={index} label={item.name} style={{ margin: "0 10px", fontSize: "17px" }} />
             )
           })
         }
@@ -120,7 +120,7 @@ const Program = (props) => {
           className={styles.swiper}
         >
           {isProgramLoading &&
-            <div style={{ width: "100%", height: "200px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ width: "100%", height: "200px",  display: "flex", justifyContent: "center", alignItems: "center" }}>
               <CircleLoader />
             </div>
           }
@@ -137,21 +137,18 @@ const Program = (props) => {
               {/* {programList[0] && <div onClick={()=>onClick(programList[0].id, programList[0].teamName)}><MiniThumbnail  data={programList[0]} /></div>}
               {programList[0] && <div onClick={()=>onClick(programList[0].id, programList[0].teamName)}><MiniThumbnail  data={programList[0]} /></div>} */}
               {programList[1] && <div onClick={()=>onClick(programList[1].id, programList[1].teamName)}><MiniThumbnail data={programList[1]} /></div>}
-              {programList[2] && <div onClick={()=>onClick(programList[2].id, programList[2].teamName)}><MiniThumbnail data={programList[2]} /></div>}
             </SwiperSlide>
           }
-          {programList.length !== 0 && programList.length>3 &&
+          {programList.length !== 0 && programList.length>2 &&
             <SwiperSlide className={styles.swiper_slide}>
+              {programList[2] && <div onClick={()=>onClick(programList[2].id, programList[2].teamName)}><MiniThumbnail data={programList[2]} /></div>}
               {programList[3] && <div onClick={()=>onClick(programList[3].id, programList[3].teamName)}><MiniThumbnail data={programList[3]} /></div>}
+            </SwiperSlide>
+          }
+          {programList.length !== 0 && programList.length>4 &&
+            <SwiperSlide className={styles.swiper_slide}>
               {programList[4] && <div onClick={()=>onClick(programList[4].id, programList[4].teamName)}><MiniThumbnail data={programList[4]} /></div>}
               {programList[5] && <div onClick={()=>onClick(programList[5].id, programList[5].teamName)}><MiniThumbnail data={programList[5]} /></div>}
-            </SwiperSlide>
-          }
-          {programList.length !== 0 && programList.length>6 &&
-            <SwiperSlide className={styles.swiper_slide}>
-              {programList[6] && <div onClick={()=>onClick(programList[6].id, programList[6].teamName)}><MiniThumbnail data={programList[6]} /></div>}
-              {programList[7] && <div onClick={()=>onClick(programList[7].id, programList[7].teamName)}><MiniThumbnail data={programList[7]} /></div>}
-              {programList[8] && <div onClick={()=>onClick(programList[8].id, programList[8].teamName)}><MiniThumbnail data={programList[8]} /></div>}
             </SwiperSlide>
           }
 

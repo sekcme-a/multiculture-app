@@ -23,9 +23,9 @@ const GroupsHeader = ({ selectedItem, handleChange, groups }) => {
         // variant="scrollable"
         scrollButtons="auto"
         textColor='secondary'
-      indicatorColor='secondary'
-      style={{backgroundColor:"rgb(248,248,248)"}}
-        centered={groups.length<4}
+        indicatorColor='secondary'
+        style={{backgroundColor:"rgb(248,248,248)"}}
+          centered={groups.length<4}
       >
       {groups.map((group, index) => {
           return (

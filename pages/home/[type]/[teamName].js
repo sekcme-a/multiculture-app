@@ -169,7 +169,7 @@ const MyPageProfile = () => {
         <HomeHeader selectedItem={selectedItem} handleChange={handleChange} text={text} />
         <GroupsHeader selectedItem={selectedGroup} handleChange={handleGroupChange} groups={groups} />
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", marginTop:"115px", width:"100%" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", marginTop:"105px", width:"100%" }}>
         {!isLoading && text !==undefined && programList.length === 0 &&
           <div style={{width:"100%", height: "350px", display: "flex", justifyContent:"center", alignItems:"center"}}>
             {text.no_contents_yet}
@@ -182,7 +182,7 @@ const MyPageProfile = () => {
                 {type === "anouncement" ?
                   <MiniThumbnail data={item} />
                   :
-                  <Thumbnail data={item} />
+                  <Thumbnail data={item} smallMargin={true} />
                 }
               </div>
             )

@@ -1,8 +1,5 @@
 .main_container{
-  width: 100%;
-  margin-top: 65px;
-  overflow: hidden;
-  margin: 70px 10px 10px 5px;
+  padding: 20px 15px 10px 15px;
 }
 .main_container h1{
   margin-bottom: 10px;
@@ -12,9 +9,9 @@
 }
 
 .swiper {
-  width: 100%;
+  width: 95%;
   /* max-width: 350px; */
-  /* height: 275px; */
+  height: 275px;
 }
 
 .swiper_slide {
@@ -22,7 +19,7 @@
   object-fit: cover !important; 
   align-items: center;
   justify-content: center;
-  border-radius: 18px;
+  border-radius: 6px;
   font-size: 22px;
   font-weight: bold;
   color: #fff;
@@ -30,6 +27,7 @@
   position: relative !important;
   display: block;
   margin-top: 10px;
+  overflow: hidden;
 }
 .swiper_container{
   object-fit: cover !important;
@@ -46,7 +44,7 @@
   position: absolute;
   height: 90%;
   width: 100%;
-  bottom: 0px;
+  bottom: 0;
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0),
@@ -57,7 +55,7 @@
   align-items:flex-end;
   flex-wrap: wrap;
   align-content: flex-end;
-  padding: 10px 10px 10px 10px;
+  padding: 10px;
   word-break: keep-all;
   padding-bottom: 20px;
 }
@@ -89,8 +87,8 @@
 }
 
 .swiper_slide_skeleton{
-  margin: 90px 20px 0px 20px;
-  border-radius: 18px;
+  padding: 20px 15px 10px 15px;
+  width: 90%;
 }
 .overlay_skeleton{
   border-radius: 19px;
@@ -104,6 +102,6 @@
     height: 350px;
   }
   .overlay{
-    padding: 10px 10px 40px 10px;
+    height:85%;
   }
 }

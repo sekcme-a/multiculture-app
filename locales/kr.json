@@ -8,7 +8,7 @@
   "submitting":"제출중",
   "survey":"설문조사",
   "anouncement":"공지사항",
-  "multicultural_news": "다문화소식",
+  "multicultural_news": "다문화 소식",
   "go_back_to_home": "홈으로",
   "submit_complete": "신청 완료",
   "no_contents_yet" : "아직 등록된 컨텐츠가 없습니다.",
@@ -23,5 +23,6 @@
   "contact": "문의",
   "contact_center": "센터 문의",
   "contact_app": "어플 문의",
-  "app_information": "어플 안내"
+  "app_information": "어플 안내",
+  "check_out_the_main_articles_of_Korea_Multicultural_News" : "한국다문화뉴스의 주요기사들을 확인하세요!"
 }

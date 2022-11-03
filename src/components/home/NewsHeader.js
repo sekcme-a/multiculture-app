@@ -16,30 +16,32 @@ const GroupsHeader = ({ selectedItem, handleChange, groups }) => {
 
   
   return (
-    <Tabs
-      value={selectedItem}
-      onChange={handleChange}
-      variant={groups.length < 5 ? "fullWidth" : "scrollable"}
-      // variant="scrollable"
-      scrollButtons="auto"
-      textColor="primary"
-      indicatorColor="primary"
-      style={{ backgroundColor: "#fff8f9", height:"35px", minHeight:"35px"}}
-      sx={{
-        "& .MuiButtonBase-root": { color: "black", padding:"4px", height:"35px", minHeight:"35px" },
-        "& .MuiTabs-indicator": { display: "none" },
-        "& .Mui-selected": { color: "#f44336 !important" },
-        "& .MuiTabs-flexContainer": {height:"35px"}
-      }}
-      centered={groups.length<5}
-    >
-      {groups.map((group, index) => {
-          return (
-            <Tab label={group.name} id={group.id} key={group.id} style={{ fontSize: "13px"}} />
-          )
-        })}
+    <div className="news_container">
+      <Tabs
+        value={selectedItem}
+        onChange={handleChange}
+        variant={groups.length < 5 ? "fullWidth" : "scrollable"}
+        // variant="scrollable"
+        scrollButtons="auto"
+        textColor="primary"
+        indicatorColor="primary"
+        style={{ backgroundColor: "#fff8f9", height:"35px", minHeight:"35px"}}
+        sx={{
+          "& .MuiButtonBase-root": { color: "black", padding:"4px", height:"35px", minHeight:"35px" },
+          "& .MuiTabs-indicator": { display: "none" },
+          "& .Mui-selected": { color: "#f44336 !important" },
+          "& .MuiTabs-flexContainer": {height:"35px"}
+        }}
+        centered={groups.length<5}
+      >
+        {groups.map((group, index) => {
+            return (
+              <Tab label={group.name} id={group.id} key={group.id} style={{ fontSize: "13px"}} />
+            )
+          })}
 
-      </Tabs>
+        </Tabs>
+      </div>
     )
 }
 

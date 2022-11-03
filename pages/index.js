@@ -14,6 +14,7 @@ import Menu from "src/components/main/Menu"
 import Program from "src/components/main/Program"
 import Survey from "src/components/main/Survey"
 import Anouncement from "src/components/main/Anouncement"
+import News from "src/components/main/News"
 
 
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
@@ -31,7 +32,7 @@ const Home = () => {
   const [isHide, setIsHide] = useState(false)
   const handleIsMenuOpen = (bool) => { setIsMenuOpen(bool); }
   const [isLoading, setIsLoading] = useState(true)
-  const { language, setLanguage,groups, setGroups } = useUserData()
+  const { setLanguage,groups, setGroups } = useUserData()
   const { user } = useAuth()
   const router = useRouter()
   const intl = useIntl()
@@ -41,13 +42,19 @@ const Home = () => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
-    const locale = localStorage.getItem('language') || 'ko';
-    setLanguage(locale)
+    // const locale = localStorage.getItem('language') || 'ko';
+    // setLanguage(locale)
     window.addEventListener("scroll", handleScroll);
 
     const city = localStorage.getItem("city")
     if(city===null)
       localStorage.setItem("city", "suwon")
+    const language = localStorage.getItem('language')
+    if (language === null) {
+      localStorage.setItem("language", "ko")
+      setLanguage("ko")
+    } else
+      setLanguage(language)
 
    const fetchData = async () => {
       // if (groups.length===0) {
@@ -99,7 +106,9 @@ const Home = () => {
           <div className={styles.border} />
           <Anouncement />
           <div className={styles.border} />
-          <div style={{width:"100%", height:"65px"}}> </div>
+        <News />
+        <div className={styles.border} />
+          <div style={{width:"100%", height:"150px"}}> </div>
         </>
       }
       {/* <div>{text ? text.hi : ""}</div> */}

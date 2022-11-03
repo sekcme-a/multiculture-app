@@ -187,10 +187,15 @@ a {
 }
 
 
-
-
-
-
+.MuiButtonBase-root{
+  /* font-family: 'Jua', sans-serif !important; */
+  font-family: 'Noto Sans KR', sans-serif !important;
+  font-weight: bold !important;
+}
+.news_container .MuiButtonBase-root{
+  font-family: 'Noto Sans KR', sans-serif !important;
+  font-weight: bold;
+}
 
 
 

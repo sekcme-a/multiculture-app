@@ -23,8 +23,11 @@ export const translate = async (text, fromLang, toLang) => {
         })
           .then(res => res.json())
           .then((response) => {
-            if (response.data)
-              resolve(response.data.translations[0].translatedText)
+            if (response.data) {
+              let translatedText = response.data.translations[0].translatedText.replace(/&#39;/g, "'");
+              translatedText = translatedText.replace(/&quot;/g, `"`);
+              resolve(translatedText)
+            }
             else {
               reject(response.error.message)
             }

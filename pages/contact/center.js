@@ -100,9 +100,11 @@ const Center = () => {
                 onChange={(e) => { setSelectedCenter(e.target.value) }}
                 style={{width:"100%"}}
             >
-              {groups?.map((group) => {
+              {groups?.map((group, index) => {
                 return (
-                  <MenuItem value={group.id}>{group.name}</MenuItem>
+                  <div key={index}>
+                    <MenuItem value={group.id}>{group.name}</MenuItem>
+                  </div>
                 )
               })}
             </Select>

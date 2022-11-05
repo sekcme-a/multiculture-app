@@ -33,7 +33,7 @@ const Menu = (props) => {
   const [menuItems, setMenuItems] = useState([])
   const { user, logout } = useAuth()
   const { language, fetchText } = useUserData()
-  const {groups} = useUserData()
+  const {groups, setGroups} = useUserData()
   const router = useRouter()
   const onCloseMenuClick = () => {
     props.setIsHide(false)
@@ -75,19 +75,21 @@ const Menu = (props) => {
       // let programData = [{ icon: <PublicOutlinedIcon style={iconStyle}/>, text: "전체" },]
       // let surveyData = [{ icon: <PublicOutlinedIcon style={iconStyle}/>, text: "전체" },]
       // let noticeData = [{ icon: <PublicOutlinedIcon style={iconStyle}/>, text: "전체" }]
-      console.log(groups)
-      if (groups.length === 0) {
-        return
+      let groupsList = groups
+      if (groupsList.length === 0) {
+        const result = await firebaseHooks.fetch_team_list()
+        setGroups(result)
+        groupsList = result
       }
-      groups.forEach((group) => {
+      groupsList.forEach((group) => {
         programData.push({
-          icon: <Diversity2OutlinedIcon style={iconStyle} />, text: group.name, path: `/home/program`
+          icon: <Diversity2OutlinedIcon style={iconStyle} />, text: group.name, path: `/home/program/${group.id}`
         })
         surveyData.push({
-          icon: <AodOutlinedIcon style={iconStyle}/>, text: group.name, path:"/home/survey"
+          icon: <AodOutlinedIcon style={iconStyle}/>, text: group.name, path:`/home/survey/${group.id}`
         })
         noticeData.push({
-          icon: <CampaignOutlinedIcon style={iconStyle}/>, text: group.name, path:"/home/anouncement"
+          icon: <CampaignOutlinedIcon style={iconStyle}/>, text: group.name, path:`/home/anouncement/${group.id}`
         })
           
       })
@@ -119,7 +121,7 @@ const Menu = (props) => {
             title: txt.app_information,
             data: [
               { icon: <NewspaperOutlinedIcon style={iconStyle} />, text: txt.multicultural_news, path:"/home/multiculturalNews/main" },
-              { icon: <SupportAgentOutlinedIcon style={iconStyle} />, text: "FAQ", path:"/info/faq" },
+              { icon: <SupportAgentOutlinedIcon style={iconStyle} />, text: "도움말", path:"/info/faq" },
               { icon: <DocumentScannerOutlinedIcon style={iconStyle} />, text: "서비스이용약관", path:"/info/service" },
               { icon: <ContactPageOutlinedIcon style={iconStyle} />, text: "개인정보처리방침", path:"/info/private"},
             ]
@@ -180,7 +182,7 @@ const Menu = (props) => {
               }
           </div>
           <MenuItemsContainer items={menuItems}  />
-
+          
         </motion.div>
       }
     </AnimatePresence>

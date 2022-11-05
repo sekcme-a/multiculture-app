@@ -33,7 +33,7 @@ const MenuItemsContainer = ({ items }) => {
           </div>
         )
       })}
-      <div style={{height: "180px", width:"100%", backgroundColor: "rgb(235,235,235)"}} ></div>
+      <div style={{height: "210px", width:"100%", backgroundColor: "rgb(235,235,235)"}} ></div>
     </div>
   )
 }

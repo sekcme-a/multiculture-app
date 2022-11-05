@@ -22,7 +22,7 @@ const PageHeader = ({text}) => {
   if(isLoading) (<></>)
   return (
       <div className={styles.header_container}>
-        <div className={styles.icon_container} onClick={onBackButtonClick}><ArrowBackIosIcon style={{fontSize: "15px"}}/></div>
+        <div className={styles.icon_container} onClick={onBackButtonClick}><ArrowBackIosIcon style={{fontSize: "18px"}}/></div>
           <p onClick={onBackButtonClick}>{text}</p>
       </div>
   )

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import useAuth from "src/hooks/auth/auth"
 import { useRouter } from "next/router"
 import Link from "next/link"
@@ -18,19 +19,23 @@ import NewspaperOutlinedIcon from '@mui/icons-material/NewspaperOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import ContactPageOutlinedIcon from '@mui/icons-material/ContactPageOutlined';
 import DocumentScannerOutlinedIcon from '@mui/icons-material/DocumentScannerOutlined';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 
 //내 정보 관리, 내게 온 알림, 신청한 프로그램, 설문조사 기록, 공지사항, 센터 문의
 //소식(한다뉴), 서비스 이용약관, 개인정보 처리방침, FAQ, 로그아웃
 const MyPage = () => {
+  const [itemData, setItemData] = useState([])
   const { logout } = useAuth()
   const router = useRouter()
   const iconStyle = { color: "#814ad8" }
-  
-  const onLogoutClick = () => {
-    logout()
-    router.push("/")
-  }
-  const itemData = [
+
+  useEffect(() => {
+    let city = localStorage.getItem("city")
+    if (city === null) {
+      city = "suwon"
+      localStorage.setItem("city", "suwon")
+    }
+    setItemData([
     {
       title: "내 정보 관리", 
       subtitle: "어플에 입력할 정보를 관리할 수 있습니다.",
@@ -55,26 +60,38 @@ const MyPage = () => {
     {
       title: "공지사항", 
       subtitle: "센터와 어플에서 보낸 공지사항입니다.",
-      icon: <CampaignOutlinedIcon style={iconStyle} />
+      icon: <CampaignOutlinedIcon style={iconStyle} />,
+      onClick: () => {router.push(`home/anouncement/${city}`)}
     },
     {
       title: "센터 문의", 
       subtitle: "센터에 직접 궁금한 사항을 물어보세요.",
-      icon: <SupportAgentOutlinedIcon style={iconStyle} />
+      icon: <SupportAgentOutlinedIcon style={iconStyle} />,
+      onClick: () => {router.push("contact/center")}
+    },
+    {
+      title: " 어플 문의", 
+      subtitle: "어플에 직접 궁금한 사항을 물어보세요.",
+      icon: <PhoneIphoneIcon style={iconStyle} />,
+      onClick: () => {router.push("contact/app")}
     },
     {
       title: "다문화 소식", 
       subtitle: "한국다문화뉴스의 다문화 소식을 확인하세요.",
-      icon: <NewspaperOutlinedIcon style={iconStyle} />
+      icon: <NewspaperOutlinedIcon style={iconStyle} />,
+      onClick: () => {router.push("home/multiculturlaNews/main")}
     },
     {
       title: "서비스 이용약관", 
+      onClick: () => {router.push("info/service")}
     },
     {
       title: "개인정보 처리방침", 
+      onClick: () => {router.push("info/private")}
     },
     {
-      title: "FAQ", 
+      title: "도움말", 
+      onClick: ()=> {router.push("info/faq")}
     },
     {
       title: "로그아웃", 
@@ -82,7 +99,14 @@ const MyPage = () => {
     },
 
 
-  ]
+  ])
+  },[])
+  
+  const onLogoutClick = () => {
+    logout()
+    router.push("/")
+  }
+
   return (
     <>
       <HeaderRightClose title="마이 페이지" />

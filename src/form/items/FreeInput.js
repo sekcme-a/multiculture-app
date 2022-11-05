@@ -61,7 +61,7 @@ const SmallInput = ({ title, items, index, id, data, handleData,text,isRequired 
           </div>
         }
       <TextField multiline id='textarea-outlined' placeholder='' 
-        style={{ width: "100%", marginTop: "12px" }} value={value} onChange={onChange} />
+        style={{ width: "100%", marginTop: "12px" }} rows={6} value={value} onChange={onChange} />
     </div>  
   );
 }

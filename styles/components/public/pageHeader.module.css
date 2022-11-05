@@ -7,10 +7,14 @@
   align-items: center;
   font-weight: bold;
   color: rgb(68, 68, 68);
-  padding-left: 10px;
   z-index: 9999999;
+  justify-content: center;
 }
 .header_container p{
   font-size: 20px;
   margin-top: -2px;
+}
+.icon_container{
+  position: absolute;
+  left: 20px;
 }

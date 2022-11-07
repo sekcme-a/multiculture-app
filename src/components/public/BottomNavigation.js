@@ -78,7 +78,7 @@ const BottomNavigationComponent = () => {
         style={{height: "65px"}}
       >
         <BottomNavigationAction onClick={onAlarmClick} label={text.message} icon={<EmailOutlinedIcon className={styles.icon} />}  />
-        <BottomNavigationAction onClick={onMyPageClick} label={text.my_page} icon={<AccountCircleOutlinedIcon  className={styles.icon}/>} />
+        <BottomNavigationAction onClick={onMyPageClick} label={text.my_page} sx={{ "& .MuiBottomNavigationAction-label" : {fontSize:"11px"} }} icon={<AccountCircleOutlinedIcon sx={{fontSize:"27px !important"}}  className={styles.icon}/>} />
         <BottomNavigationAction label=" "  />
         <div className={styles.home_container} onClick={onHomeClick}>
           <BottomNavigationAction icon={<HomeOutlinedIcon className={styles.home_icon}/>} className={styles.home} />

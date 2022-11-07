@@ -89,7 +89,7 @@ const App = () => {
                 id="select"
                 value={selectedType}
                 label="문의 유형을 선택해주세요."
-                onChange={(e) => { setSelectedType(e.target.value) }}
+                onChange={(e) => { setSelectedType(e.target.value); console.log(e.target.value) }}
                 style={{width:"100%"}}
             >
 

@@ -97,14 +97,14 @@ const Center = () => {
                 id="select"
                 value={selectedCenter}
                 label="센터를 선택해주세요."
-                onChange={(e) => { setSelectedCenter(e.target.value) }}
+                onChange={(e) => { setSelectedCenter(e.target.value); console.log(e.target.value) }}
                 style={{width:"100%"}}
-            >
+             >
               {groups?.map((group, index) => {
                 return (
-                  <div key={index}>
-                    <MenuItem value={group.id}>{group.name}</MenuItem>
-                  </div>
+                  // <div key={index}>
+                    <MenuItem key={index} value={group.id}>{group.name}</MenuItem>
+                  // </div>
                 )
               })}
             </Select>

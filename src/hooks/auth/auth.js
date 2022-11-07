@@ -172,6 +172,16 @@ export function AuthProvider(props) {
 		})
 	}
 
+	const updateUserCity = async (object) => {
+		return new Promise((resolve, reject) => {
+			AuthService.updateUserProfile(object).then((result) => {
+				console.log(auth.currentUser)
+				setUser(auth.currentUser)
+				resolve(result)
+			})
+		})
+	}
+
 	const value = {
 		user,
 		userrole,
@@ -193,7 +203,8 @@ export function AuthProvider(props) {
 		deleteAccount,
 		updatePassword,
 		reauthenticateUser,
-		updateUserProfile
+		updateUserProfile,
+		updateUserCity
 	};
 
 

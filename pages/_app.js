@@ -9,6 +9,7 @@ import { AuthProvider } from "src/hooks/auth/auth"
 import LanguageSpeedDial from "src/components/public/LanguageSpeedDial"
 import BottomNavigation from "src/components/public/BottomNavigation"
 import { IntlProvider, addLocaleData } from 'react-intl';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 // 이 서브 라이브러리들이 내 locale 파일을 사용할 수 있게 해준다
 // import en from 'react-intl/locale-data/en';
 // import ko from 'react-intl/locale-data/ko';
@@ -20,7 +21,13 @@ import locale_zh from 'locales/zh.json';
 // addLocaleData([...en, ...ko, ...zh]);
 
 // 저장되어 있는 언어 데이터를 가져온다
-
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#814ad8'
+    }
+  }
+});
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -50,13 +57,18 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <AuthProvider>
         <AuthStateChanged>
-          <IntlProvider locale={language} messages={{ en: locale_en, ko: locale_kr, zh: locale_zh, vi: locale_kr, ja: locale_kr, th:locale_kr }[language]}>
-            <UserDataProvider>
-              <Component {...pageProps} />
-              {!router.pathname.includes("admin") && <BottomNavigation />}
-              {!router.pathname.includes("admin") && <LanguageSpeedDial setLang={setLanguage} />}
-            </UserDataProvider>
-          </IntlProvider>
+          <ThemeProvider theme={theme}>
+            <IntlProvider locale={language} messages={{ en: locale_en, ko: locale_kr, zh: locale_zh, vi: locale_kr, ja: locale_kr, th:locale_kr }[language]}>
+              <UserDataProvider>
+                <Component {...pageProps} />
+                {!router.pathname.includes("admin")&& router.pathname!=="/" && <BottomNavigation />}
+                {!router.pathname.includes("admin") && <LanguageSpeedDial setLang={setLanguage} />}
+                {/* {(!router.pathname.includes("admin") && !router.pathname.includes("message")) && <BottomNavigation />}
+                {(!router.pathname.includes("admin") && !router.pathname.includes("message")) && <LanguageSpeedDial setLang={setLanguage} />} */}
+                
+              </UserDataProvider>
+            </IntlProvider>
+          </ThemeProvider>
         </AuthStateChanged>
       </AuthProvider>
     </>

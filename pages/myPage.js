@@ -20,6 +20,7 @@ import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import ContactPageOutlinedIcon from '@mui/icons-material/ContactPageOutlined';
 import DocumentScannerOutlinedIcon from '@mui/icons-material/DocumentScannerOutlined';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 
 //내 정보 관리, 내게 온 알림, 신청한 프로그램, 설문조사 기록, 공지사항, 센터 문의
 //소식(한다뉴), 서비스 이용약관, 개인정보 처리방침, FAQ, 로그아웃
@@ -43,20 +44,21 @@ const MyPage = () => {
       onClick: ()=>{router.push("/myProfile")}
     },
     {
-      title: "내게 온 알림", 
+      title: "내게 온 메세지", 
       subtitle: "자신에게 필요한 맞춤 알림을 확인하세요.",
-      icon: <CampaignOutlinedIcon style={iconStyle} />
+      icon: <EmailOutlinedIcon style={iconStyle} />,
+      onClick: () => {router.push("/message")}
     },
-    {
-      title: "신청한 프로그램 기록", 
-      subtitle: "신청했던 프로그램 목록들을 확인하세요.",
-      icon: <Diversity2OutlinedIcon style={iconStyle} />
-    },
-    {
-      title: "설문조사 기록", 
-      subtitle: "참여했던 설문조사의 목록을 확인하세요.",
-      icon: <AodOutlinedIcon style={iconStyle} />
-    },
+    // {
+    //   title: "신청한 프로그램 기록", 
+    //   subtitle: "신청했던 프로그램 목록들을 확인하세요.",
+    //   icon: <Diversity2OutlinedIcon style={iconStyle} />
+    // },
+    // {
+    //   title: "설문조사 기록", 
+    //   subtitle: "참여했던 설문조사의 목록을 확인하세요.",
+    //   icon: <AodOutlinedIcon style={iconStyle} />
+    // },
     {
       title: "공지사항", 
       subtitle: "센터와 어플에서 보낸 공지사항입니다.",

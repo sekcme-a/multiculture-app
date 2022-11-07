@@ -4,7 +4,7 @@ import { withPublicAdmin } from "src/hooks/auth/route";
 import styles from "styles/login/signIn.module.css"
 import { useRouter } from "next/router"
 import useAuth from "src/hooks/auth/auth";
-import logo from "public/logo.jpg"
+import logo from "public/logo.png"
 import Image from "next/image"
 import { firestore as db } from "firebase/firebase";
 import dynamic from "next/dynamic";

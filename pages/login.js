@@ -44,10 +44,11 @@ const Login = () => {
     <div className={styles.main_container} >
       <PageHeader text="돌아가기" />
       <div className={styles.logo_container}>
-        <Image src="/logo.jpg" width={300} height={300} alt="한국다문화뉴스 로고" />
+        <Image src="/logo.png" width={300} height={300} alt="한국다문화뉴스 로고" />
       </div>
       <IdAndPassword text={text} />
       <SocialLogin text={text} />
+      <div style={{height:"100px"}} />
     </div>
   )
 }

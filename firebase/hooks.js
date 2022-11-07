@@ -446,5 +446,23 @@ export const firebaseHooks = {
         reject(e.message)
       }
     })
+  }, 
+
+  add_timeline: (uid, type, createdAt, title, text, docId) => {
+    return new Promise(async function (resolve, reject) {
+      try {
+        await db.collection("users").doc(uid).collection("timeline").doc().set({
+          type: type,
+          createdAt: createdAt,
+          title: title,
+          text: text,
+          docId: docId,
+        })
+        resolve("success")
+      } catch (e) {
+        reject(e.message)
+        console.log(e)
+      }
+    })
   },
 }

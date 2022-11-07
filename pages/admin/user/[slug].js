@@ -72,7 +72,7 @@ const User = () => {
             <UserViewLeft data={datas.user_data} />
           </Grid>
           <Grid item xs={12} md={7} lg={8}>
-            <UserViewRight profile_settings={datas.profile_settings} additional_data={datas.user_additional_data} />
+            <UserViewRight profile_settings={datas.profile_settings} additional_data={datas.user_additional_data} uid={slug} />
           </Grid>
         </Grid>
       </div>

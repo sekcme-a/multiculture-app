@@ -27,7 +27,9 @@ export function withPublic(Component) {
           db.collection("users").doc(auth.user.uid).set({
             roles: ["user"], name: displayName, photo: photoURL, language: "ko",
             phoneNumber: auth.user.phoneNumber, email: auth.user.email, emailVerified: auth.user.emailVerified,
-            providerId : auth.user.providerData[0].providerId, data: ""
+            providerId: auth.user.providerData[0].providerId, data: "",
+            isAlarmOn: true,
+            alarmSetting: { marriage: true, spouse: true, children: true, family: true, schedule: true, center:[]}
           })
           auth.updateUserProfile({photoURL: "/default_avatar.png"})
           router.replace("/")

@@ -4,7 +4,7 @@ import { withPublic } from "src/hooks/auth/route";
 import styles from "styles/login/signIn.module.css"
 import { useRouter } from "next/router"
 import useAuth from "src/hooks/auth/auth";
-import logo from "public/logo.jpg"
+import logo from "public/logo.png"
 import Image from "next/image"
 import { firestore as db } from "firebase/firebase";
 import dynamic from "next/dynamic";
@@ -65,7 +65,7 @@ const SignIn = () => {
   useEffect(() => {
     setError("")
     const fetchData = async () => {
-      const data = await db.collection("setting").doc("dataInfo").get()
+      const data = await db.collection("setting").doc("private").get()
       if (data.exists) {
         setText(data.data().text)
       }

@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react"
+import { firestore as db } from "firebase/firebase"
+import useAuth from "src/hooks/auth/auth"
+
 // ** MUI Import
 import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
@@ -16,6 +20,9 @@ import MuiTimeline from '@mui/lab/Timeline'
 import ArrowRight from 'mdi-material-ui/ArrowRight'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import PhoneDialOutline from 'mdi-material-ui/PhoneDialOutline'
+import Backdrop from '@mui/material/Backdrop';
+
+import Form from "src/form/Form.js"
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)({
@@ -34,74 +41,60 @@ const ImgShoe = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
-const TimelineLeft = () => {
+
+const TimelineLeft = ({ timeline, uid }) => {
+  const [openForm, setOpenForm] = useState(false)
+  const [formData, setFormData] = useState([])
+  const [inputData, setInputData] = useState([])
+  const { teamName } = useAuth()
+  
+  const onOpenFormClick = (type, docId) => {
+    db.collection("contents").doc(teamName).collection(type).doc(docId).get().then((doc) => {
+      setFormData(doc.data().form)
+    })
+    db.collection("contents").doc(teamName).collection(type).doc(docId).collection("result").doc(uid).get().then((doc) => {
+      setInputData(doc.data().data)
+    })
+    setOpenForm(true)
+  }
   return (
-    
+    <>
     <Timeline >
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot color='error' />
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-              A 설문조사 참여
-            </Typography>
-            <Typography variant='caption'>2022/10/20</Typography>
-          </Box>
-          <Typography variant='body2'>2022/10/20 오후 3:12 에 A 설문조사를 참여했습니다.</Typography>
-          <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
-          </Box>
-        </TimelineContent>
-      </TimelineItem>
+      {timeline.map((item, index) => (
+        <TimelineItem key={index}>
+          <TimelineSeparator>
+            <TimelineDot color='error' />
+            <TimelineConnector />
+          </TimelineSeparator>
+          <TimelineContent>
+            <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
+                {item.title}
+              </Typography>
+              <Typography variant='caption'>{item.createdAt.toDate().toLocaleString('ko-KR').replace(/\s/g, '')}</Typography>
+            </Box>
+            <Typography variant='body2'>{item.text}</Typography>
+            <p style={{ fontSize: "14px", textDecoration: "underline", color: "blue", cursor: "pointer" }}
+              onClick={()=>onOpenFormClick(item.type, item.docId)}
+            >입력 데이터 보기</p>
+            {/* <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
+              <Typography variant='body2'>자세히 보기</Typography>
+            </Box> */}
+          </TimelineContent>
+        </TimelineItem>
+      ))}
+      </Timeline>
+        <Backdrop
+          sx={{ color: 'black', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openForm}
+          onClick={()=>setOpenForm(false)}
+      >
+        <div style={{width:"400px", height:"600px", overflowY:"scroll", backgroundColor:"white", padding:'10px 20px'}}>
+          <Form formDatas={formData} data={inputData} handleData={()=>{}}/>
 
-
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot color='warning' />
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-              B 프로그램 신청
-            </Typography>
-            <Typography variant='caption'>2022/10/22</Typography>
-          </Box>
-          <Typography variant='body2'>2022/10/22 오후 1:25 에 B 프로그램을 신청했습니다.</Typography>
-          <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
-          </Box>
-        </TimelineContent>
-      </TimelineItem>
-
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot color='success' />
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-              프로필 변경
-            </Typography>
-            <Typography variant='caption'>2022/10/24</Typography>
-          </Box>
-          <Typography variant='body2' sx={{ mb: 2, color: 'text.primary' }}>
-            사용자가 프로필을 변경하였습니다.
-          </Typography>
-          <Typography variant='body2' sx={{ mb: 2, color: 'text.primary' }}>
-            {`"프로필 사진" 변경됨.`}
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar src='/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png' sx={{ width: '2rem', height: '2rem', mr: 2 }} />
-            <Typography variant='subtitle2' sx={{ fontWeight: 600 }}>
-              UserTcznj
-            </Typography>
-          </Box>
-        </TimelineContent>
-      </TimelineItem>
-    </Timeline>
+        </div>
+      </Backdrop>
+    </>
   )
 }
 

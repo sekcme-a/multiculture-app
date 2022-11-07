@@ -29,6 +29,7 @@
   width: 300px;
   flex-wrap: wrap;
   align-items: center;
-  height: 200px;
+  height: 220px;
   align-content: center;
+  margin-top: 20px;
 }

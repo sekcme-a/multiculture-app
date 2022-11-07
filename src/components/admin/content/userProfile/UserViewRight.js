@@ -1,6 +1,6 @@
 // ** React Imports
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
+import { firestore as db } from 'firebase/firebase'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import TabList from '@mui/lab/TabList'
@@ -38,6 +38,7 @@ const Tab = styled(MuiTab)(({ theme }) => ({
 const UserViewRight = (props) => {
   // ** State
   const [value, setValue] = useState('overview')
+  const [timeline, setTimeline] = useState([])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -59,6 +60,16 @@ const UserViewRight = (props) => {
     else
       setAlarmValues({...alarmValues, [prop]: event.target.checked})
   }
+
+  useEffect(() => {
+    let list = []
+    db.collection("users").doc(props.uid).collection("timeline").orderBy("createdAt", "desc").get().then((query) => {
+      query.docs.map((doc) => {
+        list.push({...doc.data()})
+      })
+      setTimeline(list)
+    })
+  },[])
 
   return (
     <TabContext value={value} >
@@ -84,7 +95,8 @@ const UserViewRight = (props) => {
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='timeline'>
           <Card sx={{padding: "10px 20px"}}>
-            <Timeline />
+            <Timeline
+              timeline={timeline} uid={props.uid} />
           </Card>
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='alarmSetting'>

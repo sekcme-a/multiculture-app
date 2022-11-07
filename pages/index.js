@@ -15,6 +15,8 @@ import Program from "src/components/main/Program"
 import Survey from "src/components/main/Survey"
 import Anouncement from "src/components/main/Anouncement"
 import News from "src/components/main/News"
+import DialogSetting from "src/components/main/DialogSetting"
+import BottomNavigation from "src/components/public/BottomNavigation"
 
 
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
@@ -32,7 +34,8 @@ const Home = () => {
   const [isHide, setIsHide] = useState(false)
   const handleIsMenuOpen = (bool) => { setIsMenuOpen(bool); }
   const [isLoading, setIsLoading] = useState(true)
-  const { setLanguage,groups, setGroups } = useUserData()
+  const { setLanguage, groups, setGroups } = useUserData()
+  const [openDialogSetting, setOpenDialogSetting] = useState(false)
   const { user } = useAuth()
   const router = useRouter()
   const intl = useIntl()
@@ -45,10 +48,17 @@ const Home = () => {
     // const locale = localStorage.getItem('language') || 'ko';
     // setLanguage(locale)
     window.addEventListener("scroll", handleScroll);
-
     const city = localStorage.getItem("city")
-    if(city===null)
-      localStorage.setItem("city", "suwon")
+    if (user !== null) {
+      db.collection("users").doc(user.uid).get().then((doc) => {
+        if (doc.exists) {
+          if (doc.data().city === undefined || city === null) {
+            setOpenDialogSetting(true)
+          }
+        }
+      })
+    }
+    
     const language = localStorage.getItem('language')
     if (language === null) {
       localStorage.setItem("language", "ko")
@@ -111,7 +121,8 @@ const Home = () => {
           <div style={{width:"100%", height:"150px"}}> </div>
         </>
       }
-      {/* <div>{text ? text.hi : ""}</div> */}
+      {openDialogSetting && <DialogSetting isShow={openDialogSetting} handleShow={setOpenDialogSetting} />}
+      {!openDialogSetting && <BottomNavigation />}
     </div>
   )
 }

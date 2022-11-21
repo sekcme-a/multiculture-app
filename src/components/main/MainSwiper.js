@@ -105,9 +105,9 @@ const MainSwiper = () => {
         loop={true}
       >
 
-        {list.map((item) => {
+        {list.map((item, index) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <SwiperContainer data={item} />
             </SwiperSlide>
           )

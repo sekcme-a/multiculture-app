@@ -4,7 +4,7 @@
 .swiper {
   width: 100%;
   /* max-width: 350px; */
-  height: 650px;
+  height: 620px;
 }
 
 /* .swiper_container::before {
@@ -69,10 +69,10 @@
   letter-spacing: 1.5px;
 }
 .overlay .content h3{
-  margin: 0px 30px 10px 30px;
+  margin: 10px 30px 10px 30px;
   color: white;
-  font-size: 23px;
-  font-weight: bold;
+  font-size: 28px;
+  /* font-weight: bold; */
   font-family: 'Jua', sans-serif !important;
   letter-spacing: 1px;
   word-break: keep-all;
@@ -98,14 +98,14 @@
 .overlay .thumbnail_container{
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 30px;
   position: relative;
   width: 100%;
 }
 .thumbnail_container .thumbnail_image_container{
   position: relative;
   width: 356.4px;
-  height: 237.6px;
+  height: 215.6px;
   overflow: hidden;
   border-radius: 5%;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -157,7 +157,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 10px;
   
 }
 .button{

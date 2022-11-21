@@ -42,6 +42,7 @@ const Menu = (props) => {
 
   useEffect(() => {
     const fetchData = async (lang) => {
+      console.log(user)
       const txt1 = await fetchText("hello", lang)
       const txt2 = await fetchText("please_register_your_email", lang)
       const txt3 = await fetchText("please_log_in_for_more_information_and_participation_in_the_program", lang)

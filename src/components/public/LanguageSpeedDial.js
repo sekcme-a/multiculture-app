@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from "styles/components/public/languageSpeedDial.module.css"
 import useUserData from 'src/context/useUserData';
+import { useRouter } from 'next/router';
 
 import Box from '@mui/material/Box';
 import Backdrop from '@mui/material/Backdrop';
@@ -77,6 +78,7 @@ const LanguageSpeedDial = ({setLang}) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const { language, setLanguage } = useUserData()
+  const router = useRouter()
 
   const onClick = (code) => {
     handleClose()
@@ -90,7 +92,11 @@ const LanguageSpeedDial = ({setLang}) => {
         <Backdrop open={open}  />
         <SpeedDial
           ariaLabel="SpeedDial tooltip example"
-          sx={{ position: 'absolute', bottom: 16, right: 16 }}
+          sx={router.pathname.includes("article") ?
+            { position: 'absolute', bottom: 90, right: 16 }
+            :
+            { position: 'absolute', bottom: 16, right: 16 }
+          }
           icon={<TranslateIcon />}
           onClose={handleClose}
           onOpen={handleOpen}

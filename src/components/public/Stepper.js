@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { firestore as db } from 'firebase/firebase';
 
+//values.content 랑 surveyStartDate undefined되있음.
 
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -20,6 +21,8 @@ import { MobileDateTimePicker } from '@mui/x-date-pickers'
 // import { TimePicker } from '@mui/x-date-pickers'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import Backdrop from '@mui/material/Backdrop';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 
 import DropperImage from "src/components/public/DropperImage"
@@ -27,6 +30,7 @@ import DateTime from 'src/form/items/DateTime';
 import ShowArticle from 'src/components/public/ShowArticle';
 import styles from "styles/components/public/stepper.module.css"
 import Form from "src/form/Form.js"
+import Select from "src/components/public/mui/Select"
 
 import { firebaseHooks } from 'firebase/hooks';
 import useAuth from 'src/hooks/auth/auth';
@@ -54,6 +58,33 @@ import CustomForm from "src/components/public/CustomForm.js"
 // })
 import Editor from 'src/components/public/Editor';
 
+const backgroundItems = [
+  {value:"/background/black.jpg", text:"검은색"},
+  {value:"/background/blue.jpg", text:"파란색"},
+  {value:"/background/darkblue.jpg", text:"짙은파란색"},
+  {value:"/background/green.jpg", text:"초록색"},
+  {value:"/background/orange.jpg", text:"주황색"},
+  {value:"/background/purple.jpg", text:"보라색"},
+  {value:"/background/red.jpg", text:"빨간색"},
+  {value:"/background/.jpg", text:"노란색"},
+]
+const thumbnailBgItems = [
+  { value: "custom", text: "[직접제작]" },
+  { value: "/thumbnail/001.png", text: "파란피카소" },
+  { value: "/thumbnail/002.png", text: "한국전통배경1" },
+  { value: "/thumbnail/003.png", text: "한국전통배경2" },
+  { value: "/thumbnail/004.png", text: "복주머니" },
+  { value: "/thumbnail/005.png", text: "야자수" },
+  { value: "/thumbnail/006.png", text: "화난선생" },
+  { value: "/thumbnail/007.png", text: "겨울선물" },
+  { value: "/thumbnail/008.png", text: "바닷모래" },
+  { value: "/thumbnail/009.png", text: "엄지척남자" },
+  { value: "/thumbnail/010.png", text: "꽃다발" },
+  { value: "/thumbnail/011.png", text: "집" },
+  { value: "/thumbnail/012.png", text: "가을남자" },
+  { value: "/thumbnail/013.png", text: "보름달뜬밤" },
+  
+]
 export default function HorizontalLinearStepper({ id, teamName, type }) {
   const [steps, setSteps] = useState([])
   const [activeStep, setActiveStep] = React.useState(0);
@@ -62,16 +93,29 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
   const [hasSurvey, setHasSurvey] = useState(false)
   const [surveyId, setSurveyId] = useState("")
   const [deadline, setDeadline] = useState()
+  const [surveyStartDate, setSurveyStartDate] = useState("")
   const [isPublished, setIsPublished] = useState(false)
   const [openBackdrop, setOpenBackdrop] = useState(false)
+  const [informationList, setInformationList] = useState([])
   const handleCloseBackDrop = () => {setOpenBackdrop(false)}
   const onTextChange = (html) => {
     setTextData(html)
   }
+  const onHtmlChange = (html, index) => {
+    onContentChange(index, "html", html)
+  }
   const [values, setValues] = useState({
+    main: false,
     title: "",
     subtitle: "",
-    thumbnailImg:"",
+    date: "",
+    mainThumbnailImg:"",
+    thumbnailImg: "",
+    backgroundColor: "/background/black.jpg",
+    thumbnailBackground: "/thumbnail/001.png",
+    informationText: "",
+    content: [],
+    schedule:[]
   })
   const onValuesChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -98,9 +142,10 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
   const [surveyFormData, setSurveyFormData] = useState([])
   const router = useRouter()
 
+
   useEffect(() => {
     if(type==="programs")
-      setSteps(['게시물 작성', '폼 작성', '프로그램 종료 후 설문조사', '저장 및 게재'])
+      setSteps(['메인프로그램 설정','게시물 작성', '폼 작성', '프로그램 종료 후 설문조사', '저장 및 게재'])
     else if(type==="surveys")
       setSteps(['게시물 작성', '폼 작성', '저장 및 게재'])
     else
@@ -110,7 +155,15 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
         setValues({
           title: doc.data().title,
           subtitle: doc.data().subtitle,
-          thumbnailImg: doc.data().thumbnailImg
+          thumbnailImg: doc.data().thumbnailImg,
+          main: doc.data().main,
+          date: doc.data().date,
+          mainThumbnailImg:doc.data().mainThumbnailImg,
+          backgroundColor: doc.data().backgroundColor,
+          thumbnailBackground: doc.data().thumbnailBackground,
+          informationText: doc.data().informationText,
+          content: doc.data().content,
+          schedule: doc.data().schedule
         })
         setTextData(doc.data().content)
         setMainFormData([...doc.data().form])
@@ -118,6 +171,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
         setSurveyId(doc.data().surveyId)
         setIsPublished(doc.data().published)
         setDeadline(doc.data().deadline?.toDate())
+        setSurveyStartDate(doc.data().surveyStartDate ? doc.data().surveyStartDate?.toDate() : "")
         if(doc.data().alarm)
           setAlarmValues(doc.data().alarm)
         if (doc.data().hasSurvey === true && doc.data().surveyId) {
@@ -140,6 +194,35 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
   };
 
   const handleNext = () => {
+    if (type === "programs" && (activeStep === 0 || activeStep === 1)) {
+
+      if (values.main) {
+        if (values.title === "") {
+          alert("제목을 입력해주세요.")
+          return
+        }
+        if (values.thumbnailBackground === "custom" && values.mainThumbnailImg === "") {
+          alert("썸네일을 업로드해주세요.")
+          return
+        }
+      }
+    }
+    if (type === "programs" && activeStep === 1) {
+        if (values.title === "") {
+          alert("제목을 입력해주세요.")
+          return
+        }
+        if (values.subtitle === "") {
+          alert("부제목을 입력해주세요.")
+          return
+        }
+    }
+    if (type === "programs" && activeStep === 3) {
+      if (hasSurvey && surveyStartDate === "") {
+        alert("설문조사 시작일을 입력해주세요.")
+        return
+      }
+    }
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -179,44 +262,93 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
   const setImgURL = (url) => {
     setValues({...values, thumbnailImg: url})
   }
+  const setMainThumbnailURL = (url) => {
+    setValues({...values, mainThumbnailImg: url})
+  }
+
+  useEffect(() => {
+      let information = []
+      if (values.informationText !== "" && values.informationText!==undefined) {
+        const tempList = values.informationText.split("[[")
+        for (let i = 1; i < tempList.length; i++) {
+          const item = tempList[i].split("]]")
+          if (item !== undefined && item[0]!==undefined && item[1]!==undefined) {
+            if (item[1].includes("<<")) {
+              let temp = item[1].split("<<")
+              information.push({ title: item[0], text: temp[0] })
+              let temp2 = temp[1].split(">>")
+              information.push({ type: "button", title: temp2[0], text: temp2[1] })
+            } else {
+              information.push({ title: item[0], text: item[1] })
+            }
+          }
+        }
+    }
+    setInformationList([...information])
+  },[values.informationText])
 
   const onSaveClick = async(openAlert) => {
     try {
-      // console.log(editorValue.getCurrentContent())
-      // const content = convertToHTML(editorValue.getCurrentContent())
-      // console.log(content)
       let sid = surveyId
-      console.log(mainFormData)
       if(surveyId==="" || surveyId===undefined)
         sid = await firebaseHooks.get_random_id_from_collection("users")
       await db.collection("contents").doc(teamName).collection("programSurveys").doc(sid).set({
         form: surveyFormData,
       })
       setSurveyId(sid)
-      console.log(values.title)
-      const result = await firebaseHooks.save_content(teamName, type, id,
+      await firebaseHooks.save_content(teamName, type, id,
         {
+          main: values.main,
           title: values.title,
           subtitle: values.subtitle,
+          date: values.date,
+          mainThumbnailImg: values.mainThumbnailImg,
           thumbnailImg: values.thumbnailImg,
-          content: textData,
+          backgroundColor: values.backgroundColor,
+          thumbnailBackground: values.thumbnailBackground==="custom" ? values.mainThumbnailImg : values.thumbnailBackground,
+          informationText: values.informationText,
+          information: informationList, 
+          content: values.content,
+          schedule: values.schedule,
+          // content: textData,
           form: mainFormData,
           savedDate: new Date(),
           lastSaved: user.uid,
           hasSurvey: hasSurvey,
           surveyId: sid,
           alarm: alarmValues,
-      })
-      if(result==="success" && openAlert!==false)
+          surveyStartDate: surveyStartDate,
+        })
+      if(openAlert!==false)
         alert("성공적으로 저장되었습니다.")
     } catch (e) {
       
     }
   }
+
   const onPublishClick = async () => {
-    // console.log(deadline)
     onSaveClick(false)
     setIsPublished(!isPublished)
+    //메인 프로그램이라면, 이전 메인 프로그램 확인 후 변경
+    if (values.main && !isPublished) {
+      db.collection("contents").doc("main").collection("list").doc(teamName).get().then((doc) => {
+        if (doc.exists) {
+          const prevId = doc.data().id
+          //메인 프로그램이 변경됬다면 기존 메인프로그램의 doc.data().main을 false로 변경
+          if (id !== prevId) {
+            db.collection("contents").doc(teamName).collection("programs").doc(prevId).update({ main: false })
+          }
+        }
+        db.collection("contents").doc("main").collection("list").doc(teamName).set({
+          id: id,
+          title: values.title,
+          date: values.date,
+          mainThumbnailImg: values.mainThumbnailImg,
+          backgroundColor: values.backgroundColor,
+          thumbnailBackground: values.thumbnailBackground==="custom" ? values.mainThumbnailImg : values.thumbnailBackground,
+        })
+      })
+    }
     if(type!=="anouncements")
       await firebaseHooks.save_content(teamName, type, id, { deadline: deadline })
     await firebaseHooks.publish_content(teamName, type, id, user.uid, !isPublished)
@@ -231,6 +363,45 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
   }
   const createMarkup = () => {
     return {__html: textData}
+  }
+
+  const onAddContentClick = () => {
+    setValues({...values, content: [...values.content, {title: "", html:""}]})
+  }
+
+  const onContentChange = (index, type, value) => {
+
+    const changedValue = values.content.map((item, i) => i === index ? { ...item, [type]: value } : item)
+    
+    if (type === "title") {
+      if (changedValue[0].title!==values.content[index].title) {
+        setValues({ ...values, content: [...changedValue] })
+      }
+    }
+    else if (type === "html")
+      console.log([...changedValue])
+      if (changedValue[0].html !== values.content[index].html)
+        setValues({ ...values, content: [...changedValue] })
+  }
+
+  const onDeleteContentClick = (index) => {
+    values.content.splice(index, 1)
+    setValues({ ...values, content: values.content })
+  }
+
+  const onAddScheduleClick = () => {
+    setValues({...values, schedule: [...values.schedule, {title: "", date:"", text:""}]})
+  }
+
+  const onScheduleChange = (index, type, value) => {
+
+    const changedValue = values.schedule.map((item, i) => i=== index ? { ...item, [type]: value} : item)
+    setValues({ ...values, schedule: changedValue })
+  }
+
+  const onDeleteScheduleClick = (index) => {
+    values.schedule.splice(index, 1)
+    setValues({ ...values, schedule: values.schedule })
   }
 
 
@@ -249,7 +420,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
             stepProps.completed = false;
           }
           return (
-            <Step key={label} {...stepProps}>
+            <Step key={index} {...stepProps}>
               <StepLabel {...labelProps}>{label}</StepLabel>
             </Step>
           );
@@ -268,7 +439,58 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
       ) : (
           <React.Fragment>
             <Card sx={{ padding: "10px 25px", mt: "20px" }}>
-              {activeStep === 0 &&
+              {activeStep === 0 && type==="programs" && 
+                <>
+                  <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 메인프로그램 설정</Typography>
+
+                  <div className={styles.main_container}>
+                    <div className={styles.item_container}>
+                      <FormControlLabel
+                        control={
+                          <Switch checked={values.main} onChange={(e) => setValues({ ...values, ["main"]: e.target.checked })} />
+                        }
+                        label="메인 프로그램 여부 (메인 프로그램은 한개만 설정 가능하며, 메인 프로그램으로 게제 시 이전 메인 프로그램은 자동으로 해제됩니다.)"
+                      />
+                    </div>
+                  {values.main && 
+                    <>
+                      <div className={styles.item_container}>
+                        <TextField id="standard-basic" label="제목" variant="standard" value={values.title} onChange={onValuesChange("title")} />
+                      </div>
+                      <div className={styles.item_container} style={{marginTop:"10px"}}>
+                        <TextField id="standard-basic" multiline label="기간 문구" variant="standard" value={values.date} onChange={onValuesChange("date")} />
+                      </div>
+                      <div className={styles.item_container} style={{marginTop:'20px'}}>
+                        <Select
+                          title="배경 색상"
+                          items={backgroundItems}
+                          style={{width:"200px"}}
+                          value={values.backgroundColor}
+                          handleChange={onValuesChange("backgroundColor")}
+                        />
+                      </div>
+                      <div className={styles.item_container} style={{marginTop:'20px'}}>
+                        <Select
+                          title="썸네일 배경"
+                          items={thumbnailBgItems}
+                          style={{width:"200px"}}
+                          value={values.thumbnailBackground}
+                          handleChange={onValuesChange("thumbnailBackground")}
+                          helperText={values.thumbnailBackground==="custom" && "어플 UI를 위해 썸네일을 최대한 1080px * 720px 사이즈에 맞춰서 제작부탁드립니다."}
+                        />
+                      </div>
+                      <div className={styles.items_container}>
+                        {type !== "anouncements" && values.thumbnailBackground === "custom" &&
+                          <DropperImage setImgURL={setMainThumbnailURL} path={`content/${id}/mainThumbnailImg`} imgURL={values.mainThumbnailImg} />
+                        }
+
+                      </div>
+                    </>
+                  }
+                  </div>
+                </>
+              }
+              {activeStep === 0 && type==="anouncements" && 
                 <>
                   <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 게시물 작성</Typography>
 
@@ -281,27 +503,167 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                     </div>
                     <div className={styles.items_container}>
                     {type !== "anouncements" && <DropperImage setImgURL={setImgURL} path={`content/${id}/thumbnailImg`} imgURL={values.thumbnailImg} />}
-                  </div>
+                    </div>
                     <div style={{width: "100%", marginTop: "15px"}}>
-                      {/* <ReactDraftWysiwyg editorState={editorValue}
-                        localization={{
-                          locale: "ko",
-                        }}
-                        onEditorStateChange={data => setEditorValue(data)}
-                        toolbar={{
-                          inline: { inDropdown: true },
-                          list: { inDropdown: true },
-                          textAlign: { inDropdown: true },
-                          link: { inDropdown: true },
-                          history: { inDropdown: false },
-                        }}
-                      /> */}
                     <Editor path={`content/${id}`} handleChange={onTextChange} textData={textData} />
                     </div>
                   </div>
                 </>
               }
-              {activeStep === 1 && type!=="anouncements" &&
+              {(activeStep === 1 && type==="programs") && 
+                <>
+                  <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 게시물 작성</Typography>
+
+                  <div className={styles.main_container}>
+                    <div className={styles.item_container}>
+                      <TextField id="standard-basic" label="제목" variant="standard" value={values.title} onChange={onValuesChange("title")} />
+                    </div>
+                    <div className={styles.item_container}>
+                      <TextField id="standard-basic" label="부제목" variant="standard" value={values.subtitle} onChange={onValuesChange("subtitle")} />
+                    </div>
+                    <div className={styles.item_container} style={{marginTop:"10px"}}>
+                      <TextField id="standard-basic" multiline label="기간 문구" variant="standard" value={values.date} onChange={onValuesChange("date")} />
+                    </div>
+                    <div className={styles.item_container} style={{marginTop:'20px'}}>
+                      <Select
+                        title="썸네일 배경"
+                        items={thumbnailBgItems}
+                        style={{width:"200px"}}
+                        value={values.thumbnailBackground}
+                        handleChange={onValuesChange("thumbnailBackground")}
+                        helperText={values.thumbnailBackground==="custom" && "어플 UI를 위해 썸네일을 최대한 1080px * 720px 사이즈에 맞춰서 제작부탁드립니다."}
+                      />
+                    </div>
+                    <div className={styles.items_container} style={{width:"100%"}}>
+                      {type !== "anouncements" && values.thumbnailBackground === "custom" &&
+                        <DropperImage setImgURL={setMainThumbnailURL} path={`content/${id}/mainThumbnailImg`} imgURL={values.mainThumbnailImg} />
+                      }
+
+                    </div>
+                    <TextField
+                      id="standard-multiline-static"
+                      label="정보창 작성"
+                      multiline
+                      minRows={4}
+                      value={values.informationText}
+                      onChange={onValuesChange("informationText")}
+                      placeholder={"[[접수기간]]2000.01.01~2000.01.02\n<<공식 홈페이지>>https://www.naver.com"}
+                      variant="standard"
+                      style={{marginTop:"10px", width:"700px"}}
+                    />
+                  
+
+                  <p style={{ width: "100%", marginTop: "80px", marginBottom: "15px", fontSize:"20px", fontWeight:"bold" }}>프로그램 소개</p>
+                  
+                  {/* <Editor path={`content/${id}`} handleChange={onTextChange} textData={textData} /> */}
+                  {values.content.map((item, index) => {
+                      return (
+                        <div key={index} style={{marginBottom:"50px", width:"100%"}}>
+                          <div className={styles.item_container} style={{width:"70%"}}>
+                            <TextField id="index" style={{ marginBottom: "20px" }} label="제목" variant="standard" value={item.title} onChange={(e)=>onContentChange(index, "title", e.target.value)} />
+                            <DeleteIcon style={{ padding: "22px 0 0 30px", color: "#555", fontSize: "19px", cursor: "pointer" }}
+                              onClick={() => onDeleteContentClick(index)} />
+                            <Editor path={`content/${id}`} handleChange={onHtmlChange} textData={item.html} index={index} /> 
+                          </div>
+                        </div>
+                      )
+                  })}
+                  <Button variant="outlined" style={{fontSize:"13px",padding:"3px 9px"}} onClick={onAddContentClick}>내용 추가 +</Button>
+
+                  <p style={{ width: "100%", marginTop: "80px", marginBottom: "15px", fontSize:"20px", fontWeight:"bold" }}>프로그램 일정</p>
+
+                  {values.schedule.map((item, index) => {
+                      return (
+                        <div key={index} style={{marginBottom:"30px", width:"100%"}}>
+                          <div className={styles.item_container}>
+                            <TextField id="index" style={{ marginBottom: "20px" }} label="날짜" variant="standard" value={item.date} onChange={(e)=>onScheduleChange(index, "date", e.target.value)} />
+                              <DeleteIcon style={{ padding: "22px 0 0 30px", color: "#555", fontSize: "19px", cursor: "pointer" }}
+                              onClick={() => onDeleteScheduleClick(index)} />
+                            <div style={{width:"100%", display: "flex"}}>
+                              <TextField id="index" style={{ marginBottom: "20px", width:"200px" , marginRight:"20px"}} label="제목" variant="standard" value={item.title} onChange={(e)=>onScheduleChange(index, "title", e.target.value)} />
+  
+                            <TextField id="index" style={{ marginBottom: "20px", width:"500px" }} multiline label="내용" variant="standard" value={item.text} onChange={(e)=>onScheduleChange(index, "text", e.target.value)} />
+                            </div>
+                          </div>
+                        </div>
+                      )
+                  })}
+                  <Button variant="outlined" style={{fontSize:"13px",padding:"3px 9px"}} onClick={onAddScheduleClick}>내용 추가 +</Button>
+             
+                  
+
+
+
+                </div>
+                
+                </>
+              }
+              {(activeStep === 0 && type==="surveys") && 
+                <>
+                  <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 게시물 작성</Typography>
+
+                  <div className={styles.main_container}>
+                    <div className={styles.item_container}>
+                      <TextField id="standard-basic" label="제목" variant="standard" value={values.title} onChange={onValuesChange("title")} />
+                    </div>
+                    <div className={styles.item_container}>
+                      <TextField id="standard-basic" label="부제목" variant="standard" value={values.subtitle} onChange={onValuesChange("subtitle")} />
+                    </div>
+                    <div className={styles.item_container} style={{marginTop:"10px"}}>
+                      <TextField id="standard-basic" multiline label="기간 문구" variant="standard" value={values.date} onChange={onValuesChange("date")} />
+                    </div>
+                    <div className={styles.item_container} style={{marginTop:'20px'}}>
+                      <Select
+                        title="썸네일 배경"
+                        items={thumbnailBgItems}
+                        style={{width:"200px"}}
+                        value={values.thumbnailBackground}
+                        handleChange={onValuesChange("thumbnailBackground")}
+                        helperText={values.thumbnailBackground==="custom" && "어플 UI를 위해 썸네일을 최대한 1080px * 720px 사이즈에 맞춰서 제작부탁드립니다."}
+                      />
+                    </div>
+                    <div className={styles.items_container} style={{width:"100%"}}>
+                      {type !== "anouncements" && values.thumbnailBackground === "custom" &&
+                        <DropperImage setImgURL={setMainThumbnailURL} path={`content/${id}/mainThumbnailImg`} imgURL={values.mainThumbnailImg} />
+                      }
+
+                    </div>
+                    <TextField
+                      id="standard-multiline-static"
+                      label="정보창 작성"
+                      multiline
+                      minRows={4}
+                      value={values.informationText}
+                      onChange={onValuesChange("informationText")}
+                      placeholder={"[[접수기간]]2000.01.01~2000.01.02\n<<공식 홈페이지>>https://www.naver.com"}
+                      variant="standard"
+                      style={{marginTop:"10px", width:"700px"}}
+                    />
+                  
+
+                  <p style={{ width: "100%", marginTop: "80px", marginBottom: "15px", fontSize:"20px", fontWeight:"bold" }}>설문조사 정보</p>
+                  
+                  {/* <Editor path={`content/${id}`} handleChange={onTextChange} textData={textData} /> */}
+                  {values.content.map((item, index) => {
+                      return (
+                        <div key={index} style={{marginBottom:"50px", width:"100%"}}>
+                          <div className={styles.item_container} style={{width:"70%"}}>
+                            <TextField id="index" style={{ marginBottom: "20px" }} label="제목" variant="standard" value={item.title} onChange={(e)=>onContentChange(index, "title", e.target.value)} />
+                            <DeleteIcon style={{ padding: "22px 0 0 30px", color: "#555", fontSize: "19px", cursor: "pointer" }}
+                              onClick={() => onDeleteContentClick(index)} />
+                            <Editor path={`content/${id}`} handleChange={onHtmlChange} textData={item.html} index={index} /> 
+                          </div>
+                        </div>
+                      )
+                  })}
+                  <Button variant="outlined" style={{fontSize:"13px",padding:"3px 9px"}} onClick={onAddContentClick}>내용 추가 +</Button>
+                
+
+                </div>
+                
+                </>
+              }
+              {activeStep === 2 && type==="programs" &&
                 <>
                   <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 폼 작성</Typography>
 
@@ -310,7 +672,16 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                   </div>
                 </>
               }
-              {activeStep === 1 && type==="anouncements" &&
+              {activeStep === 1 && type==="surveys" &&
+                <>
+                  <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 폼 작성</Typography>
+
+                  <div className={styles.main_container}>
+                  <CustomForm formData={mainFormData} setFormData={setMainFormData} teamName={teamName} contentMode={true} id={id} />
+                  </div>
+                </>
+              }
+              {activeStep === 3 && type==="anouncements" &&
                 <>
                   <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 저장 및 게재</Typography>
 
@@ -329,7 +700,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                   </div>
                 </>
               }
-              {(type==="programs" && activeStep === 2) &&
+              {(type==="programs" && activeStep === 3) &&
                 <>
                   <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 프로그램 종료 후 설문조사</Typography>
                 <FormControlLabel
@@ -343,12 +714,24 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                 />
                   <div className={styles.main_container}>
                   {hasSurvey &&
-                    <CustomForm formData={surveyFormData} setFormData={setSurveyFormData} teamName={teamName} contentMode={true} id={id} />
+                    <>
+                      <div style={{marginTop: "15px", marginBottom:"20px", width:"100%"}}>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                          <MobileDateTimePicker
+                            label="설문조사 시작일을 선택해주세요."
+                            value={surveyStartDate}
+                            onChange={(e)=>setSurveyStartDate(e)}
+                            renderInput={params => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
+                      </div>
+                      <CustomForm formData={surveyFormData} setFormData={setSurveyFormData} teamName={teamName} contentMode={true} id={id} />
+                    </>
                   }
                   </div>
                 </>
               }
-              {(activeStep === 3 || (type==="surveys" && activeStep===2)) &&
+              {((activeStep === 4 || (type==="surveys" && activeStep===2)) || (type==="anouncements" && activeStep===1)) &&
                 <>
                   <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 저장 및 게재</Typography>
 
@@ -430,7 +813,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
         open={openBackdrop}
         onClick={handleCloseBackDrop}
       >
-        {activeStep === 0 &&
+        {/* {activeStep === 0 &&
           <div style={{width:"400px", height:"700px", backgroundColor:"white", overflow:"scroll"}}>
             <div className="quill_custom_editor" style={{marginTop:"35px"}}>
               <div dangerouslySetInnerHTML={createMarkup()} />
@@ -443,6 +826,16 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
           </div>
         }
         {activeStep === 2 && type!=="survey" && 
+          <div style={{width:"400px", height:"700px", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
+            <Form formDatas={surveyFormData} data={[]} handleData={()=>{}} addMargin={true} />
+          </div>
+        } */}
+        {activeStep === 2 && type === "programs" && 
+          <div style={{width:"400px", height:"700px", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
+            <Form formDatas={mainFormData} data={[]} handleData={()=>{}} addMargin={true} />
+          </div>
+        }
+        {activeStep === 3 && type === "programs" && 
           <div style={{width:"400px", height:"700px", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
             <Form formDatas={surveyFormData} data={[]} handleData={()=>{}} addMargin={true} />
           </div>

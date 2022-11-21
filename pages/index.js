@@ -101,8 +101,11 @@ const Home = () => {
       </Head>
       {!isMenuOpen &&
         <div className={scrollY === 0 ? styles.header_container : `${styles.header_container} ${styles.add_background}`}>
-          <NotificationsNoneIcon />
-          <MenuRoundedIcon className={styles.menu_icon} onClick={onMenuClick} />
+          <h1>더한다+</h1>
+          <div>
+            <NotificationsNoneIcon />
+            <MenuRoundedIcon className={styles.menu_icon} onClick={onMenuClick} />
+          </div>
         </div>
       }
       <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen}  setIsHide={setIsHide} /> 

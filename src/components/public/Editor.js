@@ -143,8 +143,15 @@ const Editor = (props) => {
   }, []);
 
   const onChangeHTML = (html) => {
-    if(props.custom!==true)
-      props.handleChange(html)
+    console.log(html, props.index)
+    if (props.custom !== true) {
+      if (props.index === undefined)
+        props.handleChange(html)
+      else {
+        props.handleChange(html, props.index)
+      }
+    }
+      
   }
 
     //이미지의 크기가 2MB이하인지 확인 후, 아니라면 압축할지 물어본뒤 압축진행.
@@ -156,7 +163,7 @@ const Editor = (props) => {
     else
       return true
   }
-
+  console.log(props.textData)
   if(props.textData)
   return (
     <>

@@ -16,6 +16,58 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { styled, alpha } from '@mui/material/styles';
+
+const options = [
+  '삭제',
+  '메인 프로그램으로 설정'
+];
+
+const StyledMenu = styled((props) => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+    {...props}
+  />
+))(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    color:
+      theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+    boxShadow:
+      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.01) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 7px 10px -3px, rgba(0, 0, 0, 0.02) 0px 4px 6px -2px',
+    '& .MuiMenu-list': {
+      padding: '4px 0',
+    },
+    '& .MuiMenuItem-root': {
+      '& .MuiSvgIcon-root': {
+        fontSize: 18,
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+      '&:active': {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          theme.palette.action.selectedOpacity,
+        ),
+      },
+    },
+  },
+}));
+
 
 const Program = ({teamName}) => {
   const router = useRouter()
@@ -25,10 +77,28 @@ const Program = ({teamName}) => {
   const [isLoading, setIsLoading] = useState(true)
   const [triggerFetch, setTriggerFetch] = useState(true)
 
+    const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const onMenuClick = (e,id, hasSurvey, surveyId) => {
+    handleClose()
+    console.log(e.target.outerText)
+    if (e.target.outerText === "삭제") {
+      console.log(id, hasSurvey, surveyId)
+      // onDeleteClick(id, hasSurvey, surveyId)
+    }
+  }
+
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await firebaseHooks.fetch_contents_list(teamName, "programs", 100, true)
+      const result = await firebaseHooks.fetch_contents_list(teamName, "programs", 40, true)
       setProgramList([...result])
       setIsLoading(false)
     }
@@ -81,6 +151,8 @@ const Program = ({teamName}) => {
             </CardContent>
           </Card>
         </Grid>
+
+
         {programList.map((program, index) => {
           const savedDate = program.savedDate.toDate().toLocaleString('ko-kr').replace(/\s/g, '');
           const publishedDate = program.publishedDate?.toDate().toLocaleString('ko-kr').replace(/\s/g, '');
@@ -90,7 +162,12 @@ const Program = ({teamName}) => {
                 <CardContent sx={{ padding:"14px 10px 0px 10px", display: 'flex', alignItems: 'center', width:"100%", justifyContent:"center", position:"relative", flexDirection: 'column', cursor: "pointer" }}
                   >
                   {program.published ? <div className={styles.published}>게재중</div> : <div className={styles.unpublished}>미게재</div>}
-                  <div className={styles.delete} onClick={()=>onDeleteClick(program.id, program.hasSurvey, program.surveyId)}><DeleteOutlineOutlinedIcon /></div>
+
+
+                  
+                  <div className={styles.delete} onClick={() => onDeleteClick(program.id, program.hasSurvey, program.surveyId)}>
+                    <DeleteOutlineOutlinedIcon />
+                  </div>
                   <img width={200} height={200} src={program.thumbnailImg} onClick={() => onProgramClick(program.id)} />
                   <Typography onClick={() => onProgramClick(program.id)}
                     variant='h6' sx={{ mt: 1, color: "#222", textAlign: "center", wordBreak: "keep-all", fontSize: "18px", fontWeight: "bold", lineHeight: "18px" }} textTransform="capitalize">
@@ -111,6 +188,8 @@ const Program = ({teamName}) => {
             </Grid>
           )
         })}
+
+        
       </Grid>
     </div>
   )

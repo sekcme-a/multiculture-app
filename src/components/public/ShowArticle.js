@@ -71,13 +71,8 @@ const ShowArticle = ({createMarkup, data, teamName, id, type}) => {
         <div className="quill_custom_editor" style={{marginTop:"35px"}}>
           <div dangerouslySetInnerHTML={createMarkup()} />
         </div>
-        <div className={styles.button_container}>
-          {type !== "anouncement" ?
-            <Button variant="contained" className={styles.button} onClick={onApplyClick}>{text.apply}</Button>
-            :
-            <Button variant="contained" className={styles.button} onClick={onHomeClick}>{text.go_back_to_home}</Button>
-          }
-        </div>
+        <div style={{ height: "100px" }}></div>
+        <Button onClick={()=>router.push("/")} variant="contained" fullWidth style={{ backgroundColor: "#5316b5" }}>홈으로</Button>
       </div>
     </div>
   )

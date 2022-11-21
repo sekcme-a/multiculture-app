@@ -34,7 +34,9 @@ export function AuthProvider(props) {
 		// }
   }
 	const loginWithApple = async () => {
-    const { error, user } = await AuthService.loginWithApple();
+		const { error, user } = await AuthService.loginWithApple();
+		console.log(error)
+		console.log(user)
 		setUser(user ?? null)
 		setError(error ?? "")
 		// if (user !== null) {

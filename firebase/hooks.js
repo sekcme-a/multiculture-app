@@ -323,8 +323,11 @@ export const firebaseHooks = {
     })
   },
   save_content: (teamName, type, id, data) => {
+    console.log("adsf")
     return new Promise(async function (resolve, reject) {
+      console.log(data)
       try {
+        console.log(data)
         db.collection("contents").doc(teamName).collection(type).doc(id).get().then((doc) => {
           if(doc.exists)
             db.collection("contents").doc(teamName).collection(type).doc(id).update(data)
@@ -334,8 +337,9 @@ export const firebaseHooks = {
         
         resolve("success")
       } catch (e) {
-        reject(e.message)
         console.log(e)
+        reject(e.message)
+        
       }
     })
   },
@@ -361,6 +365,7 @@ export const firebaseHooks = {
           contents = await db.collection("contents").doc(teamName).collection(type).orderBy("savedDate", "desc").limit(limit).get()
         else
           contents = await db.collection("contents").doc(teamName).collection(type).where("published","==",true).orderBy("savedDate", "desc").limit(limit).get()
+        const groupData = await db.collection("admin_group").doc(teamName).get()
         contents.docs.map((doc) => {
           list.push({
             id: doc.id,
@@ -372,9 +377,12 @@ export const firebaseHooks = {
             savedDate: doc.data().savedDate,
             lastSaved: doc.data().lastSaved,
             deadline: doc.data().deadline,
-            hasSurvey: doc.data().hasSuvey,
+            hasSurvey: doc.data().hasSurvey,
             surveyId: doc.data().surveyId,
+            groupName: groupData.data().name,
+            date: doc.data().date,
             teamName: teamName,
+            thumbnailBackground: doc.data().thumbnailBackground,
           })  
         })
         resolve(list)

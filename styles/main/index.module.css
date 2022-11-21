@@ -1,16 +1,25 @@
 .header_container{
   display: flex;
   /* flex-wrap: wrap; */
-  justify-content: flex-end;
+  justify-content: space-between;
+  padding: 0 25px;
   align-items: center;
   position: fixed;
   z-index: 999;
-  width: 100%;
+  width: 95%;
   color: white;
-  height: 45px;
+  height: 75px;
+}
+.header_container h1{
+  font-size: 25px;
+  font-weight: bold;
+  font-family: 'Jua', sans-serif !important;
+  letter-spacing: 2px;
 }
 .header_container.add_background{
-  background-color: rgba(0, 0, 0, 0.388);
+  background-color: white;
+  color: #814ad8;
+  height: 55px; 
 }
 
 .menu_icon{

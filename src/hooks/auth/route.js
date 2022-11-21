@@ -19,8 +19,10 @@ export function withPublic(Component) {
             let displayName = `User${auth.user.uid.substr(1,5)}`
           if (auth.user.photoURL)
             photoURL = auth.user.photoURL
-          if(auth.user.displayName)
+          if (auth.user.displayName!==undefined && auth.user.displayName!==null) {
             displayName = auth.user.displayName
+            console.log(auth.user.displayName)
+          }
           else {
             AuthService.updateUserProfile({displayName: displayName})
           }

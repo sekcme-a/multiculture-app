@@ -15,7 +15,7 @@
 
 
 @font-face {
-    font-family: 'yg-jalnan';
+    font-family: 'Jua';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
     font-weight: normal;
     font-style: normal;
@@ -168,7 +168,7 @@ a {
   font-family: 'Black Han Sans', sans-serif !important;
 }
 .ql-font-여기어때잘난체{
-  font-family: 'yg-jalnan', sans-serif !important;
+  font-family: 'Jua', sans-serif !important;
 }
 .ql-font-가나초콜릿체{
   font-family: 'ghanachoco', sans-serif !important;

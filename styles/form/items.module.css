@@ -1,9 +1,9 @@
 
-
 .single_checkbox_container{
-  width: 100%;
-  margin-top: 8px;
+  /* width: 100%; */
   height: fit-content;
+  padding: 40px 15px;
+  border-bottom: 5px solid rgb(232, 232, 232);
 }
 .single_checkbox_container h1{
   font-size: 18px;

@@ -18,11 +18,12 @@
 }
 
 .title h3{
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 21px;
+  /* font-weight: bold; */
   color: #333;
+  font-family: 'Jua', sans-serif !important;
 }
 .title p{
-  font-size: 13px;
+  font-size: 15px;
   color: #814ad8;
 }

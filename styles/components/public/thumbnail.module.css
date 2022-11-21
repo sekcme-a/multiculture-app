@@ -13,8 +13,8 @@
   margin-right: 15px;
   border-radius: 4px;
   border: 0.5px solid #999;
-  width: 110px;
-  height: 110px;
+  width: 130px;
+  height: 100px;
 }
 
 .content_container{
@@ -25,7 +25,7 @@
   padding: 5px 0;
 }
 .content_container h3{
-  font-size: 17px;
+  font-size: 16px;
   overflow: hidden;
   word-wrap: break-word;
   text-overflow:ellipsis;
@@ -36,6 +36,8 @@
   /* width: 100%; */
   margin-bottom: 8px;
   width:100% !important;
+  font-family: 'Jua', sans-serif !important;
+  line-height: 1.2;
 }
 .content_container h4{
   font-size: 13px;
@@ -57,4 +59,71 @@
   margin-bottom: 12px;
   font-size: 12px;
   color: rgb(55, 39, 39);
+}
+
+
+
+
+
+
+ .thumbnail_container{
+  display: flex;
+  /* justify-content: center; */
+  position: relative;
+  /* width: 100%; */
+  margin-right: 12px;
+}
+.thumbnail_container .thumbnail_image_container{
+  position: relative;
+  width:130.4px;
+  height:100.6px;
+  overflow: hidden;
+  border-radius: 5%;
+}
+
+
+.thumbnail_overlay{
+  z-index: 3;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 110.4px;
+  height: 70.6px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.thumbnail_overlay.white{
+  color: white;
+}
+.thumbnail_overlay.black{
+  color: black;
+}
+.thumbnail_overlay h2{
+  font-family: 'Nanum Gothic', sans-serif !important;
+  font-weight: bold;
+  font-size: 9px;
+  width:100%;
+}
+.thumbnail_overlay h3{
+  /* font-family: 'Jua', sans-serif !important; */
+  font-weight: bold;
+  font-size: 12px;
+  word-break: keep-all;
+  line-height: 1.1;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.thumbnail_overlay h4{
+  font-size: 7px !important;
+  word-break: keep-all;
+  line-height: 1.1;
 }

@@ -64,7 +64,7 @@ const Home = () => {
           }
           if (doc.data().pushToken === undefined) {
             if(window.ReactNativeWebView) {
-              window.ReactNativeWebView.postMessage(user.uid)
+              window.ReactNativeWebView.postMessage(`UID_DATA: ${user.uid}`)
             }
           }
         }

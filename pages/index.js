@@ -39,8 +39,6 @@ const Home = () => {
   const { user } = useAuth()
   const router = useRouter()
   const intl = useIntl()
-
-  const [temp, setTemp] = useState("")
   
   //scroll Y 포지션
   useEffect(() => {
@@ -91,18 +89,8 @@ const Home = () => {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener('message', ({data}) => {
-        setMessage(data)
-      })
     };
   }, []);
-
-  useEffect(() => {
-    window.addEventListener('message', ({ data }) => {
-      setTemp(data)
-      db.collection("users").doc(user.uid).update({pushToken: data})
-    })
-  },[])
 
   const onMenuClick = () => {
     setIsMenuOpen(true)
@@ -134,8 +122,6 @@ const Home = () => {
       {!isHide && 
         <>
           <MainSwiper />
-        {/* <SelectLanguage /> */}
-        <h1>{temp}asdf</h1>
           <Program />
           <div className={styles.border} />
           <Survey />

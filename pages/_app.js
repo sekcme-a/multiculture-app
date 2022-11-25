@@ -62,10 +62,8 @@ function MyApp({ Component, pageProps }) {
               <UserDataProvider>
                 <Component {...pageProps} />
                 {!router.pathname.includes("admin")&& router.pathname!=="/" && <BottomNavigation />}
-                {!router.pathname.includes("admin") && <LanguageSpeedDial setLang={setLanguage} />}
-                {/* {(!router.pathname.includes("admin") && !router.pathname.includes("message")) && <BottomNavigation />}
-                {(!router.pathname.includes("admin") && !router.pathname.includes("message")) && <LanguageSpeedDial setLang={setLanguage} />} */}
-                
+                {/* {!router.pathname.includes("admin") && <LanguageSpeedDial setLang={setLanguage} />} */}
+
               </UserDataProvider>
             </IntlProvider>
           </ThemeProvider>

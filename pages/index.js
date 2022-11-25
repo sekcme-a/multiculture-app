@@ -39,6 +39,8 @@ const Home = () => {
   const { user } = useAuth()
   const router = useRouter()
   const intl = useIntl()
+
+  const [temp, setTemp] = useState("")
   
   //scroll Y 포지션
   useEffect(() => {
@@ -48,12 +50,22 @@ const Home = () => {
     // const locale = localStorage.getItem('language') || 'ko';
     // setLanguage(locale)
     window.addEventListener("scroll", handleScroll);
+    // const onMessageHandler = (e) => {
+    //   alert(e.data)
+    //   db.collection("users").doc(user.uid).update({pushToken: e.data})
+    // }
+    // window.addEventListener("message", onMessageHandler)
     const city = localStorage.getItem("city")
     if (user !== null) {
       db.collection("users").doc(user.uid).get().then((doc) => {
         if (doc.exists) {
           if (doc.data().city === undefined || city === null) {
             setOpenDialogSetting(true)
+          }
+          if (doc.data().pushToken === undefined) {
+            if(window.ReactNativeWebView) {
+              window.ReactNativeWebView.postMessage(user.uid)
+            }
           }
         }
       })
@@ -79,8 +91,18 @@ const Home = () => {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('message', ({data}) => {
+        setMessage(data)
+      })
     };
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('message', ({ data }) => {
+      setTemp(data)
+      db.collection("users").doc(user.uid).update({pushToken: data})
+    })
+  },[])
 
   const onMenuClick = () => {
     setIsMenuOpen(true)
@@ -112,7 +134,8 @@ const Home = () => {
       {!isHide && 
         <>
           <MainSwiper />
-          {/* <SelectLanguage /> */}
+        {/* <SelectLanguage /> */}
+        <h1>{temp}asdf</h1>
           <Program />
           <div className={styles.border} />
           <Survey />

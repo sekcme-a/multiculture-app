@@ -54,6 +54,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Cute+Font&family=Dongle&family=East+Sea+Dokdo&family=Gamja+Flower&family=Gothic+A1&family=Jua&family=Nanum+Gothic&family=Nanum+Pen+Script&family=Noto+Sans+KR&display=swap" rel="stylesheet"></link>
+        <meta name="google-site-verification" content="bLFivCjbVcRRhfLlSY8tACo_lPHtIgUdWIMCNKuCH0g" />
       </Head>
       <AuthProvider>
         <AuthStateChanged>

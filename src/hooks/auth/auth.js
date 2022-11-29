@@ -12,12 +12,15 @@ export default function useAuth() {
 export function AuthProvider(props) {
   const [user, setUser] = useState(null);
 	const [userrole, setUserrole] = useState();
-	const [teamName, setTeamName] = useState("suwon")
+	const [teamName, setTeamName] = useState("")
 	const [error, setError] = useState("");
 	const [token, setToken] = useState("")
   const router = useRouter()
 	const pathname = router.pathname;
 
+	useEffect(() => {
+		setTeamName(localStorage.getItem("admin_team"))
+	},[])
 
 	const loginWithGoogle = async () => {
 		const { error, userData } = await AuthService.loginWithGoogle();

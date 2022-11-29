@@ -26,7 +26,7 @@ const Form = ({ formDatas, data, handleData, addMargin }) => {
           if (formData.type === "single_checkbox")
             return (
               <>
-                <div style={addMargin && { marginBottom: "1px" }}>
+                <div style={addMargin && { marginBottom: "1px" }} key={index}>
                   <SingleCheckbox index={index}
                     id={formData.id} title={formData.title} items={formData.items}
                     data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
@@ -36,52 +36,52 @@ const Form = ({ formDatas, data, handleData, addMargin }) => {
               </>
             )
           else if (formData.type === "multiple_checkbox")
-            return <div style={addMargin && {marginBottom:"1px"}}><MultipleCheckbox index={index}
+            return <div style={addMargin && {marginBottom:"1px"}} key={index}><MultipleCheckbox index={index}
               id={formData.id} title={formData.title} items={formData.items}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>
           else if (formData.type === "list_select")
-            return <div style={addMargin && {marginBottom:"1px"}}><ListSelect index={index}
+            return <div style={addMargin && {marginBottom:"1px"}} key={index}><ListSelect index={index}
               id={formData.id} title={formData.title} items={formData.items}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>
           else if (formData.type === "number_select")
-            return <div style={addMargin && {marginBottom:"1px"}}><NumberSelect index={index}
+            return <div style={addMargin && {marginBottom:"1px"}} key={index}><NumberSelect index={index}
               id={formData.id} title={formData.title} items={formData.items}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>
           else if (formData.type === "small_input")
-            return <div style={addMargin && {marginBottom:"1px"}}><SmallInput index={index}
+            return <div style={addMargin && {marginBottom:"1px"}} key={index}><SmallInput index={index}
               id={formData.id} title={formData.title} items={formData.items}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>
           else if (formData.type === "free_input")
-            return <div style={addMargin && {marginBottom:"1px"}}><FreeInput index={index}
+            return <div style={addMargin && {marginBottom:"1px"}} key={index}><FreeInput index={index}
               id={formData.id} title={formData.title} items={formData.items}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>
           else if (formData.type === "date_time")
-            return <div style={addMargin && {marginBottom:"1px"}}><DateTime index={index}
+            return <div style={addMargin && {marginBottom:"1px"}} key={index}><DateTime index={index}
               id={formData.id} title={formData.title} items={formData.items}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>
           else if (formData.type === "phone_number")
-            return <div style={addMargin && {marginBottom:"1px"}}><PhoneNumber index={index}
+            return <div style={addMargin && {marginBottom:"1px"}} key={index}><PhoneNumber index={index}
               id={formData.id} title={formData.title} items={formData.items}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>
           else if (formData.type === "address")
-            return <div style={addMargin && {marginBottom:"1px"}}><Address index={index}
+            return <div style={addMargin && {marginBottom:"1px"}} key={index}><Address index={index}
               id={formData.id} title={formData.title} items={formData.items}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>
           else if (formData.type === "image")
-            return <div style={addMargin && {marginBottom:"1px"}}><Image index={index}
+            return <div style={addMargin && {marginBottom:"1px"}} key={index}><Image index={index}
               id={formData.id} title={formData.title} items={formData.items}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>
           else if (formData.type === "file")
-            return <div style={addMargin && {marginBottom:"1px"}}><File index={index}
+            return <div style={addMargin && {marginBottom:"1px"}} key={index}><File index={index}
               id={formData.id} title={formData.title} items={formData.items}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>

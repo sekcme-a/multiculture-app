@@ -294,6 +294,8 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
         sid = await firebaseHooks.get_random_id_from_collection("users")
       await db.collection("contents").doc(teamName).collection("programSurveys").doc(sid).set({
         form: surveyFormData,
+        surveyStartDate: surveyStartDate,
+        title: values.title,
       })
       setSurveyId(sid)
       await firebaseHooks.save_content(teamName, type, id,

@@ -84,7 +84,7 @@ const Survey = ({teamName}) => {
                   onClick={() => onProgramClick(program.id)}>
                   {program.published ? <div className={styles.published}>게재중</div> : <div className={styles.unpublished}>미게재</div>}
                   <div className={styles.delete} onClick={()=>onDeleteClick(program.id, program.hasSurvey, program.surveyId)}><DeleteOutlineOutlinedIcon /></div>
-                  <img width={200} height={200} src={program.thumbnailImg} />
+                  <img width={250} height={180} src={program.thumbnailBackground} />
                   <Typography variant='h6' sx={{ mt: 1 , color: "#222",textAlign:"center", wordBreak:"keep-all", fontSize:"18px",fontWeight:"bold", lineHeight:"18px"}} textTransform="capitalize">
                     {program.title}
                   </Typography>

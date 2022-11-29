@@ -124,11 +124,12 @@ const Home = () => {
           <MainSwiper />
           <Program />
           <div className={styles.border} />
-          <Survey />
-          <div className={styles.border} />
           <Anouncement />
           <div className={styles.border} />
         <News />
+        <div className={styles.border} />
+          <Survey/>    
+          
         <div className={styles.border} />
           <div style={{width:"100%", height:"150px"}}> </div>
         </>

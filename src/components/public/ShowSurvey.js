@@ -109,7 +109,15 @@ const ShowSurvey = ({data, teamName, id, type}) => {
         `사용자가 [프로그램: ${data.title}]을(를) 신청했습니다.`,
         id
       )
-    } else {
+
+      let history = localStorage.getItem("history_program")  //null
+      if (history === null) {
+        history = `${teamName}/:/${id}/:/${data.surveyStartDate.seconds}`
+      } else {
+        history=`${teamName}/:/${id}/:/${data.surveyStartDate.seconds}_SEP_${history}`
+      }
+      localStorage.setItem("history_program", history)
+    } else if(type==="surveys") {
       const res = await firebaseHooks.add_timeline(
         user.uid,
         "surveys",
@@ -118,16 +126,21 @@ const ShowSurvey = ({data, teamName, id, type}) => {
         `사용자가 [설문조사: ${data.title}]을(를) 참여했습니다.`,
         id
       )
+    } else if (type === "programSurveys") {
+      const res = await firebaseHooks.add_timeline(
+        user.uid,
+        "programSurveys",
+        new Date(),
+        `"${data.title}" 프로그램 설문조사 참여`,
+        `사용자가 [프로그램 설문조사: ${data.title}]을(를) 참여했습니다.`,
+        id
+      )
+      let history = localStorage.getItem("history_program")
+      history = history.replace(data.surveyStartDate.seconds, "undefined")
+      localStorage.setItem("history_program", history)
     }
 
 
-    let history = localStorage.getItem("history_program")  //null
-    if (history === null) {
-      history = `${teamName}/:/${id}`
-    } else {
-      history=`${teamName}/:/${id}_SEP_${history}`
-    }
-    localStorage.setItem("history_program", history)
 
     setIsSubmitting(false)
     // router.push(`/thanks/${teamName}/${id}`)

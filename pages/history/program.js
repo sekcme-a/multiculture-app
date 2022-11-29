@@ -25,12 +25,16 @@ const MyPageProfile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      // localStorage.removeItem("history_program")
       const history = localStorage.getItem("history_program")
+      console.log(history)
       if (history !== null) {
         const tempList = history.split("_SEP_")
         let resultList = []
         setItemCount(tempList.length)
         for (let i = 10 * (page - 1); i < page * 10 - 1; i++) {
+          if (tempList[i] === undefined)
+            break;
           const items = tempList[i].split("/:/")
           const doc = await db.collection("contents").doc(items[0]).collection("programs").doc(items[1]).get()
           const groupData = await db.collection("admin_group").doc(items[0]).get()
@@ -58,6 +62,7 @@ const MyPageProfile = () => {
   const onMoreClick = async () => {
     setIsLoading(true)
     setPage(page + 1)
+    
     const history = localStorage.getItem("history_program")
     if (history !== null) {
       const tempList = history.split("_SEP_")
@@ -78,6 +83,7 @@ const MyPageProfile = () => {
           groupName: groupData.data().name,
           date: doc.data().date,
           deadline: doc.data().deadline,
+          surveyId: doc.data().surveyId,
         })
       }
       setList([...resultList])
@@ -91,7 +97,6 @@ const MyPageProfile = () => {
   return (
     <div className={styles.main_container} style={{ paddingBottom: "100px" }}>
       <PageHeader text="프로그램 참여 기록" />
-      {localStorage.getItem("history_program")}
       {list.length === 0 ?
         !isLoading &&
           <div style={{ width: "100%", height: "250px", display: "flex", justifyContent: "center", alignItems: "center" }}>

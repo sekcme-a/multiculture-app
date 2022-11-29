@@ -177,6 +177,9 @@ export const firebaseHooks = {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await db.collection("profileSettings").doc(location).get()
+        if (!result.exists) {
+          resolve([])
+        }
         if (mainOrSub === "main")
           resolve(result.data().main)
         else

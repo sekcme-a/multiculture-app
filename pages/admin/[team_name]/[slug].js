@@ -41,6 +41,7 @@ const Admin = () => {
       setIsTeamName(doc2.exists)
       setTeamName(team_name)
       setIsLoading(false)
+      localStorage.setItem("admin_team", team_name)
     }
 
     if(user)

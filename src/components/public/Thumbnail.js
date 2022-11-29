@@ -5,13 +5,18 @@ import { translate } from "src/hooks/translate"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import useAuth from "src/hooks/auth/auth"
+import { firestore as db } from "firebase/firebase"
+
+import SurveyDialog from "src/components/public/SurveyDialog"
 
 const Thumbnail = ({ data, smallMargin, path }) => {
   const [text, setText] = useState({})
   const { language, fetchText } = useUserData()
   const [color, setColor] = useState("white")
+  const [openDialog, setOpenDialog] = useState(false)
   const router = useRouter()
   const { user } = useAuth()
+  const [surveyPath, setSurveyPath] = useState("")
 
   useEffect(() => {
     const fetchData = async (lang) => {
@@ -41,14 +46,45 @@ const Thumbnail = ({ data, smallMargin, path }) => {
     }
   }, [])
   
-  const onClick = () => {
-    if(user)
-      router.push(path)
-    else
-      router.push("/login")
+  const onClick = async () => {
+    let go = true;
+    if (!openDialog) {
+      if (path.includes("article")) {
+        const history = localStorage.getItem("history_program")
+        if (history !== null) {
+          const list = history.split("_SEP_")
+          for (const items of list) {
+            const item = items.split("/:/")
+            if (item[2] !== "undefined") {
+              const time = new Date(parseInt(item[2]) * 1000)
+              if (new Date(parseInt(item[2])) <= new Date()) {
+                console.log("asdf")
+                setOpenDialog(true)
+                console.log(item[0], item[1])
+                const doc = await db.collection("contents").doc(item[0]).collection("programs").doc(item[1]).get()
+                  setSurveyPath(`/programSurveys/${data.teamName}/${doc.data().surveyId}`)
+                  console.log(doc.data().surveyId)
+                  go = false;
+              }
+            }
+          }
+        }
+      }
+    }
+    if (go) {
+      if (user)
+        router.push(path)
+      else
+        router.push("/login")
+    }
+    // if (user)
+    //   router.push(path)
+    // else
+    //   router.push("/login")
   }
 
   return (
+    <>
     <div className={smallMargin ? `${styles.main_container} ${styles.small_margin}` : styles.main_container} onClick={onClick}>
       {/* <img src={data.thumbnailBackground} />
       {console.log(data)} */}
@@ -71,7 +107,12 @@ const Thumbnail = ({ data, smallMargin, path }) => {
           data.deadline?.toDate().toLocaleString('en-US').replace(/\s/g, '')}
         </p>
       </div>
+      <div>
+        <SurveyDialog isShow={openDialog} handleShow={(bool)=>setOpenDialog(bool)} path={surveyPath} />
+      </div>
     </div>
+    {/* <SurveyDialog isShow={openDialog} handleShow={setOpenDialog} /> */}
+    </>
   )
 }
 

@@ -71,8 +71,10 @@ const AskTeam = (props) => {
 
 
   const onJoinClick = async () => {
-    if(team!=="")
+    if (team !== "") {
+      localStorage.setItem("admin_team", team)
       router.push(`/admin/${team}/home`)
+    }
   }
 
   const handleOnKeyPress = (e) => {

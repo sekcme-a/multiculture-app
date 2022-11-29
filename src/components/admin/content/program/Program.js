@@ -168,9 +168,9 @@ const Program = ({teamName}) => {
                   <div className={styles.delete} onClick={() => onDeleteClick(program.id, program.hasSurvey, program.surveyId)}>
                     <DeleteOutlineOutlinedIcon />
                   </div>
-                  <img width={200} height={200} src={program.thumbnailImg} onClick={() => onProgramClick(program.id)} />
+                  <img width={250} height={180} src={program.thumbnailBackground} onClick={() => onProgramClick(program.id)} />
                   <Typography onClick={() => onProgramClick(program.id)}
-                    variant='h6' sx={{ mt: 1, color: "#222", textAlign: "center", wordBreak: "keep-all", fontSize: "18px", fontWeight: "bold", lineHeight: "18px" }} textTransform="capitalize">
+                    variant='h6' sx={{ mt: 3, color: "#222", textAlign: "center", wordBreak: "keep-all", fontSize: "18px", fontWeight: "bold", lineHeight: "18px" }} textTransform="capitalize">
                     {program.title}
                   </Typography>
                   <Typography onClick={() => onProgramClick(program.id)}

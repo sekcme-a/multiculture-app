@@ -108,8 +108,11 @@ const ManageTeam = ({type, docId}) => {
   // ]
 
   const find = (row, id) => {
-    for (const item of row){
+    console.log(row)
+    for (const item of row) {
+      console.log(item)
       if (item.id === id)
+        console.log(item.text)
         return item.text
     }
   }
@@ -123,30 +126,42 @@ const ManageTeam = ({type, docId}) => {
         
         query.docs.map((doc, index) => {
           let temp = {}
+          let tempDataList = []
           doc.data().data.map((item, index) => {
-            console.log(item)
-            temp = {...temp, [item.id]: item.value }
+            console.log(typeof(item.value)==="object")
+            if (typeof (item.value) === "object") {
+              tempDataList.push({id: item.id, value: item.value.toDate().toLocaleString('ko-KR').replace(/\s/g, '')})
+            } else
+              tempDataList.push({id: item.id, value: item.value})
+            // temp = {...temp,[{id: item.id, value: item.value}] [item.id]: item.value }
           })
-          temp = {...temp, ["id"]: index}
-          rowList.push(temp)
+          
+          rowList.push({ dataList: [...tempDataList], ["id"]: index })
+          
         })
-        console.log(columnsList)
-        console.log(rowList)
         setListData(rowList)
+        console.log(rowList)
       db.collection("contents").doc(teamName).collection(type).doc(docId).get().then((doc) => {
         setTitle(doc.data().title)
         doc.data().form.map((item) => {
           columnsList.push({
             // flex: 0.15,
-            minWidth: 120,
+            minWidth: 180,
             headerName: item.title,
             field: item.id,
             renderCell: ({ row }) => {
-              console.log(row)
-              console.log(item)
+              let text = ""
+                for (const rowItem of rowList) {
+                  for (const tem of rowItem.dataList) {
+                    if (item.id === tem.id) {
+                      text = tem.value
+                    }
+                  }
+                }
               return (
-                <Typography noWrap sx={{ textTransform: 'capitalize' }}>
-                  {()=>find(row, item.id)}
+                <Typography noWrap>
+
+                  {text}
                 </Typography>
               )
             }

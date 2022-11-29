@@ -46,8 +46,8 @@ const MyPageProfile = () => {
           })
         }
         setList([...resultList])
-        setIsLoading(false)
       }
+        setIsLoading(false)
     }
     fetchData()
   }, [])
@@ -81,8 +81,8 @@ const MyPageProfile = () => {
         })
       }
       setList([...resultList])
-      setIsLoading(false)
     }
+    setIsLoading(false)
   }
 
 
@@ -91,6 +91,7 @@ const MyPageProfile = () => {
   return (
     <div className={styles.main_container} style={{ paddingBottom: "100px" }}>
       <PageHeader text="프로그램 참여 기록" />
+      {localStorage.getItem("history_program")}
       {list.length === 0 ?
         !isLoading &&
           <div style={{ width: "100%", height: "250px", display: "flex", justifyContent: "center", alignItems: "center" }}>

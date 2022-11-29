@@ -30,6 +30,7 @@ const ShowSurvey = ({data, teamName, id, type}) => {
   const [inputData, setInputData] = useState([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [openBackdrop, setOpenBackdrop] = useState(false)
+  const [hasHistory, setHasHistory] = useState(false)
   const [backdropValue, setBackdropValue] = useState({
     openBackdrop: false,
     submitted: true,
@@ -61,6 +62,9 @@ const ShowSurvey = ({data, teamName, id, type}) => {
           list.push({...data.form[i], title: txt})
         }
       }
+
+
+
       setFormData(list)
       setIsLoading(false)
       if (list.length === 0) {
@@ -74,8 +78,6 @@ const ShowSurvey = ({data, teamName, id, type}) => {
   
   const onApplyClick = async () => {
     setIsSubmitting(true)
-    console.log(inputData)
-    console.log(formData)
     for (const formItem of formData) {
       if (formItem.isRequired) {
         let hasValue=false
@@ -98,14 +100,35 @@ const ShowSurvey = ({data, teamName, id, type}) => {
     }
     setOpenBackdrop(true)
     const result = await firebaseHooks.submit_form_input(user.uid, id, type, teamName, inputData)
-    const res = await firebaseHooks.add_timeline(
-      user.uid,
-      "programs",
-      new Date(),
-      `"${data.title}" 프로그램 신청`,
-      `사용자가 [프로그램: ${data.title}]을(를) 신청했습니다.`,
-      id
-    )
+    if (type === "programs") {
+      const res = await firebaseHooks.add_timeline(
+        user.uid,
+        "programs",
+        new Date(),
+        `"${data.title}" 프로그램 신청`,
+        `사용자가 [프로그램: ${data.title}]을(를) 신청했습니다.`,
+        id
+      )
+    } else {
+      const res = await firebaseHooks.add_timeline(
+        user.uid,
+        "surveys",
+        new Date(),
+        `"${data.title}" 설문조사 참여`,
+        `사용자가 [설문조사: ${data.title}]을(를) 참여했습니다.`,
+        id
+      )
+    }
+
+
+    let history = localStorage.getItem("history_program")  //null
+    if (history === null) {
+      history = `${teamName}/:/${id}`
+    } else {
+      history=`${teamName}/:/${id}_SEP_${history}`
+    }
+    localStorage.setItem("history_program", history)
+
     setIsSubmitting(false)
     // router.push(`/thanks/${teamName}/${id}`)
   }

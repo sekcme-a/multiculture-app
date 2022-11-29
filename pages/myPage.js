@@ -49,11 +49,12 @@ const MyPage = () => {
       icon: <EmailOutlinedIcon style={iconStyle} />,
       onClick: () => {router.push("/message")}
     },
-    // {
-    //   title: "신청한 프로그램 기록", 
-    //   subtitle: "신청했던 프로그램 목록들을 확인하세요.",
-    //   icon: <Diversity2OutlinedIcon style={iconStyle} />
-    // },
+    {
+      title: "신청한 프로그램 기록", 
+      subtitle: "신청했던 프로그램 목록들을 확인하세요.",
+      icon: <Diversity2OutlinedIcon style={iconStyle} />,
+      onClick: () => {router.push("/history/program")}
+    },
     // {
     //   title: "설문조사 기록", 
     //   subtitle: "참여했던 설문조사의 목록을 확인하세요.",

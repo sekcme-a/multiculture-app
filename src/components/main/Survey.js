@@ -136,23 +136,23 @@ const Program = (props) => {
 
           {programList.length !== 0 && 
             <SwiperSlide className={styles.swiper_slide}>
-              {programList[0] && <div onClick={()=>onClick(programList[0].id, programList[0].teamName)}><Thumbnail data={programList[0]} /></div>}
-              {programList[1] && <div onClick={()=>onClick(programList[1].id, programList[1].teamName)}><Thumbnail data={programList[1]} /></div>}
-              {programList[2] && <div onClick={()=>onClick(programList[2].id, programList[2].teamName)}><Thumbnail data={programList[2]} /></div>}
+              {programList[0] && <div><Thumbnail data={programList[0]} path={`/article/${programList[0].teamName}/${programList[0].id}`} /></div>}
+              {programList[1] && <div><Thumbnail data={programList[1]} path={`/article/${programList[1].teamName}/${programList[1].id}`} /></div>}
+              {programList[2] && <div><Thumbnail data={programList[2]} path={`/article/${programList[2].teamName}/${programList[2].id}`} /></div>}
             </SwiperSlide>
           }
           {programList.length !== 0 && programList.length>3 &&
             <SwiperSlide className={styles.swiper_slide}>
-              {programList[3] && <div onClick={()=>onClick(programList[3].id, programList[3].teamName)}><Thumbnail data={programList[3]} /></div>}
-              {programList[4] && <div onClick={()=>onClick(programList[4].id, programList[4].teamName)}><Thumbnail data={programList[4]} /></div>}
-              {programList[5] && <div onClick={()=>onClick(programList[5].id, programList[5].teamName)}><Thumbnail data={programList[5]} /></div>}
+              {programList[3] && <div><Thumbnail data={programList[3]} path={`/article/${programList[3].teamName}/${programList[3].id}`} /></div>}
+              {programList[4] && <div><Thumbnail data={programList[4]} path={`/article/${programList[4].teamName}/${programList[4].id}`} /></div>}
+              {programList[5] && <div><Thumbnail data={programList[5]} path={`/article/${programList[5].teamName}/${programList[5].id}`} /></div>}
             </SwiperSlide>
           }
           {programList.length !== 0 && programList.length>6 &&
             <SwiperSlide className={styles.swiper_slide}>
-              {programList[6] && <div onClick={()=>onClick(programList[6].id, programList[6].teamName)}><Thumbnail data={programList[6]} /></div>}
-              {programList[7] && <div onClick={()=>onClick(programList[7].id, programList[7].teamName)}><Thumbnail data={programList[7]} /></div>}
-              {programList[8] && <div onClick={()=>onClick(programList[8].id, programList[8].teamName)}><Thumbnail data={programList[8]} /></div>}
+              {programList[6] && <div><Thumbnail data={programList[6]} path={`/article/${programList[6].teamName}/${programList[6].id}`} /></div>}
+              {programList[7] && <div><Thumbnail data={programList[7]} path={`/article/${programList[7].teamName}/${programList[7].id}`} /></div>}
+              {programList[8] && <div><Thumbnail data={programList[8]} path={`/article/${programList[8].teamName}/${programList[8].id}`} /></div>}
             </SwiperSlide>
           }
 

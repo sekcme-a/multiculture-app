@@ -35,6 +35,8 @@ const Contents = ({data, teamName, id, type}) => {
   const { language, fetchText } = useUserData()
   const [isLoading, setIsLoading] = useState(true)
   const [text, setText] = useState()
+  const [hasHistory, setHasHistory] = useState(false)
+  const [hasEnd, setHasEnd] = useState(false)
 
   const [color, setColor] = useState("white")
   const [selectedItem, setSelectedItem] = useState(0)
@@ -55,6 +57,24 @@ const Contents = ({data, teamName, id, type}) => {
       data.thumbnailBackground === "/thumbnail/012.png"
     ) {
       setColor("black")
+    }
+
+      const history = localStorage.getItem("history_program")
+      console.log(history)
+      if (history !== null) {
+        const tempList = history.split("_SEP_")
+        for (const items of tempList) {
+          console.log(items)
+          const item = items.split("/:/")
+          if (item[1] === id) {
+            setHasHistory(true)
+            break;
+          }
+        }
+    }
+    
+    if (data.deadline.toDate() <= new Date()) {
+      setHasEnd(true)
     }
   },[])
 
@@ -179,7 +199,21 @@ const Contents = ({data, teamName, id, type}) => {
       <div style={{ height: "200px" }}></div>
       {teamName !== undefined &&
         <div className={styles.submit_container}>
-          <Button onClick={onButtonClick} variant="contained" fullWidth style={{ backgroundColor: "#5316b5" }}>참여하기</Button>
+          {hasHistory ?
+            <Button onClick={onButtonClick} variant="contained" disabled={true} fullWidth >
+              참여 완료
+            </Button>
+            :
+            hasEnd ? 
+              <Button onClick={onButtonClick} variant="contained" disabled={true} fullWidth >
+                참여 마감
+              </Button>
+            :
+            <Button onClick={onButtonClick} variant="contained" fullWidth
+              style={{ backgroundColor: "#5316b5" }}>
+              참여하기
+            </Button>
+          }       
         </div>
       }
     </div>

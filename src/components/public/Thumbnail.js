@@ -3,11 +3,15 @@ import useUserData from "src/context/useUserData"
 import { useEffect, useState } from "react"
 import { translate } from "src/hooks/translate"
 import Image from "next/image"
+import { useRouter } from "next/router"
+import useAuth from "src/hooks/auth/auth"
 
-const Thumbnail = ({ data, smallMargin }) => {
+const Thumbnail = ({ data, smallMargin, path }) => {
   const [text, setText] = useState({})
   const { language, fetchText } = useUserData()
   const [color, setColor] = useState("white")
+  const router = useRouter()
+  const { user } = useAuth()
 
   useEffect(() => {
     const fetchData = async (lang) => {
@@ -35,10 +39,17 @@ const Thumbnail = ({ data, smallMargin }) => {
     ) {
       setColor("black")
     }
-  },[])
+  }, [])
+  
+  const onClick = () => {
+    if(user)
+      router.push(path)
+    else
+      router.push("/login")
+  }
 
   return (
-    <div className={smallMargin ? `${styles.main_container} ${styles.small_margin}` : styles.main_container}>
+    <div className={smallMargin ? `${styles.main_container} ${styles.small_margin}` : styles.main_container} onClick={onClick}>
       {/* <img src={data.thumbnailBackground} />
       {console.log(data)} */}
           <div className={styles.thumbnail_container}>

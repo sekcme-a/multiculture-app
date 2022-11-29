@@ -178,11 +178,11 @@ const MyPageProfile = () => {
         {
           !isLoading && text !==undefined && programList.map((item, index) => {
             return(
-              <div key={index} style={{width:"100%"}} onClick={() => onClick(item.id, item.teamName)} >
+              <div key={index} style={{width:"100%"}}>
                 {type === "anouncement" ?
                   <MiniThumbnail data={item} />
                   :
-                  <Thumbnail data={item} smallMargin={true} />
+                  <Thumbnail data={item} smallMargin={true} path={`/article/${item.teamName}/${item.id}`}/>
                 }
               </div>
             )

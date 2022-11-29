@@ -38,6 +38,9 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
     }
+    if (user === null) {
+      router.push("/login")
+    }
     fetchData()
   }, [language])
 

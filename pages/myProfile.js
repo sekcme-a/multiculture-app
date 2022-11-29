@@ -8,6 +8,7 @@ import useUserData from "src/context/useUserData"
 import { firebaseHooks } from "firebase/hooks"
 import { handleProfileImage } from "src/hooks/handleProfileImage"
 import { firestore as db } from "firebase/firebase"
+import { AuthService } from "src/hooks/auth/AuthService"
 
 import PageHeader from "src/components/public/PageHeader"
 import Form from "src/form/Form.js"
@@ -134,7 +135,7 @@ const MyProfile = () => {
         { city: city, name: values.name, realName: values.realName, phoneNumber: values.phoneNumber })
       localStorage.setItem("city", city)
       firebaseHooks.set_array_to_form_data(user.uid, "additional_profile", profileData, true)
-      
+      AuthService.updateUserProfile({displayName: values.name})
       console.log('asdf')
     } catch (e) {
       console.log(e)

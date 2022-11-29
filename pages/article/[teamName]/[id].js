@@ -86,6 +86,7 @@ const Contents = () => {
         thumbnailBackground: result.thumbnailBackground,
         surveyId: result.surveyId,
         hasSurvey: result.hasSurvey,
+        deadline: result.deadline
       })
 
       if (sessionStorage.getItem("schedule") === "true") {

@@ -25,11 +25,6 @@ const DialogSetting = ({isShow, handleShow, text, path}) => {
   const { user, updateUserProfile } = useAuth()
 
   const router = useRouter()
-  const [values, setValues] = useState({
-    name: user.displayName,
-    realName: "",
-    phoneNumber: "",
-  })
 
   // const onBackdropClick = () => {
   //   setOpenBackdrop(false)

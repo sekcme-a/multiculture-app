@@ -143,7 +143,7 @@ const UserList = () => {
     <div>
       <PageHeader title="사용자 현황" subtitle="어플을 사용하는 사용자 현황입니다." mt="20px"/>
       <ControlTeamUser cardData={cardData} />
-      <PageHeader title="사용자 목록" subtitle={`어플의 모든 사용자 목록입니다, 변경사항은 새로고침 시 표시됩니다.`} mt="40px" />
+      <PageHeader title="사용자 목록" subtitle={`${teamName} 사용자 목록입니다, 변경사항은 새로고침 시 표시됩니다.`} mt="40px" />
       <UserListGrid data={listData} columns={columns} />
     </div>
   )

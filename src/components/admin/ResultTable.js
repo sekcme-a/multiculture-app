@@ -143,7 +143,19 @@ const ManageTeam = ({type, docId}) => {
 
             doc.data().data.map((item, index) => {
               if (typeof (item.value) === "object") {
-                tempDataList = { ...tempDataList, [item.id]: item.value.toDate().toLocaleString('ko-KR').replace(/\s/g, '') }
+                if (item.value.length !== undefined) {
+                  let tempString = ""
+                  item.value.map((asdf, index) => {
+                    if (index === 0)
+                      tempString = asdf
+                    else
+                      tempString = `${tempString},${asdf}`
+                  })
+                  console.log(tempString)
+                  tempDataList = { ...tempDataList, [item.id]: item.value }
+                }
+                else
+                 tempDataList = { ...tempDataList, [item.id]: item.value.toDate().toLocaleString('ko-KR').replace(/\s/g, '') }
               } else
                 tempDataList = { ...tempDataList, [item.id]: item.value }
             })

@@ -15,6 +15,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import Button from '@mui/material/Button';
 
 const Survey = ({teamName}) => {
   const router = useRouter()
@@ -54,6 +55,10 @@ const Survey = ({teamName}) => {
     }
 
   }
+  const onResultClick = (id) => {
+    router.push(`/admin/result/surveys/${id}`)
+  }
+
 
   if (isLoading) return <LoaderGif />
   
@@ -81,20 +86,21 @@ const Survey = ({teamName}) => {
             <Grid item xs={3} key={index}>
               <Card style={{minHeight:"370px", display: "flex", alignItems:"center"}}>
                 <CardContent sx={{ padding:"14px 10px 0px 10px", display: 'flex', alignItems: 'center', position:"relative", flexDirection: 'column', cursor: "pointer" }}
-                  onClick={() => onProgramClick(program.id)}>
+                >
                   {program.published ? <div className={styles.published}>게재중</div> : <div className={styles.unpublished}>미게재</div>}
                   <div className={styles.delete} onClick={()=>onDeleteClick(program.id, program.hasSurvey, program.surveyId)}><DeleteOutlineOutlinedIcon /></div>
-                  <img width={250} height={180} src={program.thumbnailBackground} />
-                  <Typography variant='h6' sx={{ mt: 1 , color: "#222",textAlign:"center", wordBreak:"keep-all", fontSize:"18px",fontWeight:"bold", lineHeight:"18px"}} textTransform="capitalize">
+                  <img width={250} height={180} src={program.thumbnailBackground} onClick={() => onProgramClick(program.id)}/>
+                  <Typography onClick={() => onProgramClick(program.id)} variant='h6' sx={{ mt: 1 , color: "#222",textAlign:"center", wordBreak:"keep-all", fontSize:"18px",fontWeight:"bold", lineHeight:"18px"}} textTransform="capitalize">
                     {program.title}
                   </Typography>
-                  <Typography sx={{ mt: 1 , color: "#444", textAlign:"center", fontSize:"13px", lineHeight:"16px", wordBreak:"keep-all"}}>
+                  <Typography onClick={() => onProgramClick(program.id)} sx={{ mt: 1 , color: "#444", textAlign:"center", fontSize:"13px", lineHeight:"16px", wordBreak:"keep-all"}}>
                     {program.subtitle}
                   </Typography>
-                  <Typography sx={{ mt: "5px" , color: "#444", fontSize:"11px", textAlign:"center"}} textTransform="capitalize">
+                  <Typography onClick={() => onProgramClick(program.id)} sx={{ mt: "5px" , color: "#444", fontSize:"11px", textAlign:"center"}} textTransform="capitalize">
                     마지막 수정: {savedDate}
                   </Typography>
                   {program.published && <p style={{fontSize:"11px"}}>게재일: {publishedDate}</p>}
+                  {program.published && <Button variant="text" onClick={()=>onResultClick(program.id)} >결과보기</Button>}
                 </CardContent>
               </Card>
             </Grid>

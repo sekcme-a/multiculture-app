@@ -43,7 +43,8 @@ const Navbar = (props) => {
   }
 
   const onClick = (loc) => {
-    router.push(`/admin/${teamName}/${loc}`)
+    const admin_team = localStorage.getItem("admin_team")
+    router.push(`/admin/${admin_team}/${loc}`)
   }
 
   return (

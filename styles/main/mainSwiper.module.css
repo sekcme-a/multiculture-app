@@ -23,6 +23,7 @@
     z-index: -1; 
     content: "";
 } */
+
 .swiper_container .image_container{
   height: 410px;
   width: 100%;
@@ -57,7 +58,7 @@
   flex-wrap: wrap;
 }
 .overlay .overlay_container{
-  width: 100%;
+  width:100%;
 }
 .overlay .content h2{
   margin: 110px 30px 10px 30px;

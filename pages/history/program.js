@@ -38,16 +38,18 @@ const MyPageProfile = () => {
           const items = tempList[i].split("/:/")
           const doc = await db.collection("contents").doc(items[0]).collection("programs").doc(items[1]).get()
           const groupData = await db.collection("admin_group").doc(items[0]).get()
-          resultList.push({
-            id: items[1],
-            teamName: items[0],
-            title: doc.data().title,
-            subtitle: doc.data().subtitle,
-            thumbnailBackground: doc.data().thumbnailBackground,
-            groupName: groupData.data().name,
-            date: doc.data().date,
-            deadline: doc.data().deadline,
-          })
+          if (doc.exists) {
+            resultList.push({
+              id: items[1],
+              teamName: items[0],
+              title: doc.data().title,
+              subtitle: doc.data().subtitle,
+              thumbnailBackground: doc.data().thumbnailBackground,
+              groupName: groupData.data().name,
+              date: doc.data().date,
+              deadline: doc.data().deadline,
+            })
+          }
         }
         setList([...resultList])
       }

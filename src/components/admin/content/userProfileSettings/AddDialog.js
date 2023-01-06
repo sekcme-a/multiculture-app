@@ -190,8 +190,8 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
               <MenuItem value="date_time">날짜/시간</MenuItem>
               <MenuItem value="phone_number">전화번호</MenuItem>
               <MenuItem value="address">주소</MenuItem>
-              <MenuItem value="image">이미지</MenuItem>
-              <MenuItem value="file">파일</MenuItem>
+              {/* <MenuItem value="image">이미지</MenuItem>
+              <MenuItem value="file">파일</MenuItem> */}
             </Select>
             <FormHelperText style={{color: "blue", width:"400px"}}>{helperText}</FormHelperText>
           </FormControl>

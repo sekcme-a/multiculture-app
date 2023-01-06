@@ -61,6 +61,11 @@ const UserViewRight = (props) => {
       setAlarmValues({...alarmValues, [prop]: event.target.checked})
   }
 
+  const onSubmitClick = () => {
+    db.collection("users").doc(props.uid).update({centerAlarm: alarmValues})
+    alert("적용되었습니다.")
+  }
+
   useEffect(() => {
     let list = []
     db.collection("users").doc(props.uid).collection("timeline").orderBy("createdAt", "desc").get().then((query) => {
@@ -68,6 +73,11 @@ const UserViewRight = (props) => {
         list.push({...doc.data()})
       })
       setTimeline(list)
+    })
+    db.collection("users").doc(props.uid).get().then((doc) => {
+      if (doc.data().centerAlarm) 
+        setAlarmValues(doc.data().centerAlarm)
+      
     })
   },[])
 
@@ -102,7 +112,8 @@ const UserViewRight = (props) => {
         <TabPanel sx={{ p: 0 }} value='alarmSetting'>
           <Card sx={{padding: "10px 20px"}}>
                   <div style={{marginTop: "15px"}}>
-              <p>해당 사용자의 분류를 선택해주세요. {`(분류에 따라 알림이 전송됩니다.)`} <Button style={{fontSize: "16px"}} >적용</Button></p>
+              <p>해당 사용자의 분류를 선택해주세요. {`(분류에 따라 알림이 전송됩니다.)`} <Button style={{fontSize: "16px"}} onClick={onSubmitClick}>적용</Button></p>
+              <p style={{fontSize:"14px"}}>{`(해당 사용자의 알림이 꺼져있다면 알림이 보내지지 않습니다.)`} </p>
               
                <div style={{marginTop: "20px"}}/>
                     <FormControlLabel control={<Switch checked={alarmValues.marriage} onChange={onAlarmValuesChange("marriage")} />} label="결혼이민자" />

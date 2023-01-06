@@ -35,21 +35,21 @@ const UserList = () => {
     field: 'fullName',
     headerName: '닉네임',
     renderCell: ({ row }) => {
-      const { avatar, username } = row
+      // const { avatar, username }  = row
       return (
         <div className={styles.user_container} onClick={()=>router.push(`/admin/user/${row.uid}`)}>
-          <Avatar src={avatar} />
-          <p>{username}</p>
+          <Avatar src={row.avatar} />
+          <p>{row.username}</p>
         </div>
       )
     }
-    },
+  },
   {
     flex: 0.08,
     minWidth: 160,
     headerName: '실명',
     field: 'realName',
-    renderCell: ({ row }) => {
+      renderCell: ({ row }) => {
       return (
         <Typography noWrap sx={{ textTransform: 'capitalize' }}>
           {row.realName}
@@ -102,35 +102,33 @@ const UserList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const id_list = await firebaseHooks.fetch_all_not_admin_users_uid_list(teamName)
-      console.log(id_list)
-      const users = await firebaseHooks.fetch_user_data_list_from_user_uid_list(id_list)
       let avatars = []
       let userList = []
       let cityAvatars = []
       let cityUserList=[]
       let id = 0;
-      users.forEach((user) => {
-        console.log(user.data())
-        //for  ControlTeamUser.js
-        avatars.push(user.data().photo)
-        if (user.data().city === teamName) {
-          cityAvatars.push(user.data().photo)
-        }
-        //for UserList.js 
-        userList.push({
-          avatar: user.data().photo,
-          realName: user.data().realName,
-          phoneNumber: user.data().phoneNumber,
-          id: id,
-          roles: user.data().roles[0],
-          uid: user.id,
-          username: user.data().name
+      const users = await db.collection("users").where("city", "==", teamName).get().then((querySnapshot) => {
+        querySnapshot.forEach((user) => {
+          console.log(user.data())
+          //for  ControlTeamUser.js
+          avatars.push(user.data().photo)
+          if (user.data().city === teamName) {
+            cityAvatars.push(user.data().photo)
+          }
+          //for UserList.js 
+          userList.push({
+            avatar: user.data().photo,
+            realName: user.data().realName,
+            phoneNumber: user.data().phoneNumber,
+            id: id,
+            roles: user.data().roles[0],
+            uid: user.id,
+            username: user.data().name
+          })
+          id++
         })
-        id++
       })
       setCardData([
-        { totalUsers: users.length, title: '어플 사용자 수', avatars: avatars },
         { totalUsers: cityAvatars.length, title: `${teamName} 사용자 수`, avatars: cityAvatars },
       ])
       setListData(userList)

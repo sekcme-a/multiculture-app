@@ -29,7 +29,7 @@ import EventBusyOutlinedIcon from '@mui/icons-material/EventBusyOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 
-const Contents = ({data, teamName, id, type}) => {
+const Contents = ({data, teamName, id, type, mode}) => {
   const router = useRouter()
   const { user } = useAuth()
   const { language, fetchText } = useUserData()
@@ -72,11 +72,13 @@ const Contents = ({data, teamName, id, type}) => {
           }
         }
     }
-    
-    if (data.deadline.toDate() <= new Date()) {
-      setHasEnd(true)
-    }
-  },[])
+    console.log(typeof (data.deadline))
+    if (typeof (data.deadline) !== "object") {
+      if (data.deadline?.toDate() <= new Date()) {
+        setHasEnd(true)
+      }
+    }  
+  },[]) 
 
 
   const onButtonClick = () => {
@@ -94,6 +96,7 @@ const Contents = ({data, teamName, id, type}) => {
   }
   return (
     <div className={styles.main_container}>
+      
       <ArrowBackRoundedIcon className={color === "white" ? `${styles.back_button}` : `${styles.back_button} ${styles.black}`} />
       <div className={styles.thumbnail_container}>
         <div className={styles.thumbnail_image_container}>
@@ -105,6 +108,7 @@ const Contents = ({data, teamName, id, type}) => {
           </div>
         </div>
       </div>
+      <div style={mode==="preview" ? {marginTop:"-329px"} : {marginTop:"0 "}} />
       <div className={styles.info_container}>
         <h1>{data.title}</h1>
         <h2>{data.subtitle}</h2>
@@ -138,7 +142,7 @@ const Contents = ({data, teamName, id, type}) => {
         {type !== "surveys" && <Tab label="프로그램 일정" style={{ margin: "0 10px", fontSize: "15px" }} />}
       </Tabs>
 
-      
+      {console.log(data.contentData)}
       {selectedItem === 0 && data.contentData.map((item, index) => {
         return (
           <div className={styles.content_container} key={index}>
@@ -151,7 +155,7 @@ const Contents = ({data, teamName, id, type}) => {
       })}
 
       
-      {selectedItem === 0 && data.scheduleData?.length === 0 &&
+      {selectedItem === 0 && data.contentData?.length === 0 &&
         <div className={styles.no_schedule}>
           <InfoOutlinedIcon sx={{ fontSize: "40px !important" }} />
           {type === "surveys" ? <p>설문조사 정보가 없습니다.</p> : <p>프로그램 소개가 없습니다.</p>}
@@ -197,9 +201,9 @@ const Contents = ({data, teamName, id, type}) => {
         </div>
       }
       <div style={{ height: "200px" }}></div>
-      {teamName !== undefined &&
+      {teamName !== undefined && mode!=="preview" && 
         <div className={styles.submit_container}>
-          {hasHistory ?
+          { hasHistory ?
             <Button onClick={onButtonClick} variant="contained" disabled={true} fullWidth >
               참여 완료
             </Button>

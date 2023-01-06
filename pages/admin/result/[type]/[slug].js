@@ -17,7 +17,6 @@ const Result = () => {
       <Navbar teamName={teamName} />
       <Header location="result" />
       <div className={styles.content_container}>
-        {console.log(slug)}
         <ResultTable type={type} docId={slug} />
       </div>
     </div>

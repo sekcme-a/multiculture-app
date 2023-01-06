@@ -8,7 +8,8 @@ import Link from 'next/link'
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
-import { DataGrid } from '@mui/x-data-grid'
+import Box from '@mui/material/Box';
+import { DataGrid,GridToolbarQuickFilter  } from '@mui/x-data-grid'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
@@ -43,6 +44,22 @@ const UserList = (props) => {
     setPlan(e.target.value)
   }, [])
 
+
+  function QuickSearchToolbar() {
+  return (
+    <Box
+      sx={{
+        pt: 2,
+        pl: 2,
+        pb:1,
+      }}
+    >
+      <GridToolbarQuickFilter />
+    </Box>
+  );
+}
+
+  
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -58,6 +75,13 @@ const UserList = (props) => {
             disableSelectionOnClick
             rowsPerPageOptions={[10, 25, 50]}
             onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+            components={{ Toolbar: QuickSearchToolbar }}
+        componentsProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+          },
+        }}
             // components={{ Toolbar: ServerSideToolbar }}
           />
         </Card>

@@ -31,6 +31,8 @@ import ShowArticle from 'src/components/public/ShowArticle';
 import styles from "styles/components/public/stepper.module.css"
 import Form from "src/form/Form.js"
 import Select from "src/components/public/mui/Select"
+import SwiperContainer from "src/components/main/SwiperContainer"
+import Article from "src/components/public/Article"
 
 import { firebaseHooks } from 'firebase/hooks';
 import useAuth from 'src/hooks/auth/auth';
@@ -405,6 +407,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
     values.schedule.splice(index, 1)
     setValues({ ...values, schedule: values.schedule })
   }
+
 
 
   return (
@@ -832,6 +835,37 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
             <Form formDatas={surveyFormData} data={[]} handleData={()=>{}} addMargin={true} />
           </div>
         } */}
+        {activeStep === 0 && type === "programs" && 
+          <div  style={{width:"400px", height:"700px", position:"absolute", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
+            <SwiperContainer data={{
+              backgroundColor: values.backgroundColor,
+              date: values.date,
+              mainThumbnailImg: values.mainThumbnailImg,
+              thumbnailBackground: values.thumbnailBackground,
+              title: values.title,
+              // groupName: teamName,
+            }} />
+          </div>
+        }
+        {activeStep === 1 && type === "programs" && 
+          <div onClick={() => {setTimeout(()=>{setOpenBackdrop(true)},10) }} style={{width:"400px", height:"700px", position:"absolute", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
+            <Article teamName={teamName} id={id} type={type} mode="preview"
+              data={{
+                title: values.title,
+                date: values.date,
+                subtitle: values.subtitle,
+                infoData: informationList,
+                contentData: values.content,
+                scheduleData: values.schedule,
+                // groupName: values.data().n ame,
+                thumbnailBackground: values.thumbnailBackground,
+                surveyId: values.surveyId,
+                hasSurvey: values.hasSurvey,
+                deadline: deadline,
+              }}
+            />
+          </div>
+        }
         {activeStep === 2 && type === "programs" && 
           <div style={{width:"400px", height:"700px", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
             <Form formDatas={mainFormData} data={[]} handleData={()=>{}} addMargin={true} />
@@ -840,6 +874,35 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
         {activeStep === 3 && type === "programs" && 
           <div style={{width:"400px", height:"700px", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
             <Form formDatas={surveyFormData} data={[]} handleData={()=>{}} addMargin={true} />
+          </div>
+        }
+        {activeStep === 0 && type === "surveys" && 
+          <div onClick={() => {setTimeout(()=>{setOpenBackdrop(true)},10) }} style={{width:"400px", height:"700px", position:"absolute", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
+            <Article teamName={teamName} id={id} type={type} mode="preview"
+              data={{
+                title: values.title,
+                date: values.date,
+                subtitle: values.subtitle,
+                infoData: informationList,
+                contentData: values.content,
+                scheduleData: values.schedule,
+                // groupName: values.data().n ame,
+                thumbnailBackground: values.thumbnailBackground,
+                surveyId: values.surveyId,
+                hasSurvey: values.hasSurvey,
+                deadline: deadline,
+              }}
+            />
+          </div>
+        }
+        {activeStep === 1 && type === "surveys" && 
+          <div style={{width:"400px", height:"700px", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
+            <Form formDatas={mainFormData} data={[]} handleData={()=>{}} addMargin={true} />
+          </div>
+        }
+        {activeStep === 0 && type === "anouncements" && 
+          <div style={{width:"400px", height:"700px", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
+            <ShowArticle createMarkup={createMarkup} data={[]} teamName={teamName} id={id} type="anouncement" />
           </div>
         }
       </Backdrop>

@@ -125,8 +125,10 @@ export const firebaseHooks = {
     return new Promise(async (resolve, reject) => {
       try {
         const user = await db.collection("admin_group").doc(teamname).collection("members").doc(uid).get()
+        console.log(teamname, uid)
         if (!user.exists)
           reject("팀의 구성원이 아닙니다.")
+          // resolve("성공적으로 삭제되었습니다.")
         else {
           const batch = db.batch()
           batch.update(db.collection("users").doc(uid), { roles: ["user"] })

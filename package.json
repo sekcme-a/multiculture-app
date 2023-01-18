@@ -28,7 +28,7 @@
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "firebase": "^8.9.1",
-    "framer-motion": "^7.3.5",
+    "framer-motion": "^7.10.3",
     "mdi-material-ui": "^7.5.0",
     "next": "12.3.0",
     "quill-image-resize-module-react": "^3.0.0",

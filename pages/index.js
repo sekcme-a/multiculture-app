@@ -15,6 +15,7 @@ import Program from "src/components/main/Program"
 import Survey from "src/components/main/Survey"
 import Anouncement from "src/components/main/Anouncement"
 import News from "src/components/main/News"
+import Job from "src/components/main/Job"
 import DialogSetting from "src/components/main/DialogSetting"
 import BottomNavigation from "src/components/public/BottomNavigation"
 
@@ -125,6 +126,8 @@ const Home = () => {
           <Program />
           <div className={styles.border} />
           <Anouncement />
+          <div className={styles.border} />
+          <Job />
           <div className={styles.border} />
         <News />
         <div className={styles.border} />

@@ -5,7 +5,6 @@ import { useRouter } from "next/router"
 import useAuth from "src/hooks/auth/auth"
 import useUserData from "src/context/useUserData"
 import { translate } from "src/hooks/translate"
-
 import { firebaseHooks } from "firebase/hooks"
 
 const MyPageProfile = () => {

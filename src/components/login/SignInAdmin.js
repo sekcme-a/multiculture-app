@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 //   ssr: false,
 //   loading: () => <p>로딩중 ...</p>,
 // })
-import ReactHtmlParser from "react-html-parser";
+// import ReactHtmlParser from "react-html-parser";
 
 import { styled, useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -230,7 +230,7 @@ const SignIn = () => {
         {error.signin==="개인정보처리방침 동의는 필수입니다." && <p style={{color: "red", marginBottom: '5px'}}>{error.signin}</p>}
       </div>
       <div className={styles.dataInfo_container}>
-        <div>{ReactHtmlParser(text)}</div>
+        {/* <div>{ReactHtmlParser(text)}</div> */}
       </div>
       <div className={styles.signIn_button} onClick={onSignInClick}>
         회원가입

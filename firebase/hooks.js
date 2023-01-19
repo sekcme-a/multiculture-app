@@ -348,11 +348,11 @@ export const firebaseHooks = {
       }
     })
   },
-  publish_content: (teamName, type, id, uid, isPublished) => {
+  publish_content: (teamName, type, id, uid, isPublished, publishStartDate) => {
     return new Promise(async function (resolve, reject) {
       try {
         await db.collection("contents").doc(teamName).collection(type).doc(id).update({
-          published: isPublished, publishedDate: new Date(), savedDate: new Date(), lastSaved: uid
+          published: isPublished, publishedDate: publishStartDate, savedDate: new Date(), lastSaved: uid
         })
         resolve("success")
       } catch (e) {
@@ -369,7 +369,8 @@ export const firebaseHooks = {
         if(admin === true)
           contents = await db.collection("contents").doc(teamName).collection(type).orderBy("savedDate", "desc").limit(limit).get()
         else
-          contents = await db.collection("contents").doc(teamName).collection(type).where("published","==",true).orderBy("savedDate", "desc").limit(limit).get()
+          // contents = await db.collection("contents").doc(teamName).collection(type).where("published","==",true).orderBy("savedDate", "desc").limit(limit).get()
+          contents = await db.collection("contents").doc(teamName).collection(type).where("published","==",true).orderBy("publishedDate", "desc").limit(limit).get()
         const groupData = await db.collection("admin_group").doc(teamName).get()
         contents.docs.map((doc) => {
           list.push({
@@ -385,6 +386,7 @@ export const firebaseHooks = {
             hasSurvey: doc.data().hasSurvey,
             surveyId: doc.data().surveyId,
             groupName: groupData.data().name,
+            keyword: doc.data().keyword,
             date: doc.data().date,
             teamName: teamName,
             thumbnailBackground: doc.data().thumbnailBackground,

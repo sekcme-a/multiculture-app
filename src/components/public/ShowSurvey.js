@@ -112,9 +112,11 @@ const ShowSurvey = ({data, teamName, id, type}) => {
 
       let history = localStorage.getItem("history_program")  //null
       if (history === null) {
-        history = `${teamName}/:/${id}/:/${data.surveyStartDate.seconds}`
+        // history = `${teamName}/:/${id}/:/${data.surveyStartDate.seconds}`
+        history = `${teamName}/:/${id}`
       } else {
-        history=`${teamName}/:/${id}/:/${data.surveyStartDate.seconds}_SEP_${history}`
+        // history=`${teamName}/:/${id}/:/${data.surveyStartDate.seconds}_SEP_${history}`
+        history=`${teamName}/:/${id}SEP_${history}`
       }
       localStorage.setItem("history_program", history)
     } else if(type==="surveys") {

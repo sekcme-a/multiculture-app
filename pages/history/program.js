@@ -48,6 +48,7 @@ const MyPageProfile = () => {
               groupName: groupData.data().name,
               date: doc.data().date,
               deadline: doc.data().deadline,
+              publishedDate: doc.data().publishedDate,
             })
           }
         }

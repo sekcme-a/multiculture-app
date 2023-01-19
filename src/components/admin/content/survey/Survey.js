@@ -84,11 +84,11 @@ const Survey = ({teamName}) => {
           const publishedDate = program.publishedDate?.toDate().toLocaleString('ko-kr').replace(/\s/g, '');
           return(
             <Grid item xs={3} key={index}>
-              <Card style={{minHeight:"370px", display: "flex", alignItems:"center"}}>
-                <CardContent sx={{ padding:"14px 10px 0px 10px", display: 'flex', alignItems: 'center', position:"relative", flexDirection: 'column', cursor: "pointer" }}
+              <Card style={{minHeight:"370px", display: "flex",position:"relative", alignItems:"center"}}>
+                <CardContent sx={{ padding:"14px 10px 0px 10px", display: 'flex', alignItems: 'center',  flexDirection: 'column', cursor: "pointer" }}
                 >
                   {program.published ? <div className={styles.published}>게재중</div> : <div className={styles.unpublished}>미게재</div>}
-                  <div className={styles.delete} onClick={()=>onDeleteClick(program.id, program.hasSurvey, program.surveyId)}><DeleteOutlineOutlinedIcon /></div>
+                  <div className={styles.delete} onClick={()=>onDeleteClick(program.id, program.hasSurvey, program.surveyId)}><DeleteOutlineOutlinedIcon style={{margin:"10px 10px", color:"darkRed"}}/></div>
                   <img width={250} height={180} src={program.thumbnailBackground} onClick={() => onProgramClick(program.id)}/>
                   <Typography onClick={() => onProgramClick(program.id)} variant='h6' sx={{ mt: 1 , color: "#222",textAlign:"center", wordBreak:"keep-all", fontSize:"18px",fontWeight:"bold", lineHeight:"18px"}} textTransform="capitalize">
                     {program.title}

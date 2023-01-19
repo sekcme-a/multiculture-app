@@ -117,7 +117,7 @@ const MyPageProfile = () => {
   const fetchProgramData = async (teamName) => {
     try {
       setProgramList([])
-      const data = await firebaseHooks.fetch_contents_list(teamName, `${type}s`, 9)
+      const data = await firebaseHooks.fetch_contents_list(teamName, `${type}s`, 40)
       setProgramList([...data])
       setIsLoading(false)
       console.log(data)

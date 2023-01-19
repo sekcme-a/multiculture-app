@@ -14,6 +14,7 @@ import Timeline from "src/components/admin/content/userProfile/Timeline"
 import Button from '@mui/material/Button';
 
 import AddAlertIcon from '@mui/icons-material/AddAlert';
+import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 
 // ** Icons Imports
 import AccountOutline from 'mdi-material-ui/AccountOutline'
@@ -24,6 +25,8 @@ import AlarmSettings from '../alarmSettings/AlarmSettings'
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+
+import Comments from 'src/components/admin/content/userProfile/Comments'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -92,6 +95,7 @@ const UserViewRight = (props) => {
         <Tab value='overview' label='Overview' icon={<AccountOutline />} />
         <Tab value='timeline' label='Timeline' icon={<TimelineIcon />} />
         <Tab value='alarmSetting' label='AlarmSetting' icon={<AddAlertIcon />} />
+        <Tab value='comments' label="Comments" icon={<SummarizeOutlinedIcon />} />
         {/* <Tab value='security' label='Security' icon={<LockOutline />} />
         <Tab value='billing-plan' label='Billing & Plan' icon={<BookmarkOutline />} />
         <Tab value='notification' label='Notification' icon={<BellOutline />} />
@@ -123,6 +127,9 @@ const UserViewRight = (props) => {
                     <FormControlLabel control={<Switch checked={alarmValues.all} onChange={onAlarmValuesChange("all")} />} label="전체" />
                   </div>
           </Card>
+        </TabPanel>
+        <TabPanel sx={{ p: 0 }} value='comments'>
+          <Comments uid={props.uid}/>
         </TabPanel>
         {/* <TabPanel sx={{ p: 0 }} value='billing-plan'>
           <UserViewBilling />

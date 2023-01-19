@@ -95,10 +95,14 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
   const [hasSurvey, setHasSurvey] = useState(false)
   const [surveyId, setSurveyId] = useState("")
   const [deadline, setDeadline] = useState()
+  const [publishStartDate, setPublishStartDate] = useState(new Date())
   const [surveyStartDate, setSurveyStartDate] = useState("")
   const [isPublished, setIsPublished] = useState(false)
   const [openBackdrop, setOpenBackdrop] = useState(false)
   const [informationList, setInformationList] = useState([])
+  const [hasSaved, setHasSaved] = useState(false)
+  const [hasLimit, setHasLimit] = useState(false)
+  const [limit, setLimit] = useState("")
   const handleCloseBackDrop = () => {setOpenBackdrop(false)}
   const onTextChange = (html) => {
     setTextData(html)
@@ -117,7 +121,8 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
     thumbnailBackground: "/thumbnail/001.png",
     informationText: "",
     content: [],
-    schedule:[]
+    schedule:[],
+    keyword:""
   })
   const onValuesChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -147,7 +152,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
 
   useEffect(() => {
     if(type==="programs")
-      setSteps(['메인프로그램 설정','게시물 작성', '폼 작성', '프로그램 종료 후 설문조사', '저장 및 게재'])
+      setSteps(['메인프로그램 설정','게시물 작성', '폼 작성', '저장 및 게재'])
     else if(type==="surveys")
       setSteps(['게시물 작성', '폼 작성', '저장 및 게재'])
     else
@@ -157,6 +162,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
         setValues({
           title: doc.data().title,
           subtitle: doc.data().subtitle,
+          keyword: doc.data().keyword,
           thumbnailImg: doc.data().thumbnailImg,
           main: doc.data().main,
           date: doc.data().date,
@@ -167,6 +173,8 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
           content: doc.data().content,
           schedule: doc.data().schedule
         })
+        setHasLimit(doc.data().hasLimit)
+        setLimit(doc.data().limitCount)
         setTextData(doc.data().content)
         setMainFormData([...doc.data().form])
         setHasSurvey(doc.data().hasSurvey)
@@ -174,6 +182,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
         setIsPublished(doc.data().published)
         setDeadline(doc.data().deadline?.toDate())
         setSurveyStartDate(doc.data().surveyStartDate ? doc.data().surveyStartDate?.toDate() : "")
+        setPublishStartDate(doc.data().publishedDate ? doc.data().publishedDate?.toDate(): new Date())
         if(doc.data().alarm)
           setAlarmValues(doc.data().alarm)
         if (doc.data().hasSurvey === true && doc.data().surveyId) {
@@ -290,6 +299,10 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
   },[values.informationText])
 
   const onSaveClick = async(openAlert) => {
+    if(hasLimit && isNaN(limit)){
+      alert("선착순 인원은 숫자만 입력가능합니다.")
+      return
+    }
     try {
       let sid = surveyId
       if(surveyId==="" || surveyId===undefined)
@@ -318,13 +331,19 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
           form: mainFormData,
           savedDate: new Date(),
           lastSaved: user.uid,
-          hasSurvey: hasSurvey,
-          surveyId: sid,
+          // hasSurvey: hasSurvey,
+          // surveyId: sid,
           alarm: alarmValues,
-          surveyStartDate: surveyStartDate,
+          // surveyStartDate: surveyStartDate,
+          hasLimit: hasLimit,
+          limitCount: limit,
+          keyword: values.keyword,
+          location: sessionStorage.getItem("prevFolderLocation")
         })
-      if(openAlert!==false)
+      if(openAlert!==false){
         alert("성공적으로 저장되었습니다.")
+        setHasSaved(true)
+      }
     } catch (e) {
       
     }
@@ -333,6 +352,9 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
   const onPublishClick = async () => {
     onSaveClick(false)
     setIsPublished(!isPublished)
+    if(deadline===undefined){
+      alert("마감일을 선택해주세요.")
+    }else{
     //메인 프로그램이라면, 이전 메인 프로그램 확인 후 변경
     if (values.main && !isPublished) {
       db.collection("contents").doc("main").collection("list").doc(teamName).get().then((doc) => {
@@ -355,11 +377,12 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
     }
     if(type!=="anouncements")
       await firebaseHooks.save_content(teamName, type, id, { deadline: deadline })
-    await firebaseHooks.publish_content(teamName, type, id, user.uid, !isPublished)
+    await firebaseHooks.publish_content(teamName, type, id, user.uid, !isPublished, publishStartDate)
     if(!isPublished)
       alert("게재되었습니다.")
     else
       alert("게재취소되었습니다.")
+  }
   }
 
   const onPreviewClick = () => {
@@ -525,6 +548,9 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                     </div>
                     <div className={styles.item_container}>
                       <TextField id="standard-basic" label="부제목" variant="standard" value={values.subtitle} onChange={onValuesChange("subtitle")} />
+                    </div>
+                    <div className={styles.item_container}>
+                      <TextField id="standard-basic" label="키워드" variant="standard" value={values.keyword} onChange={onValuesChange("keyword")} />
                     </div>
                     <div className={styles.item_container} style={{marginTop:"10px"}}>
                       <TextField id="standard-basic" multiline label="기간 문구" variant="standard" value={values.date} onChange={onValuesChange("date")} />
@@ -699,13 +725,13 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                     <div className={styles.container}>
                     <p>게재 후엔 내용 변경이 불가능합니다.</p>
                     {isPublished && <Button disabled={true} style={{ fontSize: "16px" }}>게재됨</Button>}
-                    <Button variant="text" onClick={onPublishClick} style={{ fontSize: "16px" }}
+                    <Button variant="text" disabled={!hasSaved && !isPublished} onClick={onPublishClick} style={{ fontSize: "16px" }}
                     >{isPublished ? "게재 취소" : "게재"}</Button>
                     </div>
                   </div>
                 </>
               }
-              {(type==="programs" && activeStep === 3) &&
+              {/* {(type==="programs" && activeStep === 3) &&
                 <>
                   <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 프로그램 종료 후 설문조사</Typography>
                 <FormControlLabel
@@ -735,8 +761,8 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                   }
                   </div>
                 </>
-              }
-              {((activeStep === 4 || (type==="surveys" && activeStep===2)) || (type==="anouncements" && activeStep===1)) &&
+              } */}
+              {((activeStep === 3 || (type==="surveys" && activeStep===2)) || (type==="anouncements" && activeStep===1)) &&
                 <>
                   <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 저장 및 게재</Typography>
 
@@ -754,10 +780,34 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                           renderInput={params => <TextField {...params} />}
                         />
                       </LocalizationProvider>
-                  </div>
+                    </div>
+                    {activeStep === 3 &&
+                      <>
+                        <div style={{width:'100%', marginTop:"35px"}}>
+                          <div style={{display:"flex", alignContent:"center", alignItems:"center", marginBottom:"12px"}}>
+                            <h1>선착순 인원</h1>
+                            <Switch checked={hasLimit} onChange={(e)=>{setHasLimit(e.target.checked)}}/>
+                            {hasLimit ? "제한있음" : "제한없음"}
+                          </div>
+                          {hasLimit && <TextField label="선착순 인원" value={limit} onChange={(e)=>setLimit(e.target.value)}/>}
+                        </div>
+
+                        <div style={{marginTop: "15px", width:"100%", display:"flex", alignItems:"center"}}>
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <MobileDateTimePicker
+                              label="예약게재"
+                              value={publishStartDate}
+                              onChange={(e)=>setPublishStartDate(e)}
+                              renderInput={params => <TextField {...params} />}
+                            />
+                          </LocalizationProvider>
+                          <Button onClick={onPublishClick} disabled={!hasSaved}>{hasSaved ? isPublished ? "예약 취소" : "예약" : "저장 후 예약가능"}</Button>
+                        </div>
+                      </>
+                    }
                   
 
-                  <div style={{marginTop: "15px"}}>
+                  <div style={{marginTop: "35px"}}>
                     <p>알림을 보낼 분류를 선택해주세요.</p>
                     <FormControlLabel control={<Switch checked={alarmValues.marriage} onChange={onAlarmValuesChange("marriage")} />} label="결혼이민자" />
                     <FormControlLabel control={<Switch checked={alarmValues.spouse} onChange={onAlarmValuesChange("spouse")} />} label="배우자" />
@@ -772,7 +822,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                     <p>게재 후엔 내용 변경이 불가능합니다.</p>
                     {isPublished && <Button disabled={true} style={{ fontSize: "16px" }}>게재됨</Button>}
                     <Button variant="text" onClick={onPublishClick} style={{ fontSize: "16px" }}
-                      disabled={deadline===undefined}
+                      disabled={(deadline===undefined || (!hasSaved && !isPublished))}
                     >{isPublished ? "게재 취소" : "게재"}</Button>
                     </div>
                   </div>

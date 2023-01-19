@@ -82,8 +82,10 @@ const Contents = ({data, teamName, id, type, mode}) => {
 
 
   const onButtonClick = () => {
-    // if(data.hasSurvey)
-    if(type==="programs")
+    // if(data.hasSurvey)'
+    if(user===null)
+      router.push("/login")
+    else if(type==="programs")
       router.push(`/programs/${teamName}/${id}`);
     else
       router.push(`/surveys/${teamName}/${id}`);
@@ -97,12 +99,14 @@ const Contents = ({data, teamName, id, type, mode}) => {
   return (
     <div className={styles.main_container}>
       
-      <ArrowBackRoundedIcon className={color === "white" ? `${styles.back_button}` : `${styles.back_button} ${styles.black}`} />
+      <ArrowBackRoundedIcon className={color === "white" ? `${styles.back_button}` : `${styles.back_button} ${styles.black}`} 
+        onClick={()=>router.back()}
+      />
       <div className={styles.thumbnail_container}>
         <div className={styles.thumbnail_image_container}>
           <Image src={data.thumbnailBackground} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
           <div className={color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
-            <h2>{data.groupName}</h2>
+            <h2 style={{width:"100%"}}>{data.groupName}</h2>
             <h3>{data.title}</h3>
             <h4>{data.date}</h4>
           </div>
@@ -142,7 +146,7 @@ const Contents = ({data, teamName, id, type, mode}) => {
         {type !== "surveys" && <Tab label="프로그램 일정" style={{ margin: "0 10px", fontSize: "15px" }} />}
       </Tabs>
 
-      {console.log(data.contentData)}
+      {console.log(data.publishedDate)}
       {selectedItem === 0 && data.contentData.map((item, index) => {
         return (
           <div className={styles.content_container} key={index}>
@@ -203,7 +207,13 @@ const Contents = ({data, teamName, id, type, mode}) => {
       <div style={{ height: "200px" }}></div>
       {teamName !== undefined && mode!=="preview" && 
         <div className={styles.submit_container}>
-          { hasHistory ?
+          { 
+          data.publishedDate.toDate() > new Date() ? 
+            <Button variant="contained" disabled={true} fullWidth >
+              <p style={{fontSize:"13px", color:"#333"}}>{`${data.publishedDate.toDate().toLocaleString()}부터 신청가능합니다.`}</p>
+            </Button>
+          :
+          hasHistory ?
             <Button onClick={onButtonClick} variant="contained" disabled={true} fullWidth >
               참여 완료
             </Button>

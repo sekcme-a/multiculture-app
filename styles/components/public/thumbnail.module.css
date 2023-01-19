@@ -80,7 +80,25 @@
   overflow: hidden;
   border-radius: 5%;
 }
-
+.waiting_container{
+  position: relative;
+  width:130.4px;
+  height:100.6px;
+  overflow: hidden;
+  border-radius: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(81, 81, 81);
+  flex-wrap: wrap;
+}
+.waiting_container p{
+  color: white;
+  font-size: 13px;
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+}
 
 .thumbnail_overlay{
   z-index: 3;

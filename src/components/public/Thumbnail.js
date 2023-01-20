@@ -87,7 +87,7 @@ const Thumbnail = ({ data, smallMargin, path }) => {
 
   //몇 초후 신청가능, 몇분후 신청가능, 몇시간, 몇일 단위 계산
   const getTimeLeft = () => {
-    const timeLeft = Math.round((data.publishedDate.toDate().getTime()-date.getTime())/1000)+100000
+    const timeLeft = Math.round((data.publishedDate.toDate().getTime()-date.getTime())/1000)
     if(timeLeft<=60)
       return `${timeLeft}초 후 신청가능`
     else if(timeLeft<=3600)

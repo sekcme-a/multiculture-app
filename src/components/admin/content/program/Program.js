@@ -281,6 +281,8 @@ const Program = ({teamName}) => {
     setTriggerFetch(!triggerFetch)
   }
 
+
+
   if (isLoading) return <LoaderGif />
   
   return (
@@ -489,6 +491,7 @@ const Program = ({teamName}) => {
                     마지막 수정: {savedDate}
                   </Typography>
                   {program.published && <p style={{fontSize:"11px"}}>게재일: {publishedDate}</p>}
+                  {/* <p style={{fontSize:"11px"}}>마지막 수정: {doc.data().name}</p> */}
                   {/* {program.published && <Button variant="text" onClick={()=>onResultClick(program.id)} >결과보기</Button>} */}
                 </CardContent>
               </Card>

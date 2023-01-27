@@ -29,19 +29,26 @@ const MainSwiper = () => {
     db.collection("contents").doc("main").collection("list").get().then((query) => {
       const tempList = []
       query.docs.map((doc) => {
-        db.collection("admin_group").doc(doc.id).get().then((groupDoc) => {
-          tempList.push({
-            groupId: doc.id,
-            groupName: groupDoc.data().name,
-            backgroundColor: doc.data().backgroundColor, 
-            date: doc.data().date,
-            id: doc.data().id,
-            mainThumbnailImg: doc.data().mainThumbnailImg,
-            thumbnailBackground: doc.data().thumbnailBackground,
-            title: doc.data().title,
-          })
-          setList([...tempList])
+        db.collection("contents").doc(doc.id).collection("programs").doc(doc.data().id).get().then((doc2)=>{
+          if(doc2.exists){
+            db.collection("admin_group").doc(doc.id).get().then((groupDoc) => {
+              tempList.push({
+                groupId: doc.id,
+                groupName: groupDoc.data().name,
+                backgroundColor: doc.data().backgroundColor, 
+                date: doc.data().date,
+                id: doc.data().id,
+                mainThumbnailImg: doc.data().mainThumbnailImg,
+                thumbnailBackground: doc.data().thumbnailBackground,
+                title: doc.data().title,
+              })
+              setList([...tempList])
+            })
+          }else{
+            db.collection("contents").doc("main").collection("list").doc(doc.id).delete()
+          }
         })
+
       })
 
     })

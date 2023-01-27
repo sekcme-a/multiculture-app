@@ -172,17 +172,17 @@ const ManageTeam = ({type, docId}) => {
         // ])
       db.collection("contents").doc(teamName).collection(type).doc(docId).get().then((doc) => {
         setTitle(doc.data().title)
-        doc.data().form.map((item) => {
-          columnsList.push({
-            minWidth: 130,
-            // width: 300,
-            headerName: item.title,
-            field: item.id,
+          doc.data().form.map((item) => {
+            columnsList.push({
+              minWidth: 130,
+              // width: 300,
+              headerName: item.title,
+              field: item.id,
+            })
           })
+          setColumns(columnsList)
+          console.log(columnsList)
         })
-        setColumns(columnsList)
-        console.log(columnsList)
-      })
       })
 
     }

@@ -49,6 +49,7 @@ const MyPageProfile = () => {
               date: doc.data().date,
               deadline: doc.data().deadline,
               publishedDate: doc.data().publishedDate,
+              mainThumbnailImg: doc.data().mainThumbnailImg,
             })
           }
         }

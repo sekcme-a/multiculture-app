@@ -41,6 +41,7 @@ function MyApp({ Component, pageProps }) {
       setLanguage(locale)
       setMessages({ en: locale_en, ko: locale_kr, zh: locale_zh, vi: locale_kr, ja: locale_kr, th:locale_kr }[locale])
       console.log(locale)
+      // localStorage.removeItem("history_program")
     }
     // if (typeof window !== 'undefined'){
     //   const locale = localStorage.getItem('language') || 'ko'

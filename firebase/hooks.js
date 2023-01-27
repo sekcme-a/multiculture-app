@@ -390,6 +390,7 @@ export const firebaseHooks = {
             date: doc.data().date,
             teamName: teamName,
             thumbnailBackground: doc.data().thumbnailBackground,
+            mainThumbnailImg: doc.data().mainThumbnailImg,
           })  
         })
         resolve(list)
@@ -425,12 +426,12 @@ export const firebaseHooks = {
   //     }
   //   })
   // },
-  submit_form_input: (uid, formId, type, teamName, data) => {
+  submit_form_input: (uid, formId, type, teamName, data, submitCount) => {
     return new Promise(async function (resolve, reject) {
       try {
         const batch = db.batch()
         let dataList = []
-        data.forEach(async (item) => {
+        data.map(async (item, index) => {
           console.log(item.value)
           
           if (item.value[0]===undefined || item.value[0].name===undefined)
@@ -449,13 +450,25 @@ export const firebaseHooks = {
                 }
               }
               dataList.push({ id: item.id, value: urlList })
-              await db.collection("contents").doc(teamName).collection(type).doc(formId).collection("result").doc(uid).set({data: dataList})
+              console.log(index, data.length-1)
+              // if(index===data.length-1){
+              //   await db.collection("contents").doc(teamName).collection(type).doc(formId).collection("result").doc(uid).set({data: dataList, createdAt: new Date()})
+                // if(type==="programs" && submitCount)
+                //   await db.collection("contents").doc(teamName).collection(type).doc(formId).update({submitCount: submitCount+1 })
+                // else if(type==="programs")
+                //   await db.collection("contents").doc(teamName).collection(type).doc(formId).update({submitCount: 1})
+              // }
             } catch (e) {
               console.log(e)
             }
           }
         })
-        await db.collection("contents").doc(teamName).collection(type).doc(formId).collection("result").doc(uid).set({data: dataList})
+        if(type==="programSurvey"){
+          await db.collection("programSurvey").doc(formId).collection("result").doc(uid).set({data: dataList})
+          await db.collection("users").doc(uid).collection("programSurvey").doc(formId).update({hasSubmit: true})
+        }
+        else
+          await db.collection("contents").doc(teamName).collection(type).doc(formId).collection("result").doc(uid).set({data: dataList, createdAt: new Date()})
         resolve("success")
       } catch (e) {
         reject(e.message)

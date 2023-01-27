@@ -37,6 +37,8 @@ const Header = (props) => {
       setTitle("공지사항 관리")
     else if (props.location === "result")
       setTitle("결과 보기")
+    else if (props.location === "programSurvey")
+      setTitle("프로그램 설문조사 제작")
     db.collection("users").doc(user.uid).get().then((doc) => {
       setPhoto(doc.data().photo)
     })

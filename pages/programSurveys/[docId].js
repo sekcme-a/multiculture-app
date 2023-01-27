@@ -6,23 +6,25 @@ import { useRouter } from "next/router"
 import useAuth from "src/hooks/auth/auth"
 import useUserData from "src/context/useUserData"
 
+import { firestore as db } from "firebase/firebase"
+
 
 import { firebaseHooks } from "firebase/hooks"
 
 import CircleLoader from "src/components/loader/CircleLoader"
 
 
-const Survey = () => {
+const ProgramSurvey = () => {
   const router = useRouter()
-  const { teamName, id } = router.query;
+  const { docId } = router.query;
   const [data, setData] = useState()
   const [isLoading, setIsLoading] = useState(true)
 
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await firebaseHooks.fetch_content_from_id("programSurveys", teamName, id)
-      setData(result)
+      const result = await db.collection("programSurvey").doc(docId).get()
+      setData(result.data())
       setIsLoading(false)
     }
     fetchData()
@@ -38,8 +40,8 @@ const Survey = () => {
   
   return (
     <>
-      <ShowSurvey data={data} teamName={teamName} id={id} type="programSurveys" />
+      <ShowSurvey data={data} teamName="" id={docId} type="programSurvey" />
     </>
   )
 }
-export default Survey
+export default ProgramSurvey

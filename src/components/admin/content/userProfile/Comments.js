@@ -50,19 +50,25 @@ const Comments = ({uid}) => {
   useEffect(() => {
     const fetchData = async () => {
       const doc = await db.collection("comments").doc(uid).get()
-      if(doc.exists&&doc.data().attend&&doc.data().nonattend){
-        
+      if(doc.exists){
+        let hasPart = 0
+        let hasNotPart = 0
+        if(doc.data().hasNotPart)
+          hasNotPart = doc.data().hasNotPart
+        if(doc.data().hasPart)
+          hasPart = doc.data().hasPart
+
         setPercentageData({
             ...percentageData,
-            title:`프로그램 중 ${doc.data().attend}개 참여, ${doc.data().nonattend}개 미참여`,
-            percentage: (doc.data().attend/(doc.data().attend+doc.data().nonattend)*100).toFixed(2)
+            title:`프로그램 중 ${hasPart}개 참여, ${hasNotPart}개 미참여`,
+            percentage: (hasPart/(hasPart+hasNotPart)*100).toFixed(1)
         })
       }
       if(doc.exists && doc.data().rate && doc.data().rateCount){
         setRateData({
             ...rateData,
             title:`총 ${doc.data().rateCount}개의 평가`,
-            percentage: (doc.data().rate*20).toFixed(2)
+            percentage: (doc.data().rate*20).toFixed(1)
         })
       }
       let tempComments = []

@@ -49,18 +49,33 @@ const TimelineLeft = ({ timeline, uid }) => {
   const { teamName } = useAuth()
   
   const onOpenFormClick = (type, docId) => {
-    db.collection("contents").doc(teamName).collection(type).doc(docId).get().then((doc) => {
-      if(doc.exists)
-        setFormData(doc.data().form)
-      else
-        alert("삭제된 게시물이거나 없는 데이터입니다.")
-    })
-    db.collection("contents").doc(teamName).collection(type).doc(docId).collection("result").doc(uid).get().then((doc) => {
-      if(doc.exists)
+    if(type==='programSurveys'){
+      db.collection("programSurvey").doc(docId).get().then((doc)=>{
+        if(doc.exists)
+          setFormData(doc.data().form)
+        else
+          alert("삭제된 게시물이거나 없는 데이터입니다.")
+      })
+      db.collection("programSurvey").doc(docId).collection("result").doc(uid).get().then((doc)=>{
+        if(doc.exists)
         setInputData(doc.data().data)
       else
         alert("삭제된 게시물이거나 없는 데이터입니다.")
-    })
+      })
+    } else{
+      db.collection("contents").doc(teamName).collection(type).doc(docId).get().then((doc) => {
+        if(doc.exists)
+          setFormData(doc.data().form)
+        else
+          alert("삭제된 게시물이거나 없는 데이터입니다.")
+      })
+      db.collection("contents").doc(teamName).collection(type).doc(docId).collection("result").doc(uid).get().then((doc) => {
+        if(doc.exists)
+          setInputData(doc.data().data)
+        else
+          alert("삭제된 게시물이거나 없는 데이터입니다.")
+      })
+    }
     setOpenForm(true)
   }
   return (

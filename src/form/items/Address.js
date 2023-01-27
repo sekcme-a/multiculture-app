@@ -74,7 +74,7 @@ const Address = ({ title, items, index, id, data, handleData,text,isRequired }  
       </div>
       <div className={styles.input_container}>
         <TextField type='number' id='form-props-number' helperText="우편번호" variant="standard" style={{width: "55%"}}
-          value={postNumber} onChange={()=>setPostNumber(e.target.value)} InputLabelProps={{ shrink: true }}
+          value={postNumber} onChange={(e)=>setPostNumber(e.target.value)} InputLabelProps={{ shrink: true }}
         />
         <Button variant="text" onClick={onChangeOpenPost}>우편번호 찾기</Button>
         {isOpenPost && <div><DaumPostcode autoClose onComplete={onCompletePost} /></div>}

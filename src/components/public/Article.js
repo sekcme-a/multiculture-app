@@ -9,6 +9,7 @@ import useUserData from "src/context/useUserData"
 import { translate } from "src/hooks/translate"
 
 import { firebaseHooks } from "firebase/hooks"
+import { firestore as db } from "firebase/firebase"
 
 import ShowArticle from "src/components/public/ShowArticle"
 import HeaderRightClose from "src/components/public/HeaderRIghtClose"
@@ -27,6 +28,11 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import EventBusyOutlinedIcon from '@mui/icons-material/EventBusyOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import Backdrop from '@mui/material/Backdrop';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+
+import { motion } from "framer-motion"
 
 
 const Contents = ({data, teamName, id, type, mode}) => {
@@ -37,6 +43,10 @@ const Contents = ({data, teamName, id, type, mode}) => {
   const [text, setText] = useState()
   const [hasHistory, setHasHistory] = useState(false)
   const [hasEnd, setHasEnd] = useState(false)
+
+  const [isShow, setIsShow] = useState(false)
+  const [programSurveyDoc, setProgramSurveyDoc] = useState("")
+  const [programSurveyTitle, setProgramSurveyTitle] = useState("")
 
   const [color, setColor] = useState("white")
   const [selectedItem, setSelectedItem] = useState(0)
@@ -81,13 +91,23 @@ const Contents = ({data, teamName, id, type, mode}) => {
   },[]) 
 
 
-  const onButtonClick = () => {
+  const onButtonClick = async() => {
     // if(data.hasSurvey)'
     if(user===null)
       router.push("/login")
-    else if(type==="programs")
-      router.push(`/programs/${teamName}/${id}`);
-    else
+    else if(type==="programs"){
+      db.collection("users").doc(user.uid).collection("programSurvey").where("hasSubmit","==", false).limit(1).get().then((query)=>{
+        if(query.empty)
+          router.push(`/programs/${teamName}/${id}`)
+        else{
+          query.docs.forEach((doc)=>{
+            setIsShow(true)
+            setProgramSurveyDoc(doc.id)
+            setProgramSurveyTitle(doc.data().title)
+          })
+        }
+      })
+    } else
       router.push(`/surveys/${teamName}/${id}`);
     // else
     //   router.push(`result/${teamName}/${id}`)
@@ -105,31 +125,35 @@ const Contents = ({data, teamName, id, type, mode}) => {
       <div className={styles.thumbnail_container}>
         <div className={styles.thumbnail_image_container}>
           <Image src={data.thumbnailBackground} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
-          <div className={color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
-            <h2 style={{width:"100%"}}>{data.groupName}</h2>
-            <h3>{data.title}</h3>
-            <h4>{data.date}</h4>
-          </div>
+          {data.mainThumbnailImg===""&&
+            <div className={color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
+              <h2 style={{width:"100%"}}>{data.groupName}</h2>
+              <h3>{data.title}</h3>
+              <h4>{data.date}</h4>
+            </div>
+          }
         </div>
       </div>
       <div style={mode==="preview" ? {marginTop:"-329px"} : {marginTop:"0 "}} />
       <div className={styles.info_container}>
         <h1>{data.title}</h1>
         <h2>{data.subtitle}</h2>
-        <div className={styles.info_sub_container}>
-          {data.infoData.map((item, index) => {
-            if (item.type === "button")
+        {data.infoData.length!==0 &&
+          <div className={styles.info_sub_container}>
+            {data.infoData.map((item, index) => {
+              if (item.type === "button")
+                return (
+                  <Button style={{fontSize:"15px"}} onClick={()=>router.push(item.text)}>{item.title}</Button>
+                )
               return (
-                <Button style={{fontSize:"15px"}} onClick={()=>router.push(item.text)}>{item.title}</Button>
+                <div className={styles.item_container} key={index}>
+                  <h1>{item.title}</h1>
+                  <p>{item.text}</p>
+                </div>
               )
-            return (
-              <div className={styles.item_container} key={index}>
-                <h1>{item.title}</h1>
-                <p>{item.text}</p>
-              </div>
-            )
-          })}
-        </div>
+            })}
+          </div>
+        }
       </div>
 
 
@@ -230,6 +254,28 @@ const Contents = ({data, teamName, id, type, mode}) => {
           }       
         </div>
       }
+
+
+
+
+    <Backdrop
+      sx={{ color: 'white', zIndex: (theme) => theme.zIndex.drawer + 1, display:"flex", justifyContent:"center" }}
+      open={isShow}
+      onClick={()=>setIsShow(false)}
+    >
+      <div className={styles.backdrop_container}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 1.0 } }}
+            style={{ width: "100%", textAlign: "center" }}>
+            <div className={styles.alarm_container}>
+              <h1>프로그램 설문조사 참여</h1>
+              <h2>{`전에 참여했던 "${programSurveyTitle}" 프로그램에 대한 설문조사를 작성해주세요!`}
+                <div style={{fontSize:"13px"}}>{`(해당 설문조사를 작성해야 다른 프로그램을 신청하실 수 있습니다.)`}</div>
+              </h2>
+              <h3 onClick={()=>router.push(`/programSurveys/${programSurveyDoc}`)}>{`설문조사 하러가기 >`}</h3>
+            </div>
+          </motion.div>
+        </div>
+      </Backdrop>
     </div>
   )
 }

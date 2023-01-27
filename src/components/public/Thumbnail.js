@@ -116,11 +116,13 @@ const Thumbnail = ({ data, smallMargin, path }) => {
               :
               <div className={styles.thumbnail_image_container}>
                 <Image src={data.thumbnailBackground} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
-                <div className={color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
-                  <h2>{data.groupName}</h2>
-                  <h3>{data.title}</h3>
-                  <h4>{data.date}</h4>
-                </div>
+                {data.mainThumbnailImg==="" &&
+                  <div className={color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
+                    <h2>{data.groupName}</h2>
+                    <h3>{data.title}</h3>
+                    <h4>{data.date}</h4>
+                  </div>
+                }
               </div>
             }
           </div>

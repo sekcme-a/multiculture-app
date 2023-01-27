@@ -16,6 +16,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Button from '@mui/material/Button';
 import Form from "src/form/Form.js"
 import { firebaseHooks } from "firebase/hooks"
+import { firestore as db } from "firebase/firebase"
 import CircleLoader from "src/components/loader/CircleLoader"
 
 
@@ -68,6 +69,30 @@ const ShowSurvey = ({data, teamName, id, type}) => {
       setFormData(list)
       setIsLoading(false)
       if (list.length === 0) {
+        await firebaseHooks.submit_form_input(user.uid, id, type, teamName, [{id:"", value:""}], data.submitCount)
+        if (type === "programs") {
+          const res = await firebaseHooks.add_timeline(
+            user.uid,
+            "programs",
+            new Date(),
+            `"${data.title}" 프로그램 신청`,
+            `사용자가 [프로그램: ${data.title}]을(를) 신청했습니다.`,
+            id
+          )
+          //임시
+          // localStorage.removeItem("history_program")
+          
+          let history = localStorage.getItem("history_program")  //null
+          console.log(history)
+          if (history === null) {
+            // history = `${teamName}/:/${id}/:/${data.surveyStartDate.seconds}`
+            history = `${teamName}/:/${id}`
+          } else {
+            // history=`${teamName}/:/${id}/:/${data.surveyStartDate.seconds}_SEP_${history}`
+            history=`${teamName}/:/${id}_SEP_${history}`
+          }
+          localStorage.setItem("history_program", history)
+        }
         router.push(`/thanks/${teamName}/${id}`)
         return
       }
@@ -99,7 +124,13 @@ const ShowSurvey = ({data, teamName, id, type}) => {
       }
     }
     setOpenBackdrop(true)
-    const result = await firebaseHooks.submit_form_input(user.uid, id, type, teamName, inputData)
+      await firebaseHooks.submit_form_input(user.uid, id, type, teamName, inputData, data.submitCount)
+    // if(data.submitCount && data.limitCount){
+    //   if(data.limitCount<data.submitCount+1){
+    //     //대기열 진입 알림
+    //     alert(`참여 가능 인원 초과로 참여 대기열에 진입합니다.\n(대기순번 : ${data.submitCount+1-data.limitCount}번)`)
+    //   }
+    // }
     if (type === "programs") {
       const res = await firebaseHooks.add_timeline(
         user.uid,
@@ -109,14 +140,17 @@ const ShowSurvey = ({data, teamName, id, type}) => {
         `사용자가 [프로그램: ${data.title}]을(를) 신청했습니다.`,
         id
       )
-
+      //임시
+      // localStorage.removeItem("history_program")
+      
       let history = localStorage.getItem("history_program")  //null
+      console.log(history)
       if (history === null) {
         // history = `${teamName}/:/${id}/:/${data.surveyStartDate.seconds}`
         history = `${teamName}/:/${id}`
       } else {
         // history=`${teamName}/:/${id}/:/${data.surveyStartDate.seconds}_SEP_${history}`
-        history=`${teamName}/:/${id}SEP_${history}`
+        history=`${teamName}/:/${id}_SEP_${history}`
       }
       localStorage.setItem("history_program", history)
     } else if(type==="surveys") {
@@ -128,7 +162,7 @@ const ShowSurvey = ({data, teamName, id, type}) => {
         `사용자가 [설문조사: ${data.title}]을(를) 참여했습니다.`,
         id
       )
-    } else if (type === "programSurveys") {
+    } else if (type === "programSurvey") {
       const res = await firebaseHooks.add_timeline(
         user.uid,
         "programSurveys",
@@ -137,9 +171,6 @@ const ShowSurvey = ({data, teamName, id, type}) => {
         `사용자가 [프로그램 설문조사: ${data.title}]을(를) 참여했습니다.`,
         id
       )
-      let history = localStorage.getItem("history_program")
-      history = history.replace(data.surveyStartDate.seconds, "undefined")
-      localStorage.setItem("history_program", history)
     }
 
 
@@ -169,7 +200,7 @@ const ShowSurvey = ({data, teamName, id, type}) => {
   else if(text!==undefined)
   return(
     <div className={styles.main_container}>
-      <HeaderLeftClose title={text.title} />
+      <HeaderLeftClose title={type==="programSurvey" ? `"${text.title}" 설문조사`: text.title} />
       <div className={styles.content_container}>
           <Form formDatas={formData} data={inputData} handleData={handleInputData} addMargin={true} />
       </div>

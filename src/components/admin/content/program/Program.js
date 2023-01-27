@@ -141,6 +141,7 @@ const Program = ({teamName}) => {
         setLocation(prevLocation)
       } else{
         prevLocation="/"
+        sessionStorage.setItem("prevFolderLocation","/")
       }
       //폴더 데이터 불러오기
       const folderData = await db.collection("contents").doc(teamName).collection("programs").doc("folders").get()
@@ -149,9 +150,12 @@ const Program = ({teamName}) => {
       }
       let list = []
       //현재 위치의 파일만 보이게
-      const result = await db.collection("contents").doc(teamName).collection("programs").where("location","==",prevLocation).get().then((query)=>{
-        query.forEach((doc)=>{
-          list.push({teamName: teamName,id: doc.id, ...doc.data()})
+      const result = await db.collection("contents").doc(teamName).collection("programs").where("location","==",prevLocation).orderBy("savedDate", "desc").get().then(async(query)=>{
+        await query.forEach(async(doc)=>{
+          const userDoc = await db.collection("users").doc(doc.data().lastSaved).get()
+          list.push({teamName: teamName,id: doc.id, lastSavedName: userDoc.data().name, ...doc.data()})
+          setProgramList([...list])
+          console.log(programList)
         })
       })
       setProgramList(list)
@@ -186,7 +190,9 @@ const Program = ({teamName}) => {
   }
 
   const onResultClick = () => {
+    if(selectedProgram.id!==undefined)
     router.push(`/admin/result/programs/${selectedProgram.id}`)
+    handleAnchorClose2()
   }
 
   const onNewFolderClick = () => {
@@ -278,9 +284,50 @@ const Program = ({teamName}) => {
     })
     setFolders(tempFolders)
     await db.collection("contents").doc(teamName).collection("programs").doc("folders").set({data:tempFolders})
+    await db.collection("contents").doc(teamName).collection("programs").get().then((query)=>{
+      query.docs.forEach((doc)=>{
+        console.log(doc.id)
+        if(doc.id!=='folders'){
+          if(doc.data().title===undefined){
+            //파일 정리
+            db.collection("contents").doc(teamName).collection("programs").doc(doc.id).delete()
+          }
+          if(doc.data().location && location==="/"){
+            console.log(doc.data().location, selectedFolder.title)
+            if(doc.data().location.includes(`/${selectedFolder.title}`)){
+              console.log("delete")
+              db.collection("contents").doc(teamName).collection("programs").doc(doc.id).delete()
+            }
+          }else if(doc.data().location){
+            if(doc.data().location.includes(`${selectedFolder.location}/${selectedFolder.title}`))
+              db.collection("contents").doc(teamName).collection("programs").doc(doc.id).delete()
+          }
+        }
+      })
+    })
     setTriggerFetch(!triggerFetch)
   }
 
+
+  const onCopyProgramClick = async() => {
+    console.log(selectedProgram.id)
+    db.collection("contents").doc(teamName).collection("programs").doc(selectedProgram.id).get().then(async(doc)=>{
+      if(doc.exists){
+        await db.collection("contents").doc(teamName).collection("programs").add({
+          ...doc.data(),
+          published: false,
+          savedDate: new Date(),
+          publishedDate: new Date(),
+          title: `${doc.data().title} - 복사본`,
+          main: false,
+        })
+        setTriggerFetch(!triggerFetch)
+      }else{
+        alert(`Error 201: 없는 프로그램입니다.(id: ${selectedProgram.id}`)
+      }
+    })
+    handleAnchorClose2()
+  }
 
 
   if (isLoading) return <LoaderGif />
@@ -426,7 +473,6 @@ const Program = ({teamName}) => {
               <Card style={{minHeight:"370px", display: "flex",position:"relative",  alignItems:"center"}}>
                 <CardContent sx={{ padding:"14px 10px 0px 10px", display: 'flex', alignItems: 'center', width:"100%", justifyContent:"center", flexDirection: 'column', cursor: "pointer" }}
                   >
-                    {console.log(program.publishedDate.toDate()> new Date())}
                   {program.published ? program.publishedDate.toDate()>new Date() ? <div className={styles.waiting}>예약 게재</div>:<div className={styles.published}>게재중</div> : <div className={styles.unpublished}>미게재</div>}
 
 
@@ -465,6 +511,9 @@ const Program = ({teamName}) => {
                           <p>결과보기</p>
                         </MenuItem>
                       }
+                      <MenuItem onClick={()=>onCopyProgramClick()}>
+                        <p>프로그램 복사</p>
+                      </MenuItem>
                       <MenuItem onClick={()=>onChangeLocationClick()}>
                         <p>위치 이동</p>
                       </MenuItem>
@@ -489,6 +538,10 @@ const Program = ({teamName}) => {
                   <Typography onClick={() => onProgramClick(program.id)}
                     sx={{ mt: "5px", color: "#444", fontSize: "11px", textAlign: "center" }} textTransform="capitalize">
                     마지막 수정: {savedDate}
+                  </Typography>
+                  <Typography onClick={() => onProgramClick(program.id)}
+                    sx={{ color: "#444", fontSize: "11px", textAlign: "center" }} textTransform="capitalize">
+                    마지막 수정자: {program.lastSavedName}
                   </Typography>
                   {program.published && <p style={{fontSize:"11px"}}>게재일: {publishedDate}</p>}
                   {/* <p style={{fontSize:"11px"}}>마지막 수정: {doc.data().name}</p> */}

@@ -51,6 +51,7 @@ export function AuthProvider(props) {
     await AuthService.logout();
 		setUser(null);
 		setUserrole(null)
+	localStorage.removeItem("history_program")
   }
 	const createUserWithEmailAndPassword = async (email, password) => {
 		if (email && password) {

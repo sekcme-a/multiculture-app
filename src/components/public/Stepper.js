@@ -71,7 +71,7 @@ const backgroundItems = [
   {value:"/background/.jpg", text:"노란색"},
 ]
 const thumbnailBgItems = [
-  { value: "custom", text: "[직접제작]" },
+  { value: "/custom", text: "[직접제작]" },
   { value: "/thumbnail/001.png", text: "파란피카소" },
   { value: "/thumbnail/002.png", text: "한국전통배경1" },
   { value: "/thumbnail/003.png", text: "한국전통배경2" },
@@ -212,7 +212,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
           alert("제목을 입력해주세요.")
           return
         }
-        if (values.thumbnailBackground === "custom" && values.mainThumbnailImg === "") {
+        if (values.thumbnailBackground === "/custom" && values.mainThumbnailImg === "") {
           alert("썸네일을 업로드해주세요.")
           return
         }
@@ -322,7 +322,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
           mainThumbnailImg: values.mainThumbnailImg,
           thumbnailImg: values.thumbnailImg,
           backgroundColor: values.backgroundColor,
-          thumbnailBackground: values.thumbnailBackground==="custom" ? values.mainThumbnailImg : values.thumbnailBackground,
+          thumbnailBackground: values.thumbnailBackground==="/custom" ? values.mainThumbnailImg : values.thumbnailBackground,
           informationText: values.informationText,
           information: informationList, 
           content: values.content,
@@ -351,11 +351,12 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
 
   const onPublishClick = async () => {
     onSaveClick(false)
-    setIsPublished(!isPublished)
+    // setIsPublished(!isPublished)
     if(deadline===undefined){
       alert("마감일을 선택해주세요.")
     }else{
     //메인 프로그램이라면, 이전 메인 프로그램 확인 후 변경
+    setIsPublished(!isPublished)
     if (values.main && !isPublished) {
       db.collection("contents").doc("main").collection("list").doc(teamName).get().then((doc) => {
         if (doc.exists) {
@@ -371,13 +372,16 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
           date: values.date,
           mainThumbnailImg: values.mainThumbnailImg,
           backgroundColor: values.backgroundColor,
-          thumbnailBackground: values.thumbnailBackground==="custom" ? values.mainThumbnailImg : values.thumbnailBackground,
+          thumbnailBackground: values.thumbnailBackground==="/custom" ? values.mainThumbnailImg : values.thumbnailBackground,
         })
       })
     }
     if(type!=="anouncements")
       await firebaseHooks.save_content(teamName, type, id, { deadline: deadline })
-    await firebaseHooks.publish_content(teamName, type, id, user.uid, !isPublished, publishStartDate)
+    if(publishStartDate < new Date())
+      await firebaseHooks.publish_content(teamName, type, id, user.uid, !isPublished, new Date())
+    else 
+      await firebaseHooks.publish_content(teamName, type, id, user.uid, !isPublished, publishStartDate)
     if(!isPublished)
       alert("게재되었습니다.")
     else
@@ -504,11 +508,11 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                           style={{width:"200px"}}
                           value={values.thumbnailBackground}
                           handleChange={onValuesChange("thumbnailBackground")}
-                          helperText={values.thumbnailBackground==="custom" && "어플 UI를 위해 썸네일을 최대한 1080px * 720px 사이즈에 맞춰서 제작부탁드립니다."}
+                          helperText={values.thumbnailBackground==="/custom" && "어플 UI를 위해 썸네일을 최대한 1080px * 720px 사이즈에 맞춰서 제작부탁드립니다."}
                         />
                       </div>
                       <div className={styles.items_container}>
-                        {type !== "anouncements" && values.thumbnailBackground === "custom" &&
+                        {type !== "anouncements" && values.thumbnailBackground === "/custom" &&
                           <DropperImage setImgURL={setMainThumbnailURL} path={`content/${id}/mainThumbnailImg`} imgURL={values.mainThumbnailImg} />
                         }
 
@@ -562,11 +566,11 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                         style={{width:"200px"}}
                         value={values.thumbnailBackground}
                         handleChange={onValuesChange("thumbnailBackground")}
-                        helperText={values.thumbnailBackground==="custom" && "어플 UI를 위해 썸네일을 최대한 1080px * 720px 사이즈에 맞춰서 제작부탁드립니다."}
+                        helperText={values.thumbnailBackground==="/custom" && "어플 UI를 위해 썸네일을 최대한 1080px * 720px 사이즈에 맞춰서 제작부탁드립니다."}
                       />
                     </div>
                     <div className={styles.items_container} style={{width:"100%"}}>
-                      {type !== "anouncements" && values.thumbnailBackground === "custom" &&
+                      {type !== "anouncements" && values.thumbnailBackground === "/custom" &&
                         <DropperImage setImgURL={setMainThumbnailURL} path={`content/${id}/mainThumbnailImg`} imgURL={values.mainThumbnailImg} />
                       }
 
@@ -650,11 +654,11 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                         style={{width:"200px"}}
                         value={values.thumbnailBackground}
                         handleChange={onValuesChange("thumbnailBackground")}
-                        helperText={values.thumbnailBackground==="custom" && "어플 UI를 위해 썸네일을 최대한 1080px * 720px 사이즈에 맞춰서 제작부탁드립니다."}
+                        helperText={values.thumbnailBackground==="/custom" && "어플 UI를 위해 썸네일을 최대한 1080px * 720px 사이즈에 맞춰서 제작부탁드립니다."}
                       />
                     </div>
                     <div className={styles.items_container} style={{width:"100%"}}>
-                      {type !== "anouncements" && values.thumbnailBackground === "custom" &&
+                      {type !== "anouncements" && values.thumbnailBackground === "/custom" &&
                         <DropperImage setImgURL={setMainThumbnailURL} path={`content/${id}/mainThumbnailImg`} imgURL={values.mainThumbnailImg} />
                       }
 
@@ -783,14 +787,14 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                     </div>
                     {activeStep === 3 &&
                       <>
-                        <div style={{width:'100%', marginTop:"35px"}}>
+                        {/* <div style={{width:'100%', marginTop:"35px"}}>
                           <div style={{display:"flex", alignContent:"center", alignItems:"center", marginBottom:"12px"}}>
                             <h1>선착순 인원</h1>
                             <Switch checked={hasLimit} onChange={(e)=>{setHasLimit(e.target.checked)}}/>
                             {hasLimit ? "제한있음" : "제한없음"}
                           </div>
                           {hasLimit && <TextField label="선착순 인원" value={limit} onChange={(e)=>setLimit(e.target.value)}/>}
-                        </div>
+                        </div> */}
 
                         <div style={{marginTop: "15px", width:"100%", display:"flex", alignItems:"center"}}>
                           <LocalizationProvider dateAdapter={AdapterDateFns}>

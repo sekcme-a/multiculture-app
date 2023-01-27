@@ -299,8 +299,8 @@ const Program = ({teamName}) => {
               db.collection("contents").doc(teamName).collection("programs").doc(doc.id).delete()
             }
           }else if(doc.data().location){
-            if(doc.data().location.includes(`${selectedFolder.location}/${selectedFolder.title}`))
-              db.collection("contents").doc(teamName).collection("programs").doc(doc.id).delete()
+            if(doc.data().location.includes(`${selectedFolder.location}/${selectedFolder.title}`)) 
+              db.collection("contents").doc(teamName).collection("programs").doc(doc.id).delete() 
           }
         }
       })

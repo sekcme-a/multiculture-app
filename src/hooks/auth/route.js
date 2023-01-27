@@ -23,7 +23,7 @@ export function withPublic(Component) {
             displayName = auth.user.displayName
             console.log(auth.user.displayName)
           } 
-          else {
+          else { 
             AuthService.updateUserProfile({displayName: displayName})
           }
           db.collection("users").doc(auth.user.uid).set({

@@ -22,7 +22,7 @@ export function withPublic(Component) {
           if (auth.user.displayName!==undefined && auth.user.displayName!==null) {
             displayName = auth.user.displayName
             console.log(auth.user.displayName)
-          }
+          } 
           else {
             AuthService.updateUserProfile({displayName: displayName})
           }

@@ -21,7 +21,6 @@ export function withPublic(Component) {
             photoURL = auth.user.photoURL
           if (auth.user.displayName!==undefined && auth.user.displayName!==null) {
             displayName = auth.user.displayName
-            console.log(auth.user.displayName)
           } 
           else { 
             AuthService.updateUserProfile({displayName: displayName})

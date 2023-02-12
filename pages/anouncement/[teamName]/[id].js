@@ -45,7 +45,7 @@ const Anouncement = () => {
     )
   
   const createMarkup = () => {
-    return {__html: data.content}
+    return {__html: data.html}
   }
   return (
     <div>

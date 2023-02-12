@@ -120,6 +120,7 @@ const Thumbnail = ({ data, smallMargin, path }) => {
                   <div className={color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
                     <h2>{data.groupName}</h2>
                     <h3>{data.title}</h3>
+                    <div style={{width:"100%"}}/>
                     <h4>{data.date}</h4>
                   </div>
                 }

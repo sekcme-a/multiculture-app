@@ -149,10 +149,10 @@ const Result = () => {
   }
 
   return (
-    <div className={styles.main_container}>
+    <div className={styles.main_container} style={{minWidth:"fitContent"}}>
       <Navbar teamName={teamName} />
       <Header location="result" />
-      <div className={styles.content_container}>
+      <div className={styles.content_container} style={{minWidth:"fitContent"}}>
         <PageHeader title="폼 결과 확인" subtitle={`"${title}" 폼의 입력 현황입니다.`} mt="40px" />
         {/* <ResultTable /> */}
         {!hasProgramSurvey && <Button onClick={()=> router.push(`/admin/programSurvey/${slug}`)}>프로그램 설문조사 제작</Button>}

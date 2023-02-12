@@ -62,7 +62,8 @@ const Address = ({ title, items, index, id, data, handleData,text,isRequired }  
   }
 
   return (
-    <div className={styles.address_container} key={index}>
+    // <div className={styles.address_container} key={index}>
+    <>
       <div className={styles.single_checkbox_container}>
         <h1>{title}<p>{isRequired && "*필수항목"}</p></h1>
           {
@@ -71,7 +72,7 @@ const Address = ({ title, items, index, id, data, handleData,text,isRequired }  
               <div dangerouslySetInnerHTML={createMarkup()} />
             </div>
           }
-      </div>
+      
       <div className={styles.input_container}>
         <TextField type='number' id='form-props-number' helperText="우편번호" variant="standard" style={{width: "55%"}}
           value={postNumber} onChange={(e)=>setPostNumber(e.target.value)} InputLabelProps={{ shrink: true }}
@@ -83,7 +84,9 @@ const Address = ({ title, items, index, id, data, handleData,text,isRequired }  
       <TextField multiline id='textarea-outlined' placeholder='상세주소' label='상세주소'variant="standard"
         style={{ width: "100%", marginTop: "3px" }} value={detailAddress} onChange={(e)=>setDetailAddress(e.target.value)} maxRows={2} />
       </div>
-    </div>
+      </div>
+      </>
+    // </div>
   );
 };
 

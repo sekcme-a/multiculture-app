@@ -2,7 +2,7 @@ import React from 'react';
 import imageCompression from 'browser-image-compression';
 import { firebaseHooks } from 'firebase/hooks';
 
-export const handleProfileImage = async (img,path,maxMB, allowfile) => {
+export const handleProfileImage = async (img,path,maxMB) => {
   const options = {
     maxSizeMB: 0.4,
     maxWidthOrHeight: 1920,

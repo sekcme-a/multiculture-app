@@ -15,7 +15,6 @@ import famtaverse from "public/famtaverse.jpg"
 import program from "public/program.png"
 
 const MainSwiper = ({ data }) => {
-  const [color, setColor] = useState("white")
   const router = useRouter()
   return (
     // <div className={styles.main_container}>
@@ -35,7 +34,7 @@ const MainSwiper = ({ data }) => {
             <div className={styles.thumbnail_image_container}>
               <Image src={data.thumbnailBackground} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
               { data.mainThumbnailImg==="" &&
-                <div className={color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
+                <div className={data.color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
                   <h2>{data.groupName}</h2>
                   <h3>{data.title}</h3>
                   <h4>{data.date}</h4>

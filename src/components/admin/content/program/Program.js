@@ -100,6 +100,7 @@ const Program = ({teamName}) => {
   //anchor control
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorEl2, setAnchorEl2] = useState(null)
+    const [anchorEl2Index, setAnchorEl2Index] = useState(null)
   const [selectedFolder, setSelectedFolder] = useState({})
   const [selectedProgram, setSelectedProgram] = useState({})
   const open = Boolean(anchorEl);
@@ -107,14 +108,16 @@ const Program = ({teamName}) => {
   const handleAnchorClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleAnchorClick2 = (event)=>{
+  const handleAnchorClick2 = (event, index)=>{
     setAnchorEl2(event.currentTarget)
+    setAnchorEl2Index(index)
   }
   const handleAnchorClose = () => {
     setAnchorEl(null);
   };
   const handleAnchorClose2 = () => {
     setAnchorEl2(null)
+    setAnchorEl2Index(null)
   }
 
   //change location control
@@ -485,19 +488,19 @@ const Program = ({teamName}) => {
                       aria-controls={open2 ? 'long-menu' : undefined}
                       aria-expanded={open2 ? 'true' : undefined}
                       aria-haspopup="true"
-                      onClick={handleAnchorClick2}
+                      onClick={(e)=>handleAnchorClick2(e, index)}
                     >
                       <MoreVertIcon style={{color:"black", fontWeight:"bold", fontSize:"20px"}}
                         onClick={()=>setSelectedProgram(program)}
                       />
                     </IconButton>
                     <Menu
-                      id="long-menu"
+                      id={index}
                       MenuListProps={{
                         'aria-labelledby': 'long-button',
                       }}
                       anchorEl={anchorEl2}
-                      open={open2}
+                      open={anchorEl2Index===index}
                       onClose={handleAnchorClose2}
                       PaperProps={{
                         style: {

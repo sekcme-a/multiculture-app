@@ -45,7 +45,7 @@ const Img = styled('img')(({ theme }) => ({
 
 
 const AskTeam = (props) => {
-  const { user, userrole } = useAuth()
+  const { user, userrole, logout } = useAuth()
   const router = useRouter()
   const [name, setName] = useState("")
   const [team, setTeam] = useState("")
@@ -75,6 +75,12 @@ const AskTeam = (props) => {
       localStorage.setItem("admin_team", team)
       router.push(`/admin/${team}/home`)
     }
+    
+  }
+
+  const onLogoutClick = () => {
+    logout()
+    router.push("/admin/login")
   }
 
   const handleOnKeyPress = (e) => {
@@ -84,6 +90,7 @@ const AskTeam = (props) => {
   } 
   return (
     <Card sx={{ position: 'relative', overflow: 'visible', mt: { xs: 0, sm: 7.5, md: 0 }, width:`${CARD_WIDTH}px` }}>
+      <div style={{display:"flex",  justifyContent:"flex-end", padding:"5px 15px 0 0"}} onClick={onLogoutClick}><Button>로그아웃</Button></div>
       <CardContent sx={{ p: theme => `${theme.spacing(8.25, 7.5, 1.25, 7.5)} !important` }}>
         <Grid container spacing={6}>
           <Grid item xs={12} sm={TITLE_WIDTH}>

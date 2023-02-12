@@ -68,7 +68,7 @@ const backgroundItems = [
   {value:"/background/orange.jpg", text:"주황색"},
   {value:"/background/purple.jpg", text:"보라색"},
   {value:"/background/red.jpg", text:"빨간색"},
-  {value:"/background/.jpg", text:"노란색"},
+  {value:"/background/yellow.jpg", text:"노란색"},
 ]
 const thumbnailBgItems = [
   { value: "/custom", text: "[직접제작]" },
@@ -175,7 +175,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
         })
         setHasLimit(doc.data().hasLimit)
         setLimit(doc.data().limitCount)
-        setTextData(doc.data().content)
+        setTextData(doc.data().html)
         setMainFormData([...doc.data().form])
         setHasSurvey(doc.data().hasSurvey)
         setSurveyId(doc.data().surveyId)
@@ -338,7 +338,8 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
           hasLimit: hasLimit,
           limitCount: limit,
           keyword: values.keyword,
-          location: sessionStorage.getItem("prevFolderLocation")
+          location: sessionStorage.getItem("prevFolderLocation"),
+          html: textData,
         })
       if(openAlert!==false){
         alert("성공적으로 저장되었습니다.")
@@ -352,6 +353,22 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
   const onPublishClick = async () => {
     onSaveClick(false)
     // setIsPublished(!isPublished)
+    if(type==="anouncements"){
+      if(!isPublished){
+        await db.collection("contents").doc(teamName).collection(type).doc(id).update({
+          published: !isPublished, publishedDate: publishStartDate, savedDate: new Date(), lastSaved: user.uid
+        })
+        alert("게재완료됬습니다.")
+      }else {
+        await db.collection("contents").doc(teamName).collection(type).doc(id).update({
+          published: !isPublished
+        })
+        alert("게재취소됬습니다.")
+      }
+      setIsPublished(!isPublished)
+
+      return
+    }
     if(deadline===undefined){
       alert("마감일을 선택해주세요.")
     }else{
@@ -716,7 +733,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                   </div>
                 </>
               }
-              {activeStep === 3 && type==="anouncements" &&
+              {activeStep === 1 && type==="anouncements" &&
                 <>
                   <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 저장 및 게재</Typography>
 
@@ -766,7 +783,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
                   </div>
                 </>
               } */}
-              {((activeStep === 3 || (type==="surveys" && activeStep===2)) || (type==="anouncements" && activeStep===1)) &&
+              {((activeStep === 3 || (type==="surveys" && activeStep===2))) &&
                 <>
                   <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}. 저장 및 게재</Typography>
 
@@ -956,7 +973,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
         }
         {activeStep === 0 && type === "anouncements" && 
           <div style={{width:"400px", height:"700px", backgroundColor:"white", overflow:"scroll", padding: "10px"}}>
-            <ShowArticle createMarkup={createMarkup} data={[]} teamName={teamName} id={id} type="anouncement" />
+            <ShowArticle createMarkup={createMarkup} data={{title: values.title, subtitle: values.subtitle}} teamName={teamName} id={id} type="anouncement" />
           </div>
         }
       </Backdrop>

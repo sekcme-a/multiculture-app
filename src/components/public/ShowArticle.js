@@ -10,6 +10,7 @@ import { firebaseHooks } from "firebase/hooks"
 import HeaderRightClose from "src/components/public/HeaderRIghtClose"
 
 import Button from '@mui/material/Button';
+import { ElevatorPassengerOff } from "mdi-material-ui"
 
 
 const ShowArticle = ({createMarkup, data, teamName, id, type}) => {
@@ -40,8 +41,12 @@ const ShowArticle = ({createMarkup, data, teamName, id, type}) => {
         go_back_to_home : txt5,
       })
     }
-    if(data)
-      fetchData(language)
+    if(data){
+      if(language)
+        fetchData(language)
+      else
+        fetchData("ko")
+    }
   }, [language, isLoading])
 
   const onApplyClick = () => {

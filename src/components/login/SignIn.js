@@ -238,6 +238,7 @@ const SignIn = () => {
             </LinkStyled>
           </Link>
         </Typography>
+      <div style={{margin: "50px"}}/>
     </>
   )
 }

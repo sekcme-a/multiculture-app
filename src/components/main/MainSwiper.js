@@ -31,6 +31,17 @@ const MainSwiper = () => {
       query.docs.map((doc) => {
         db.collection("contents").doc(doc.id).collection("programs").doc(doc.data().id).get().then((doc2)=>{
           if(doc2.exists){
+            let color = "white"
+            if (doc.data().thumbnailBackground === "/thumbnail/003.png" ||
+            doc.data().thumbnailBackground === "/thumbnail/004.png" ||
+            doc.data().thumbnailBackground === "/thumbnail/006.png" ||
+            doc.data().thumbnailBackground === "/thumbnail/008.png" ||
+            doc.data().thumbnailBackground === "/thumbnail/009.png" ||
+            doc.data().thumbnailBackground === "/thumbnail/010.png" ||
+            doc.data().thumbnailBackground === "/thumbnail/011.png"||
+            doc.data().thumbnailBackground === "/thumbnail/012.png"
+          )
+              color = "black"
             db.collection("admin_group").doc(doc.id).get().then((groupDoc) => {
               tempList.push({
                 groupId: doc.id,
@@ -41,6 +52,7 @@ const MainSwiper = () => {
                 mainThumbnailImg: doc.data().mainThumbnailImg,
                 thumbnailBackground: doc.data().thumbnailBackground,
                 title: doc.data().title,
+                color: color
               })
               setList([...tempList])
             })

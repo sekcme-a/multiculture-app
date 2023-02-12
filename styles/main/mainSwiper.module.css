@@ -147,6 +147,7 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  width: 100%;
 }
 .thumbnail_overlay h4{
   font-size: 13px;

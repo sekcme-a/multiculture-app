@@ -91,7 +91,7 @@ export default function HorizontalLinearStepper({ id, teamName, type }) {
   const [steps, setSteps] = useState([])
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-  const [textData, setTextData] = useState()
+  const [textData, setTextData] = useState("")
   const [hasSurvey, setHasSurvey] = useState(false)
   const [surveyId, setSurveyId] = useState("")
   const [deadline, setDeadline] = useState()

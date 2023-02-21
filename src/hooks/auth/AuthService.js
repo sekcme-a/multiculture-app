@@ -30,7 +30,7 @@ export const AuthService = {
   loginWithApple: async () => {
     const provider = appleAuthProvider;
 		try {
-			const userCred = await auth.signInWithRedirect(provider);
+			const userCred = await auth.signInWithPopup(provider);
       return {
         user: userCred.user
       };

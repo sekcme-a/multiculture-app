@@ -135,6 +135,9 @@ export function AuthProvider(props) {
 
 	const deleteAccount = async () => {
 		const error = await AuthService.deleteAccount();
+		setUser(null);
+		setUserrole(null)
+		localStorage.removeItem("history_program")
 		setError({ [pathname]: error });
 	};
 

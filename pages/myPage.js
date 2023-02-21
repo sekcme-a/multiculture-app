@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import useAuth from "src/hooks/auth/auth"
 import { useRouter } from "next/router"
 import Link from "next/link"
+import { firestore as db } from "firebase/firebase"
 
 import HeaderRightClose from "src/components/public/HeaderRIghtClose"
 import MyPageProfile from "src/components/myPage/MyPageProfile"
@@ -26,7 +27,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 //소식(한다뉴), 서비스 이용약관, 개인정보 처리방침, FAQ, 로그아웃
 const MyPage = () => {
   const [itemData, setItemData] = useState([])
-  const { logout } = useAuth()
+  const { logout, deleteAccount, user } = useAuth()
   const router = useRouter()
   const iconStyle = { color: "#814ad8" }
 
@@ -100,6 +101,10 @@ const MyPage = () => {
       title: "로그아웃", 
       onClick: onLogoutClick
     },
+    {
+      title: "회원탈퇴", 
+      onClick: onSignOutClick
+    },
 
 
   ])
@@ -108,6 +113,15 @@ const MyPage = () => {
   const onLogoutClick = () => {
     logout()
     router.push("/")
+  }
+
+  const onSignOutClick = async() => {
+    if(confirm("정말로 회원탈퇴하시겠습니까?\n(해당 회원에 대한 정보가 모두 사라집니다.)")){
+      console.log(user.uid)
+      await db.collection("users").doc(user.uid).delete()
+      deleteAccount()
+      router.push("/")
+    }
   }
 
   return (

@@ -80,7 +80,7 @@ export const text = [
       },
       {
         text:"continue_with_apple",
-        ko: "애플로 로그인",
+        ko: "Apple로 로그인",
         en: "Continue with Apple",
         zh: "Apple 登录"
       },

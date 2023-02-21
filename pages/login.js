@@ -41,15 +41,19 @@ const Login = () => {
     )
 
   return (
+    <>
     <div className={styles.main_container} >
       <PageHeader text="돌아가기" />
       <div className={styles.logo_container}>
         <Image src="/logo.png" width={300} height={300} alt="한국다문화뉴스 로고" />
       </div>
       <IdAndPassword text={text} />
-      <SocialLogin text={text} />
-      <div style={{height:"100px"}} />
+      {/* <SocialLogin text={text} /> */}
+      {/* <div style={{height:"1000px"}} /> */}
+      
     </div>
+    <div style={{paddingBottom:"40px"}}> </div>
+    </>
   )
 }
 

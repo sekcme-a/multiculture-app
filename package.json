@@ -27,7 +27,7 @@
     "draft-convert": "^2.1.13",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
-    "firebase": "^8.9.1",
+    "firebase": "^8.10.1",
     "framer-motion": "^7.10.3",
     "mdi-material-ui": "^7.5.0",
     "next": "12.3.0",
